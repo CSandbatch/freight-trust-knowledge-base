@@ -1,0 +1,26 @@
+flowchart LR
+  subgraph Evidence sources
+    R[Authoritative registrations]
+    I[Insurance and safety records]
+    F[Facility and telematics events]
+    P[Partner workflow records]
+  end
+  subgraph Freight trust layer
+    ER[Entity and evidence graph]
+    PV[Provenance and permissions]
+    HR[Human review and correction]
+  end
+  subgraph Decisions and outcomes
+    V[Counterparty verification]
+    D[Detention measurement and dispute resolution]
+    O[Later: coordination and matching]
+  end
+  R --> ER
+  I --> ER
+  F --> ER
+  P --> ER
+  ER <--> PV
+  PV <--> HR
+  ER --> V
+  ER --> D
+  ER --> O

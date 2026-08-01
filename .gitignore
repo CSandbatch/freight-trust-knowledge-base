@@ -1,0 +1,9 @@
+# Obsidian local UI state (open tabs, pane layout) — not shared content
+Freight Trust Knowledge Base/.obsidian/workspace.json
+Freight Trust Knowledge Base/.obsidian/workspace-mobile.json
+Freight Trust Knowledge Base/.obsidian/workspace.json.bak
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini

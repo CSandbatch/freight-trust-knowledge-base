@@ -1,0 +1,21 @@
+flowchart LR
+  A["Project Pitch\n(NSF Seed Fund)"] --> B["Invitation\nvalid for 2 deadlines\n(mechanism corroborated;\nexact current wording\nunconfirmed -- verify at\nseedfund.nsf.gov before\nrelying on for scheduling)"]
+  B --> C["Research.gov\nFull Proposal"]
+
+  C --> D1["Project Description"]
+  C --> D2["Budget +\nJustification"]
+  C --> D3["Data\nManagement Plan"]
+  C --> D4["Commercialization content\n(vault drafts this as a\nstandalone plan; verify at\ninvitation time whether\nResearch.gov requires it as\na separate upload or embeds\nit in Project Description)"]
+  C --> D5["Bios & Current\nSupport"]
+  C --> D6["Letters of\nSupport"]
+  C --> D7["Registrations\nSAM/UEI/SBA"]
+
+  A -.->|from| A_VAULT["Project Pitch Draft\n(Vault)"]
+  D1 -.->|from| D1_VAULT["Phase I Project\nDescription Draft\n(Vault)"]
+  D2 -.->|from| D2_VAULT["Phase I Budget\nand Justification\nDraft (Vault)"]
+  D3 -.->|from| D3_VAULT["Data Management\nPlan Draft (Vault)"]
+  D4 -.->|from| D4_VAULT["Commercialization\nPlan Draft (Vault)"]
+
+  D1 -.->|risk reference| RISK_VAULT["Technical Risk\nRegister (Vault)"]
+
+  C -.->|caption| NOTE["Diagram shows vault-authored\nsupporting drafts only, keyed\nto the Guide's core-package\nlist -- Project Summary and\nFacilities/Resources are also\nNSF-required but have no\nvault draft yet"]

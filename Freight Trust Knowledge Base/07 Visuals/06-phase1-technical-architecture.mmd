@@ -1,0 +1,45 @@
+flowchart LR
+  subgraph Evidence sources
+    CR[Carrier records]
+    FE[Facility events]
+    PR[Public registries]
+    TM[Telematics]
+  end
+  subgraph Aim1["Aim 1: Identity Resolution"]
+    ER[Entity resolution engine]
+    CB[Calibration benchmark]
+  end
+  subgraph Aim2["Aim 2: Event Provenance"]
+    SA[Signed assertions]
+    EC[Event claim schema]
+    PV[Provenance verification]
+  end
+  subgraph Aim3["Aim 3: Governed Federation"]
+    PP[Policy enforcement]
+    AC[Access control]
+    AU[Audit logging]
+  end
+  subgraph Decision and redress
+    DO[Decision output]
+    AB[Abstention logic]
+    CF[Confidence score]
+    CR_LOOP[Correction loop]
+  end
+  CR --> SA
+  FE --> SA
+  PR --> SA
+  TM --> SA
+  SA --> ER
+  SA --> EC
+  SA --> PP
+  ER --> CB
+  CB --> CF
+  CF --> AB
+  AB --> DO
+  EC --> PV
+  PV --> DO
+  PP --> AC
+  AC --> AU
+  AU --> DO
+  DO --> CR_LOOP
+  CR_LOOP -.->|feedback| SA

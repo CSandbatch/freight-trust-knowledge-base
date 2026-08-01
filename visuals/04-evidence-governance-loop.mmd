@@ -1,0 +1,11 @@
+flowchart TD
+  S[Source record] --> Q{Authoritative and current?}
+  Q -->|No| U[Label secondary, stale, or unverified]
+  Q -->|Yes| C[Create claim with source and timestamp]
+  C --> A[Apply access and purpose rules]
+  A --> H[Human review / decision support]
+  H --> X{Participant challenges record?}
+  X -->|Yes| R[Correct, annotate, or retain disagreement]
+  R --> C
+  X -->|No| L[Use within approved workflow]
+  U --> H
