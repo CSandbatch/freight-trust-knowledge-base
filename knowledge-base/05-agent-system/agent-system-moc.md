@@ -17,6 +17,7 @@ tags:
 - [[roster]] — roles and handoffs.
 - [[mcp-capabilities]] — tool and connector boundaries.
 - [[tools-and-skills]] — current tool/skill roster.
+- [[runtime/runtime-moc]] — portable runtime specifications and Git/PR agent contract.
 
 ## Role notes
 

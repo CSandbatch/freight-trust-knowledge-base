@@ -15,8 +15,10 @@ tags:
 
 The build system for this vault: five layers of agents and four loops that drive them,
 under one rule — an agent produces structure and finds problems; a human decides. Every
-executable definition lives in `.claude/agents/`. This note holds the architecture and the
-contract between the layers.
+canonical, platform-neutral executable definitions live in
+[[05-agent-system/runtime/runtime-moc]]. Local Claude, Codex, Cursor, and MCP adapters are
+generated or installed from those tracked specifications; credentials and machine-specific
+configuration remain local. This note holds the architecture and the contract between the layers.
 
 This supersedes nothing in [[05-agent-system/framework]] — the Terra/Luna/Rabbit roster
 described there is the *research* control plane for a single investigation pass. The
