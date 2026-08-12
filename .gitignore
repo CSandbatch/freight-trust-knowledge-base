@@ -12,6 +12,7 @@ COMP/
 .kb-stage-*/
 knowledge-base.rollback-*/
 freight-trust-kb_team-v*.zip
+_site/
 knowledge-base/.obsidian/workspace.json
 knowledge-base/.obsidian/workspace-mobile.json
 knowledge-base/.obsidian/workspace.json.bak
