@@ -2,8 +2,8 @@
 type: schema
 status: active
 owner: kb-schema-steward
-version: 1.0.0
-schema_version: 1.0.0
+version: 1.1.0
+schema_version: 1.1.0
 updated: 2026-08-08
 tags:
 - type/schema
@@ -25,7 +25,7 @@ Owner: `kb-schema-steward`. Changes to this file require a decision-log entry in
 
 `MAJOR.MINOR.PATCH`. MAJOR breaks existing frontmatter (requires migration). MINOR adds
 an optional field or a new note type. PATCH clarifies wording without changing validity.
-Every note may carry `schema_version`; absence means "pre-1.0, unmigrated". Team release 0.9 completed the active-vault migration on 2026-08-08.
+Every note may carry `schema_version`; absence means "pre-1.0, unmigrated". Team release 0.9 completed the active-vault migration on 2026-08-08. Schema 1.1.0 adds operational-memory objects and an atomic-record convention without changing the validity of 1.0.0 notes.
 
 ## Note types
 
@@ -49,6 +49,15 @@ version bump.
 | `agent` | An agent role definition | `layer`, `tools` | `##-*-agent.md` |
 | `log` | Append-only record | — | `*-log.md`, `run-log.md` |
 | `archive` | Frozen superseded material | `superseded_by`, `frozen_on` | in `08-archive/` |
+| `claim` | Atomic, sourced proposition | `id`, `proposition`, `confidence`, `sources` | `claim-ft-######.md` |
+| `decision` | One durable institutional decision | `id`, `decision_date`, `owner`, `rationale` | `dec-###.md` |
+| `gap` | One independently actionable unknown | `id`, `priority`, `owner`, `acceptance_criteria` | `gap-###.md` |
+| `drift` | One contradiction, staleness, or integrity finding | `id`, `severity`, `finding`, `owner` | `drift-###.md` |
+| `meeting` | Dated meeting record | `id`, `meeting_date`, `participants` | `meeting-YYYYMMDD-*.md` |
+| `handoff` | Explicit transfer between actors | `id`, `from`, `to`, `next_action` | `handoff-YYYYMMDD-*.md` |
+| `task` | Bounded work packet | `id`, `owner`, `objective`, `acceptance_criteria` | `task-*.md` |
+| `agent-run` | One reproducible agent execution | `id`, `actor`, `started`, `outcome` | `run-YYYYMMDD-*.md` |
+| `memory` | Candidate or accepted operational memory | `id`, `memory_type`, `memory_scope`, `provenance`, `review` | `mem-ft-######.md` |
 
 ## Universal frontmatter
 
@@ -75,6 +84,37 @@ owner: <role or agent that maintains it>
 supersedes / superseded_by: <wikilink>
 review_by: YYYY-MM-DD      # forces a freshness recheck; see drift-control L2
 ```
+
+## Atomic records and operational memory
+
+Atomic records avoid multi-writer conflicts in shared registers. New decisions, gaps,
+drift findings, claims, tasks, handoffs, meetings, agent runs, and memories are one file
+per immutable ID. Human-facing MOCs may summarize them, but are indexes rather than the
+authoritative record. Historic aggregate registers remain authoritative for their existing
+IDs until they are deliberately migrated; never duplicate or renumber their contents.
+
+Operational records live under `06-team-memory/`; institutional decisions, gaps, and
+drift findings live under their respective `09-meta/` subdirectories. Agent-authored
+memory starts `status: candidate`. Only an authorized reviewer may promote it to `active`.
+The following fields are required for every `memory` note:
+
+```yaml
+id: mem-ft-######
+memory_type: semantic | episodic | procedural
+memory_scope: shared | private
+provenance:
+  actor: <human or agent role>
+  run: <agent-run ID or null>
+  method: <how the memory was created>
+review:
+  status: pending | accepted | rejected
+  reviewer: <role or null>
+write_policy: patch | append-only
+```
+
+IDs are immutable and unique within their namespace. `status` remains the maturity axis;
+confidence remains a separate evidence axis. Derived indexes, graph stores, and semantic
+embeddings are rebuildable from the protected Git branch and are never canonical memory.
 
 ## Status ladder
 

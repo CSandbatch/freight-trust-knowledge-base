@@ -17,5 +17,14 @@ Open `knowledge-base/` as an Obsidian vault, then begin with
 - Keep credentials and local session state out of Git. `.env` and Obsidian workspace files
   are intentionally ignored.
 
+## Canonical-state workflow
+
+`master` is the canonical remote state. Research and maintenance work starts from it,
+uses an `agent/<area>/<run-id>` branch, runs `python scripts/validate_kb.py`, and is
+submitted as a pull request. The portable agent contract and retrieval order live in
+[`knowledge-base/05-agent-system/runtime/`](knowledge-base/05-agent-system/runtime/).
+Operational work records are stored as atomic objects in
+[`knowledge-base/06-team-memory/`](knowledge-base/06-team-memory/).
+
 The repository is private because the vault contains internal research, draft SBIR material,
 and unresolved commercial and legal questions. It is not a public claim set or a submission-ready proposal.

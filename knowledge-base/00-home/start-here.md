@@ -12,6 +12,10 @@ tags:
 
 **Team release:** `v0.9.2` · frozen 2026-08-08 for internal distribution. See [[README]], [[team-status-and-actions]], [[vault-inventory]], and [[CHANGELOG]].
 
+**Operational memory:** [[06-team-memory/memory-moc]] holds tasks, agent runs, handoffs,
+meetings, and reviewed shared memory. Start a new work item through
+[[05-agent-system/guiding-routes]].
+
 This is the canonical navigation layer for the Freight Trust research programme: client brief, research evidence, datasets and experiments, the agent operating system, SBIR preparation, and reusable visualizations, in one Obsidian vault.
 
 > [!important] Working convention

@@ -29,9 +29,13 @@ Trust programme, the machinery is reusable across any domain
 | [[drift-control]] | What can rot, how it is detected, and the open issue queue |
 | [[gap-register]] | The build-out backlog — what is missing, ranked, with acceptance criteria |
 | [[decision-log]] | Durable human decisions and their rationale |
+| [[decisions/decisions-moc]] | New atomic decision records; historic log migration path |
+| [[gaps/gaps-moc]] | New atomic gap records; historic register migration path |
+| [[drift/drift-moc]] | New atomic drift records; historic register migration path |
 | [[glossary]] | Controlled vocabulary, with each term sourced |
 | [[dataset-index]] | Every external dataset, with access, licence, and verification status |
 | [[client-common-action]] | Who the work is for, and what about them is still unknown |
+| [[06-team-memory/memory-moc]] | Operational and episodic team memory, handoffs, tasks, and agent runs |
 
 ## How the pieces fit
 

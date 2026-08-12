@@ -2,8 +2,8 @@
 type: taxonomy
 status: active
 owner: kb-schema-steward
-version: 1.0.0
-schema_version: 1.0.0
+version: 1.1.0
+schema_version: 1.1.0
 updated: 2026-08-08
 tags:
 - type/taxonomy
@@ -29,6 +29,8 @@ tag pane both work.
 `type/home` `type/moc` `type/schema` `type/taxonomy` `type/policy` `type/experiment`
 `type/method` `type/dataset` `type/evidence` `type/source` `type/term` `type/brief`
 `type/draft` `type/strategy-note` `type/agent` `type/log` `type/archive`
+`type/claim` `type/decision` `type/gap` `type/drift` `type/meeting` `type/handoff`
+`type/task` `type/agent-run` `type/memory`
 
 ## Layer 2 — `domain/` (what it is about)
 
