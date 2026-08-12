@@ -1,4 +1,0 @@
-interface:
-  display_name: "Freight Trust Research"
-  short_description: "Research and validate freight trust claims"
-  default_prompt: "Use $freight-trust-research to run a sourced freight-trust research cycle."

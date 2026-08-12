@@ -1,0 +1,238 @@
+version: "1.0.0-rc1"
+as_of: "2026-08-08"
+standard: "e1-carrier-identity-and-relationship-standard"
+status: "freeze-candidate"
+
+principles:
+  - identity_is_separate_from_relationship
+  - observations_are_claims_with_provenance
+  - legal_person_and_fmcsa_registrant_continuity_are_distinct_dimensions
+  - claimed_identifiers_are_not_authoritative_assignments
+  - operating_authority_is_not_entity_identity
+  - motive_is_excluded_from_primary_identity_ground_truth
+  - time_and_procedural_status_are_mandatory
+  - unresolved_is_a_valid_gold_state
+
+node_classes:
+  Observation:
+    description: "A source-specific assertion/record, never truth by itself."
+    required: [observation_id, source_id, observed_at, predicate, provenance]
+  HumanActor:
+    description: "Natural person acting for or accessing one or more organizations/accounts."
+  LegalPerson:
+    description: "Legally cognizable individual or organization; primary Task A entity."
+  CarrierRole:
+    description: "Time-bounded transportation/regulatory role held by a LegalPerson."
+  CompanyAccount:
+    description: "Digital administrative account, e.g. Motus company account; not the legal person."
+  FMCSARegistration:
+    description: "FMCSA registration record/status for a person."
+  FMCSARegistrantContinuity:
+    description: "Registration-continuity dimension kept separate from strict legal-person identity."
+  RegulatoryIdentifier:
+    description: "Typed identifier such as USDOT."
+  OperatingAuthority:
+    description: "Operating authority registration/credential; can transfer in defined transactions."
+  TradeIdentifier:
+    description: "Trade/industry identifier such as SCAC."
+  TradeName:
+    description: "DBA/former/public name; not an entity."
+  CorporateTransaction:
+    description: "Merger, acquisition, conversion, asset sale, stock sale, restructuring, dissolution."
+  AgencyDisposition:
+    description: "Status-bearing agency/court order or decision."
+
+relations:
+  SAME_LEGAL_PERSON_AS:
+    domain: LegalPerson
+    range: LegalPerson
+    semantics: equivalence
+    reflexive: true
+    symmetric: true
+    transitive: true
+  SAME_FMCSA_REGISTRANT_CONTINUITY_AS:
+    domain: FMCSARegistrantContinuity
+    range: FMCSARegistrantContinuity
+    semantics: equivalence_within_declared_policy_interval
+    symmetric: true
+    transitive: true
+  HAS_ROLE:
+    domain: LegalPerson
+    range: CarrierRole
+    temporal: true
+  HAS_FMCSA_REGISTRATION:
+    domain: LegalPerson
+    range: FMCSARegistration
+    temporal: true
+  USDOT_ASSIGNED_TO:
+    domain: RegulatoryIdentifier
+    range: LegalPerson
+    authority: FMCSA
+    temporal: true
+  CLAIMS_USDOT:
+    domain: Observation
+    range: RegulatoryIdentifier
+    entails_assignment: false
+  OPERATING_AUTHORITY_HELD_BY:
+    domain: OperatingAuthority
+    range: LegalPerson
+    temporal: true
+  OPERATING_AUTHORITY_TRANSFERRED_TO:
+    domain: OperatingAuthority
+    range: LegalPerson
+    temporal: true
+    entails_same_legal_person: false
+  SCAC_ASSIGNED_TO:
+    domain: TradeIdentifier
+    range: LegalPerson
+    authority: NMFTA
+    temporal: true
+  DBA_OF:
+    domain: TradeName
+    range: LegalPerson
+    temporal: true
+  FORMER_NAME_OF:
+    domain: TradeName
+    range: LegalPerson
+    temporal: true
+  OWNED_BY:
+    domain: LegalPerson
+    range: [LegalPerson, HumanActor]
+    temporal: true
+  CONTROLLED_BY:
+    domain: LegalPerson
+    range: [LegalPerson, HumanActor]
+    temporal: true
+  MANAGED_BY:
+    domain: LegalPerson
+    range: HumanActor
+    temporal: true
+  AFFILIATED_WITH:
+    domain: LegalPerson
+    range: LegalPerson
+    temporal: true
+    entails_same_legal_person: false
+  PREDECESSOR_OF:
+    domain: LegalPerson
+    range: LegalPerson
+    directional: true
+    temporal: true
+    entails_same_legal_person: false
+  SUCCESSOR_OF:
+    inverse_of: PREDECESSOR_OF
+  MERGED_INTO:
+    domain: LegalPerson
+    range: LegalPerson
+    directional: true
+    temporal: true
+  ACQUIRED_BY:
+    domain: LegalPerson
+    range: LegalPerson
+    directional: true
+    temporal: true
+  ASSET_TRANSFER_TO:
+    domain: LegalPerson
+    range: LegalPerson
+    directional: true
+    temporal: true
+    entails_same_legal_person: false
+  CONVERTED_TO:
+    domain: LegalPerson
+    range: LegalPerson
+    directional: true
+    temporal: true
+  SHARES_ADDRESS_WITH:
+    domain: LegalPerson
+    range: LegalPerson
+    evidence_strength: weak_to_moderate_context_dependent
+    entails_identity: false
+  SHARES_CONTACT_WITH:
+    domain: LegalPerson
+    range: LegalPerson
+    evidence_strength: weak_to_moderate_context_dependent
+    entails_identity: false
+  SHARES_EQUIPMENT_WITH:
+    domain: LegalPerson
+    range: LegalPerson
+    evidence_strength: context_dependent
+    entails_identity: false
+  SHARES_INSURANCE_WITH:
+    domain: LegalPerson
+    range: LegalPerson
+    evidence_strength: context_dependent
+    entails_identity: false
+  SHARES_EMPLOYEES_WITH:
+    domain: LegalPerson
+    range: LegalPerson
+    evidence_strength: context_dependent
+    entails_identity: false
+  SUBSTANTIAL_CONTINUITY_SUPPORTED:
+    domain: LegalPerson
+    range: LegalPerson
+    semantics: analytical_multi_source_relation
+    entails_same_legal_person: false
+    entails_final_reincarnation: false
+  FMCSA_RECORDS_CONSOLIDATED:
+    domain: AgencyDisposition
+    range: LegalPerson
+    entails_same_legal_person: false
+  FMCSA_FINAL_REINCARNATION_DISPOSITION:
+    domain: AgencyDisposition
+    range: LegalPerson
+    authority_required: final_FMCSA_or_controlling_court_disposition
+  REINCARNATION_REVIEW_CANDIDATE:
+    domain: LegalPerson
+    range: LegalPerson
+    authoritative: false
+    scoring_target_primary_e1: false
+
+adjudication_tasks:
+  TaskA_LegalPersonResolution:
+    labels: [SAME_LEGAL_PERSON, DISTINCT_LEGAL_PERSON, UNRESOLVED, OUT_OF_SCOPE]
+  TaskB_FMCSARegistrantContinuity:
+    labels: [ASSIGNMENT_CONFIRMED, ASSIGNMENT_CONTRADICTED, REGISTRANT_CONTINUITY_SAME, REGISTRANT_CONTINUITY_DISTINCT, UNRESOLVED]
+  TaskC_RelationshipResolution:
+    truth_states: [SUPPORTED, REFUTED, UNKNOWN, NOT_APPLICABLE]
+
+required_time_fields:
+  - decision_as_of
+  - feature_cutoff
+  - adjudication_cutoff
+  - observed_at
+  - valid_from
+  - valid_to
+
+feature_regimes:
+  F0: {name: anchor_visible, headline: false}
+  F1: {name: anchor_masked, headline: true}
+  F2: {name: anchor_missing, headline: true}
+  F3: {name: anchor_corrupted, headline: true}
+  F4: {name: claim_vs_assignment_conflict, headline: true}
+  F5: {name: cross_registration_relationship, headline: true}
+  F6: {name: time_forward, headline: true}
+
+hard_prohibitions:
+  - no_single_weak_field_automatic_merge
+  - no_motive_or_safety_history_in_TaskA_gold_label
+  - no_operating_authority_as_identity_key
+  - no_record_consolidation_node_collapse
+  - no_future_feature_leakage
+  - no_forced_binary_label
+  - no_model_created_authoritative_reincarnation_label
+  - no_uncontrolled_identifier_tautology
+
+source_authority_by_predicate:
+  state_legal_formation_status: relevant_state_authority
+  usdot_assignment: FMCSA_Motus
+  fmcsa_registration_status: FMCSA_Motus
+  operating_authority: FMCSA
+  scac_assignment: NMFTA
+  final_reincarnation_affiliate_disposition: FMCSA_or_controlling_court
+  ownership_control: jurisdiction_appropriate_official_or_transaction_record
+  operational_continuity: multiple_dated_provenance_bearing_sources
+
+sensitive_data:
+  SSN: prohibited_by_default
+  EIN_tax_id: restricted_if_necessary_and_lawful
+  familial_relationship: minimize_and_protect
+  public_release: redact_or_derive_sensitive_values_where_possible

@@ -3,6 +3,19 @@ Freight Trust Knowledge Base/.obsidian/workspace.json
 Freight Trust Knowledge Base/.obsidian/workspace-mobile.json
 Freight Trust Knowledge Base/.obsidian/workspace.json.bak
 
+# Secrets and local-only operational state
+.env
+.env.*
+!.env.example
+.claude/
+COMP/
+.kb-stage-*/
+knowledge-base.rollback-*/
+freight-trust-kb_team-v*.zip
+knowledge-base/.obsidian/workspace.json
+knowledge-base/.obsidian/workspace-mobile.json
+knowledge-base/.obsidian/workspace.json.bak
+
 # OS cruft
 .DS_Store
 Thumbs.db
