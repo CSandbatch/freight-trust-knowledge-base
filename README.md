@@ -1,6 +1,6 @@
 # Freight Trust Knowledge Base
 
-Private, internal Obsidian knowledge base for the Common Action Freight Trust and NSF SBIR programme.
+Public, read-only research knowledge base for the Common Action Freight Trust and NSF SBIR programme. It contains working material and is not a submission-ready proposal or a source of legal, regulatory, or operational advice.
 
 ## Open the vault
 
@@ -29,10 +29,9 @@ Operational work records are stored as atomic objects in
 ## Browser and agent access
 
 Build the read-only browser locally with `python scripts/build_site.py`; open
-`_site/index.html` to search and read the vault. A GitHub Actions workflow builds the
-same artifact after each `master` update. GitHub Pages deployment is intentionally gated
-behind the repository variable `ENABLE_GITHUB_PAGES=true`: the current private-repository
-plan does not permit Pages, and this vault must not be made public to work around that.
+`_site/index.html` to search and read the vault. The public GitHub Pages site deploys the
+same artifact after each `master` update as an interactive Knowledge Radar: search, filter,
+and navigate the vault's document constellation without a server.
 
 Agents can use the read-only gateway on a workstation or server with
 `python scripts/kb_gateway.py --port 8787`. Its OpenAPI document is available at
@@ -41,5 +40,6 @@ read, and related. It binds only to loopback and has no write endpoint. A remote
 write-capable MCP service remains intentionally separate, because it must authenticate and
 submit pull requests rather than mutate canonical state.
 
-The repository is private because the vault contains internal research, draft SBIR material,
-and unresolved commercial and legal questions. It is not a public claim set or a submission-ready proposal.
+The repository contains research, draft SBIR material, and unresolved commercial and legal
+questions. Treat it as a transparent working record, not a public claim set or a
+submission-ready proposal.
