@@ -73,8 +73,7 @@ verification should remain accessible to small carriers without creating a new p
 manual-entry burden.
 
 A dedicated benchmark and experiments plan covers identity resolution, event provenance,
-policy enforcement, participation, and later orchestration. See the [[../03-research-evidence/datasets-and-experiments-moc|datasets and experiments MOC]]
-for the research design.
+policy enforcement, participation, and later orchestration.
 
 ## Scope of the claim
 

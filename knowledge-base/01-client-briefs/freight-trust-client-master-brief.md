@@ -103,7 +103,6 @@ These sources back the technical direction but do not prove freight-pilot outcom
 
 ## Dataset and experiment backbone
 
-See the [[../03-research-evidence/datasets-and-experiments-moc|datasets and experiments MOC]].
 The evaluation sequence is:
 
 - **E1:** entity resolution and identity assurance against deterministic, probabilistic,
@@ -157,8 +156,7 @@ interoperability patterns, and better evidence for freight safety and disputes.
 existing platforms and creates a measured path toward coordination.
 
 SBIR readiness depends on the current solicitation, applicant eligibility, PI, data rights,
-pilot partners, and numeric Phase I thresholds being confirmed before submission. See the
-[[../04-sbir/sbir-moc|SBIR MOC]].
+pilot partners, and numeric Phase I thresholds being confirmed before submission.
 
 ## Decisions required
 

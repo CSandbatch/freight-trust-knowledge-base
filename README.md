@@ -26,14 +26,22 @@ submitted as a pull request. The portable agent contract and retrieval order liv
 Operational work records are stored as atomic objects in
 [`knowledge-base/06-team-memory/`](knowledge-base/06-team-memory/).
 
-## Browser and agent access
+## Public browser and agent access
 
-Build the read-only browser locally with `python scripts/build_site.py`, then serve the
+Build the manifest-authorized public browser locally with
+`python scripts/build_site.py --site-url https://example.test/freight-trust/`, then serve the
 generated directory with `python -m http.server 4173 --directory _site` and open
-`http://127.0.0.1:4173/`. Do not open `_site/index.html` directly: browsers block the
-document index request when the page is loaded from `file://`. The public GitHub Pages site
-deploys the same artifact after each `master` update as an interactive Knowledge Radar:
-search, filter, and navigate the vault's document constellation without a server.
+`http://127.0.0.1:4173/`. The public GitHub Pages deployment uses the same artifact. It
+contains only exact entries from `knowledge-base/publication-manifest.json`; no directory,
+tag, or search rule can publish an unlisted note. Run `python scripts/validate_site.py`
+after each build. The release record in `_site/release.json` records the manifest hash,
+source revision, working-tree state, and published content hashes.
+
+The value passed to `--site-url` must be the eventual HTTPS public URL, including its
+trailing slash, because canonical and social metadata use it. GitHub Pages uses the
+`PUBLIC_SITE_URL` repository variable when set, otherwise its standard project URL. See
+[`knowledge-base/09-meta/publication-runbook.md`](knowledge-base/09-meta/publication-runbook.md)
+before approving new public material.
 
 Agents can use the read-only gateway on a workstation or server with
 `python scripts/kb_gateway.py --port 8787`. Its OpenAPI document is available at

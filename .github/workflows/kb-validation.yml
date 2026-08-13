@@ -15,5 +15,6 @@ jobs:
           python-version: '3.12'
       - run: pip install pyyaml
       - run: python scripts/validate_kb.py
-      - run: python scripts/build_site.py
+      - run: python scripts/build_site.py --site-url https://ci.invalid/freight-trust/
       - run: python scripts/validate_site.py
+      - run: python -m unittest discover -s tests -p "test_*.py"

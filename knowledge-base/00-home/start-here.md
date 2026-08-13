@@ -29,6 +29,7 @@ This is the canonical navigation layer for the Freight Trust research programme:
 | See current owners, blockers, and next actions | [[team-status-and-actions]] |
 | Browse every active file | [[vault-inventory]] |
 | Prepare an external conversation | [[01-client-briefs/freight-trust-client-master-brief]] |
+| View only approved public materials | [[public/overview]] |
 | Prepare an NSF application | [[04-sbir/nsf-sbir-sttr-process-and-readiness-guide]] → [[04-sbir/sbir-moc]] |
 | Verify a research claim | [[03-research-evidence/research-evidence-moc]] → [[03-research-evidence/evidence]] |
 | Run the Terra/Luna/Rabbit workflow | [[05-agent-system/agent-system-moc]] |

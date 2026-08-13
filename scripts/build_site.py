@@ -1,30 +1,83 @@
-"""Build a static, accessible knowledge graph for the Markdown vault."""
+"""Build the manifest-authorized public Markdown reader.
+
+This script intentionally has no "include everything" mode. A note reaches the public
+artifact only when it is named in ``knowledge-base/publication-manifest.json`` and passes
+the publication policy below.
+"""
 
 from __future__ import annotations
 
+import argparse
+import datetime as dt
+import hashlib
 import html
 import json
+import os
 import pathlib
 import posixpath
 import re
 import shutil
+import subprocess
+import sys
+from dataclasses import dataclass
+from urllib.parse import urljoin
 
 
-ROOT = pathlib.Path("knowledge-base")
-OUT = pathlib.Path("_site")
+DEFAULT_ROOT = pathlib.Path("knowledge-base")
+DEFAULT_MANIFEST = DEFAULT_ROOT / "publication-manifest.json"
+DEFAULT_OUT = pathlib.Path("_site")
+PROHIBITED_PREFIXES = (
+    "03-research-evidence/",
+    "04-sbir/",
+    "05-agent-system/",
+    "06-team-memory/",
+    "08-archive/",
+    "09-meta/",
+)
+FRONTMATTER = re.compile(r"^---\r?\n(.*?)\r?\n---\r?\n", re.S)
+WIKILINK = re.compile(r"!?(\[\[([^\]]+)\]\])")
+
+
+class PublicationError(ValueError):
+    """A source note is not safe to include in the public artifact."""
+
+
+@dataclass(frozen=True)
+class ManifestNote:
+    source: str
+    slug: str
+
+    @property
+    def url(self) -> str:
+        return f"notes/{self.slug}.html"
+
+
+@dataclass(frozen=True)
+class PublicNote:
+    manifest: ManifestNote
+    metadata: dict[str, object]
+    title: str
+    body: str
+
+
+def sha256_bytes(value: bytes) -> str:
+    return hashlib.sha256(value).hexdigest()
 
 
 def parse_frontmatter(text: str) -> tuple[dict[str, object], str]:
-    match = re.match(r"^---\r?\n(.*?)\r?\n---\r?\n", text, re.S)
+    """Parse the deliberately small YAML subset used by vault frontmatter."""
+    match = FRONTMATTER.match(text)
     if not match:
         return {}, text
     metadata: dict[str, object] = {}
-    current_list: list[str] | None = None
+    list_key: str | None = None
     for line in match.group(1).splitlines():
-        if line.startswith("- ") and current_list is not None:
-            current_list.append(line[2:].strip().strip("\"'"))
+        if line.startswith("- ") and list_key:
+            value = metadata[list_key]
+            assert isinstance(value, list)
+            value.append(line[2:].strip().strip("\"'"))
             continue
-        current_list = None
+        list_key = None
         key, separator, value = line.partition(":")
         if not separator:
             continue
@@ -32,95 +85,369 @@ def parse_frontmatter(text: str) -> tuple[dict[str, object], str]:
         if value:
             metadata[key] = value.strip("\"'")
         else:
-            current_list = []
-            metadata[key] = current_list
+            metadata[key] = []
+            list_key = key
     return metadata, text[match.end():]
 
 
-def title_and_body(text: str, fallback: str) -> tuple[dict[str, object], str, str]:
-    metadata, body = parse_frontmatter(text)
-    title = re.search(r"^#\s+(.+)$", body, flags=re.M)
-    return metadata, (title.group(1).strip() if title else fallback), body.strip()
+def normalise_relative(value: str, label: str) -> str:
+    value = value.replace("\\", "/")
+    candidate = posixpath.normpath(value).lstrip("/")
+    if not value or candidate in {".", ""} or candidate.startswith("../") or ":" in candidate:
+        raise PublicationError(f"invalid {label}: {value!r}")
+    return candidate
 
 
-def main() -> None:
-    if not ROOT.is_dir():
-        raise SystemExit("knowledge-base/ is required")
-    if OUT.exists():
-        shutil.rmtree(OUT)
-    OUT.mkdir()
+def load_manifest(path: pathlib.Path) -> tuple[dict[str, object], list[ManifestNote], dict[str, str]]:
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError as exc:
+        raise PublicationError(f"publication manifest is missing: {path}") from exc
+    except json.JSONDecodeError as exc:
+        raise PublicationError(f"publication manifest is invalid JSON: {exc}") from exc
+    if raw.get("schema_version") != "1.0.0" or not isinstance(raw.get("site"), dict):
+        raise PublicationError("publication manifest requires schema_version 1.0.0 and site metadata")
+    notes: list[ManifestNote] = []
+    for item in raw.get("notes", []):
+        if not isinstance(item, dict) or not isinstance(item.get("source"), str) or not isinstance(item.get("slug"), str):
+            raise PublicationError("each publication manifest note requires string source and slug")
+        source = normalise_relative(item["source"], "note source")
+        slug = normalise_relative(item["slug"], "note slug")
+        if not re.fullmatch(r"[a-z0-9][a-z0-9/-]*", slug):
+            raise PublicationError(f"note slug is not URL-safe: {slug!r}")
+        notes.append(ManifestNote(source, slug))
+    if not notes or len({note.source for note in notes}) != len(notes) or len({note.slug for note in notes}) != len(notes):
+        raise PublicationError("publication manifest needs non-empty, unique note sources and slugs")
+    assets: dict[str, str] = {}
+    for item in raw.get("assets", []):
+        if not isinstance(item, dict) or not isinstance(item.get("source"), str) or not isinstance(item.get("url"), str):
+            raise PublicationError("each approved asset requires string source and url")
+        source = normalise_relative(item["source"], "asset source")
+        url = normalise_relative(item["url"], "asset url")
+        if source in assets or url in assets.values():
+            raise PublicationError("approved asset sources and URLs must be unique")
+        assets[source] = url
+    return raw, notes, assets
 
-    notes: list[dict[str, object]] = []
-    for path in sorted(ROOT.rglob("*.md")):
-        rel = path.relative_to(ROOT).as_posix()
-        metadata, title, body = title_and_body(path.read_text(encoding="utf-8"), path.stem)
-        tags = metadata.get("tags", [])
-        notes.append(
-            {
-                "path": rel,
-                "title": title,
-                "text": body,
-                "section": rel.split("/", 1)[0],
-                "type": str(metadata.get("type", "unknown")),
-                "status": str(metadata.get("status", "unknown")),
-                "tags": tags if isinstance(tags, list) else [],
-                "updated": str(metadata.get("updated", "")),
-                "excerpt": re.sub(r"\s+", " ", body)[:260],
-            }
-        )
-    if not notes:
-        raise SystemExit("knowledge-base contains no Markdown notes")
 
-    note_paths = {str(note["path"]): str(note["path"]) for note in notes}
-    note_paths.update({str(note["path"])[:-3]: str(note["path"]) for note in notes})
-    note_names: dict[str, list[str]] = {}
-    for note in notes:
-        note_names.setdefault(pathlib.PurePosixPath(str(note["path"])).stem, []).append(str(note["path"]))
+def source_path(root: pathlib.Path, relative: str) -> pathlib.Path:
+    candidate = (root / relative).resolve()
+    try:
+        candidate.relative_to(root.resolve())
+    except ValueError as exc:
+        raise PublicationError(f"source escapes knowledge-base: {relative}") from exc
+    return candidate
 
-    def resolve_link(source: str, target: str) -> str | None:
-        target = target.split("#", 1)[0].strip().strip("`")
-        if not target:
+
+def title_from_body(body: str, fallback: str) -> str:
+    match = re.search(r"^#\s+(.+)$", body, flags=re.M)
+    return match.group(1).strip() if match else fallback
+
+
+def is_public_metadata(metadata: dict[str, object], source: str) -> None:
+    tags = metadata.get("tags")
+    if not isinstance(tags, list) or "audience/public" not in tags:
+        raise PublicationError(f"{source}: manifest note must carry audience/public")
+    if "audience/internal" in tags:
+        raise PublicationError(f"{source}: internal notes cannot be published")
+    if metadata.get("status") == "draft" or metadata.get("type") in {"draft", "archive"}:
+        raise PublicationError(f"{source}: draft or archive material cannot be published")
+
+
+def resolve_wikilink(source: str, target: str, source_to_note: dict[str, ManifestNote], root: pathlib.Path) -> str | None:
+    target = target.split("#", 1)[0].strip().strip("`")
+    if not target:
+        return None
+    candidates = [target, target.removesuffix(".md") + ".md"]
+    relative = posixpath.normpath(posixpath.join(posixpath.dirname(source), target))
+    candidates.extend([relative, relative.removesuffix(".md") + ".md"])
+    for candidate in dict.fromkeys(candidates):
+        candidate = candidate.lstrip("/")
+        if candidate in source_to_note:
+            return source_to_note[candidate].url
+        if candidate.endswith(".md") and source_path(root, candidate).is_file():
+            raise PublicationError(f"{source}: links to unpublished note [[{target}]]")
+    raise PublicationError(f"{source}: unresolved wikilink [[{target}]]")
+
+
+def relative_from_note(url: str) -> str:
+    return "../" + url
+
+
+def inline_markdown(value: str, source: str, source_to_note: dict[str, ManifestNote], root: pathlib.Path, assets: dict[str, str]) -> str:
+    """Render a deliberately safe, common subset of Markdown without raw HTML."""
+    if "![[" in value:
+        raise PublicationError(f"{source}: Obsidian embeds are not publishable; use an approved Markdown image asset")
+    for target in re.findall(r"(?<!!)\[[^\]]+\]\(([^)]+)\)", value):
+        destination = target.strip()
+        if not destination.startswith(("https://", "http://", "mailto:", "#")):
+            raise PublicationError(f"{source}: local Markdown link is not an approved public URL: {destination}")
+    tokens: dict[str, str] = {}
+
+    def token(markup: str) -> str:
+        key = f"\x00TOKEN{len(tokens)}\x00"
+        tokens[key] = markup
+        return key
+
+    def image(match: re.Match[str]) -> str:
+        alt, asset = match.group(1), normalise_relative(match.group(2).strip(), "image asset")
+        if asset not in assets:
+            raise PublicationError(f"{source}: image asset is not approved: {asset}")
+        return token(f'<img src="{html.escape("../" + assets[asset], quote=True)}" alt="{html.escape(alt, quote=True)}">')
+
+    value = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", image, value)
+
+    def wiki(match: re.Match[str]) -> str:
+        raw = match.group(2)
+        target, separator, label = raw.partition("|")
+        destination = resolve_wikilink(source, target, source_to_note, root)
+        text = label.strip() if separator else pathlib.PurePosixPath(target.split("#", 1)[0]).stem
+        return token(f'<a href="{html.escape(relative_from_note(destination), quote=True)}">{html.escape(text)}</a>')
+
+    value = WIKILINK.sub(wiki, value)
+    value = html.escape(value, quote=False)
+
+    def external_link(match: re.Match[str]) -> str:
+        label, href = match.group(1), html.unescape(match.group(2))
+        return token(f'<a href="{html.escape(href, quote=True)}" target="_blank" rel="noopener noreferrer">{label}</a>')
+
+    value = re.sub(r"\[([^\]]+)\]\((https?://[^\s)]+)\)", external_link, value)
+    value = re.sub(r"`([^`]+)`", r"<code>\1</code>", value)
+    value = re.sub(r"\*\*(.+?)\*\*|__(.+?)__", lambda m: f"<strong>{m.group(1) or m.group(2)}</strong>", value)
+    value = re.sub(r"(?<!\*)\*([^*\n]+)\*(?!\*)|(?<!_)_([^_\n]+)_(?!_)", lambda m: f"<em>{m.group(1) or m.group(2)}</em>", value)
+    for key, markup in tokens.items():
+        value = value.replace(key, markup)
+    return value
+
+
+def render_markdown(body: str, source: str, source_to_note: dict[str, ManifestNote], root: pathlib.Path, assets: dict[str, str]) -> str:
+    lines = body.replace("\r\n", "\n").split("\n")
+    output: list[str] = []
+    paragraph: list[str] = []
+
+    def flush_paragraph() -> None:
+        if paragraph:
+            output.append(f"<p>{inline_markdown(' '.join(part.strip() for part in paragraph), source, source_to_note, root, assets)}</p>")
+            paragraph.clear()
+
+    def table_cells(value: str) -> list[str]:
+        value = value.strip()
+        if value.startswith("|"):
+            value = value[1:]
+        if value.endswith("|"):
+            value = value[:-1]
+        return [cell.strip() for cell in value.split("|")]
+
+    def is_table_separator(value: str) -> bool:
+        cells = table_cells(value)
+        return bool(cells) and all(re.fullmatch(r":?-{3,}:?", cell) for cell in cells)
+
+    index = 0
+    while index < len(lines):
+        line = lines[index]
+        if not line.strip():
+            flush_paragraph()
+            index += 1
+            continue
+        if line.startswith("```"):
+            flush_paragraph()
+            language = line[3:].strip()
+            index += 1
+            code: list[str] = []
+            while index < len(lines) and not lines[index].startswith("```"):
+                code.append(lines[index])
+                index += 1
+            if index == len(lines):
+                raise PublicationError(f"{source}: unclosed fenced code block")
+            css = f' class="language-{html.escape(language, quote=True)}"' if language else ""
+            output.append(f"<pre><code{css}>{html.escape(chr(10).join(code))}</code></pre>")
+            index += 1
+            continue
+        heading = re.match(r"^(#{1,6})\s+(.+?)\s*#*\s*$", line)
+        if heading:
+            flush_paragraph()
+            level = len(heading.group(1))
+            text = inline_markdown(heading.group(2), source, source_to_note, root, assets)
+            anchor = re.sub(r"[^a-z0-9]+", "-", re.sub(r"<[^>]+>", "", heading.group(2)).lower()).strip("-")
+            output.append(f"<h{level} id=\"{html.escape(anchor, quote=True)}\">{text}</h{level}>")
+            index += 1
+            continue
+        if "|" in line and index + 1 < len(lines) and is_table_separator(lines[index + 1]):
+            flush_paragraph()
+            headers = table_cells(line)
+            index += 2
+            rows: list[list[str]] = []
+            while index < len(lines) and "|" in lines[index] and lines[index].strip():
+                cells = table_cells(lines[index])
+                if len(cells) != len(headers):
+                    raise PublicationError(f"{source}: table row has a different number of cells than its header")
+                rows.append(cells)
+                index += 1
+            header_html = "".join(f"<th scope=\"col\">{inline_markdown(cell, source, source_to_note, root, assets)}</th>" for cell in headers)
+            row_html = "".join("<tr>" + "".join(f"<td>{inline_markdown(cell, source, source_to_note, root, assets)}</td>" for cell in row) + "</tr>" for row in rows)
+            output.append(f"<table><thead><tr>{header_html}</tr></thead><tbody>{row_html}</tbody></table>")
+            continue
+        if re.match(r"^ {0,3}([-*_])(?: *\1){2,}\s*$", line):
+            flush_paragraph()
+            output.append("<hr>")
+            index += 1
+            continue
+        if line.startswith("> "):
+            flush_paragraph()
+            quote: list[str] = []
+            while index < len(lines) and lines[index].startswith("> "):
+                quote.append(lines[index][2:])
+                index += 1
+            output.append(f"<blockquote><p>{inline_markdown(' '.join(quote), source, source_to_note, root, assets)}</p></blockquote>")
+            continue
+        list_match = re.match(r"^\s*([-+*])\s+(.+)$", line)
+        ordered_match = re.match(r"^\s*(\d+)\.\s+(.+)$", line)
+        if list_match or ordered_match:
+            flush_paragraph()
+            ordered = bool(ordered_match)
+            entries: list[str] = []
+            while index < len(lines):
+                current = re.match(r"^\s*\d+\.\s+(.+)$", lines[index]) if ordered else re.match(r"^\s*[-+*]\s+(.+)$", lines[index])
+                if not current:
+                    break
+                entries.append(f"<li>{inline_markdown(current.group(1), source, source_to_note, root, assets)}</li>")
+                index += 1
+            tag = "ol" if ordered else "ul"
+            output.append(f"<{tag}>{''.join(entries)}</{tag}>")
+            continue
+        paragraph.append(line)
+        index += 1
+    flush_paragraph()
+    return "\n".join(output)
+
+
+def page_html(title: str, description: str, canonical: str, body: str, navigation: str, home_href: str, language: str) -> str:
+    return f"""<!doctype html>
+<html lang=\"{html.escape(language, quote=True)}\">
+<head>
+  <meta charset=\"utf-8\">
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+  <title>{html.escape(title)}</title>
+  <meta name=\"description\" content=\"{html.escape(description, quote=True)}\">
+  <link rel=\"canonical\" href=\"{html.escape(canonical, quote=True)}\">
+  <meta property=\"og:type\" content=\"website\">
+  <meta property=\"og:title\" content=\"{html.escape(title, quote=True)}\">
+  <meta property=\"og:description\" content=\"{html.escape(description, quote=True)}\">
+  <meta property=\"og:url\" content=\"{html.escape(canonical, quote=True)}\">
+  <meta name=\"twitter:card\" content=\"summary\">
+  <style>body{{max-width:72ch;margin:0 auto;padding:1.5rem;font:1rem/1.6 system-ui,sans-serif;color:#17212b}}a{{color:#075d93}}header{{border-bottom:1px solid #ccd6dd;margin-bottom:2rem}}nav ul{{display:flex;gap:1rem;flex-wrap:wrap;padding:0;list-style:none}}img{{max-width:100%;height:auto}}pre{{overflow:auto;padding:1rem;background:#f3f6f8}}code{{font-family:ui-monospace,monospace}}blockquote{{border-left:4px solid #9ab4c4;margin-left:0;padding-left:1rem;color:#344c5b}}.skip{{position:absolute;left:-999px}}.skip:focus{{left:1rem;top:1rem;background:white;padding:.5rem}}</style>
+</head>
+<body>
+  <a class=\"skip\" href=\"#content\">Skip to content</a>
+  <header><p><a href=\"{html.escape(home_href, quote=True)}\">Freight Trust public materials</a></p><nav aria-label=\"Published materials\">{navigation}</nav></header>
+  <main id=\"content\">{body}</main>
+</body>
+</html>"""
+
+
+def git_build_state() -> dict[str, object]:
+    def command(*args: str) -> str | None:
+        try:
+            return subprocess.check_output(args, text=True, stderr=subprocess.DEVNULL).strip()
+        except (OSError, subprocess.CalledProcessError):
             return None
-        relative = posixpath.normpath(posixpath.join(posixpath.dirname(source), target))
-        for candidate in (target, target.removesuffix(".md"), relative, relative.removesuffix(".md")):
-            if candidate in note_paths:
-                return note_paths[candidate]
-        matches = note_names.get(pathlib.PurePosixPath(target).stem, [])
-        return matches[0] if len(matches) == 1 else None
+    revision = command("git", "rev-parse", "HEAD")
+    dirty = command("git", "status", "--porcelain")
+    return {"source_revision": revision or "unavailable", "working_tree_clean": dirty == "" if dirty is not None else None}
 
-    incoming = {str(note["path"]): 0 for note in notes}
+
+def build(root: pathlib.Path, manifest_path: pathlib.Path, out: pathlib.Path, site_url: str, source_date_epoch: int | None = None) -> None:
+    if not re.fullmatch(r"https://[^\s]+/", site_url):
+        raise PublicationError("site URL must be an absolute HTTPS URL ending with '/'")
+    manifest, manifest_notes, assets = load_manifest(manifest_path)
+    root = root.resolve()
+    source_to_note = {note.source: note for note in manifest_notes}
+    notes: list[PublicNote] = []
+    for item in manifest_notes:
+        if item.source.startswith(PROHIBITED_PREFIXES):
+            raise PublicationError(f"{item.source}: prohibited source area cannot be published")
+        path = source_path(root, item.source)
+        if not path.is_file():
+            raise PublicationError(f"{item.source}: manifest source does not exist")
+        metadata, body = parse_frontmatter(path.read_text(encoding="utf-8"))
+        is_public_metadata(metadata, item.source)
+        notes.append(PublicNote(item, metadata, title_from_body(body, pathlib.PurePosixPath(item.source).stem), body))
+    for asset in assets:
+        if not source_path(root, asset).is_file():
+            raise PublicationError(f"{asset}: approved asset does not exist")
+    # Render before replacing the old output, so a policy failure never leaves a partial site.
+    rendered = {note.manifest.source: render_markdown(note.body, note.manifest.source, source_to_note, root, assets) for note in notes}
+    out = out.resolve()
+    if out in {root, root.parent}:
+        raise PublicationError("output directory is unsafe")
+    staging = out.parent / f".{out.name}-public-staging"
+    if staging.exists():
+        shutil.rmtree(staging)
+    staging.mkdir(parents=True)
+    def navigation_for(page_url: str) -> str:
+        page_dir = posixpath.dirname(page_url)
+        links = []
+        for note in notes:
+            href = posixpath.relpath(note.manifest.url, page_dir or ".")
+            links.append(f'<li><a href="{html.escape(href, quote=True)}">{html.escape(note.title)}</a></li>')
+        return "<ul>" + "".join(links) + "</ul>"
+
+    index_cards = "".join(f'<li><a href="{html.escape(note.manifest.url, quote=True)}">{html.escape(note.title)}</a></li>' for note in notes)
+    site = manifest["site"]
+    assert isinstance(site, dict)
+    site_title = str(site.get("title", "Public knowledge base"))
+    description = str(site.get("description", "Published materials."))
+    language = str(site.get("language", "en"))
+    index_body = f"<h1>{html.escape(site_title)}</h1><p>{html.escape(description)}</p><h2>Published materials</h2><ul>{index_cards}</ul>"
+    (staging / "index.html").write_text(page_html(site_title, description, urljoin(site_url, "index.html"), index_body, navigation_for("index.html"), "index.html", language), encoding="utf-8")
     for note in notes:
-        targets = re.findall(r"\[\[([^\]|]+)(?:\|[^\]]*)?\]\]", str(note["text"]))
-        links = sorted({resolved for target in targets if (resolved := resolve_link(str(note["path"]), target))})
-        note["links"] = links
-        for link in links:
-            incoming[link] += 1
-    for note in notes:
-        note["incoming"] = incoming[str(note["path"])]
-        note["degree"] = len(note["links"]) + int(note["incoming"])
+        page = staging / note.manifest.url
+        page.parent.mkdir(parents=True, exist_ok=True)
+        canonical = urljoin(site_url, note.manifest.url)
+        home_href = posixpath.relpath("index.html", posixpath.dirname(note.manifest.url))
+        page.write_text(page_html(note.title, description, canonical, rendered[note.manifest.source], navigation_for(note.manifest.url), home_href, language), encoding="utf-8")
+    for asset, destination in assets.items():
+        target = staging / destination
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source_path(root, asset), target)
+    sitemap_urls = ["index.html", *(note.manifest.url for note in notes)]
+    sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + "\n".join(f"  <url><loc>{html.escape(urljoin(site_url, url))}</loc></url>" for url in sitemap_urls) + "\n</urlset>\n"
+    (staging / "sitemap.xml").write_text(sitemap, encoding="utf-8")
+    (staging / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {urljoin(site_url, 'sitemap.xml')}\n", encoding="utf-8")
+    timestamp = dt.datetime.fromtimestamp(source_date_epoch, tz=dt.timezone.utc) if source_date_epoch is not None else dt.datetime.now(tz=dt.timezone.utc)
+    release = {
+        "schema_version": "1.0.0",
+        "build_profile": "public-manifest-only",
+        "generated_at": timestamp.isoformat().replace("+00:00", "Z"),
+        "site_url": site_url,
+        "manifest_sha256": sha256_bytes(manifest_path.read_bytes()),
+        "published_count": len(notes),
+        "published_notes": [{"source": note.manifest.source, "url": note.manifest.url, "content_sha256": sha256_bytes(note.body.encode("utf-8"))} for note in notes],
+        "approved_asset_count": len(assets),
+        **git_build_state(),
+    }
+    (staging / "release.json").write_text(json.dumps(release, indent=2) + "\n", encoding="utf-8")
+    if out.exists():
+        shutil.rmtree(out)
+    staging.rename(out)
+    print(f"Built public site: {len(notes)} approved notes, {len(assets)} approved assets.")
 
-    (OUT / "notes.json").write_text(json.dumps(notes, ensure_ascii=False), encoding="utf-8")
-    (OUT / "index.html").write_text(INDEX, encoding="utf-8")
-    print(f"Built {len(notes)} notes with {sum(len(note['links']) for note in notes)} resolved links.")
 
-
-INDEX = r"""<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Freight Trust Knowledge Radar</title><style>
-:root{--ink:#edf5f7;--muted:#9ab0ba;--line:#294652;--aqua:#50d4b0;--blue:#69b6ff;--panel:#0b1b23;--bg:#061219}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 ui-sans-serif,system-ui,sans-serif}button,input,select{font:inherit}button{color:inherit}header,.shell,footer{max-width:1380px;margin:auto;padding-left:1.25rem;padding-right:1.25rem}header{padding-top:1.7rem;padding-bottom:1.2rem;border-bottom:1px solid var(--line);display:flex;align-items:end;justify-content:space-between;gap:2rem}h1{font-size:2.1rem;line-height:1.08;margin:0;letter-spacing:0}.eyebrow{color:var(--aqua);font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.muted{color:var(--muted)}.shell{display:grid;grid-template-columns:360px minmax(0,1fr);min-height:78vh}.controls{padding:1.2rem 1.2rem 1.8rem 0;border-right:1px solid var(--line)}.field{display:grid;gap:.35rem;margin-bottom:.75rem;color:var(--muted);font-size:.82rem}input,select{width:100%;background:#091a22;border:1px solid var(--line);border-radius:5px;padding:.64rem;color:var(--ink)}.filters{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}.actions{display:flex;gap:.55rem;margin:1rem 0}.action{background:transparent;border:1px solid var(--line);border-radius:5px;padding:.45rem .6rem;cursor:pointer}.action:hover,.action:focus{border-color:var(--aqua);color:var(--aqua)}.stats{color:var(--muted);font-size:.84rem;margin:.75rem 0}.results{max-height:34vh;overflow:auto;border-top:1px solid var(--line)}.result{display:block;width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid #1c3540;padding:.75rem .1rem;cursor:pointer}.result:hover,.result:focus{background:#0d2732}.result small{display:block;color:var(--muted);margin-top:.1rem}.graph-area{padding:1.5rem 0 2rem 1.5rem;min-width:0}.graph-head{display:flex;justify-content:space-between;gap:1rem;align-items:baseline}.graph-head h2{font-size:1.2rem;margin:0}.map{height:500px;position:relative;margin:1rem 0;background:#07171f;border:1px solid var(--line);border-radius:6px;overflow:hidden}.edges{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.edges line{stroke:#5b8798;stroke-opacity:.2;stroke-width:.32}.edges line.related{stroke:var(--aqua);stroke-opacity:.8;stroke-width:.7}.node{position:absolute;border:0;border-radius:50%;background:var(--node);width:var(--size);height:var(--size);transform:translate(-50%,-50%);cursor:pointer;box-shadow:0 0 0 2px color-mix(in srgb,var(--node),transparent 75%)}.node:hover,.node:focus,.node.selected{outline:2px solid var(--aqua);outline-offset:3px}.node.dim{opacity:.14}.legend{display:flex;gap:.75rem;flex-wrap:wrap;color:var(--muted);font-size:.78rem}.key{display:inline-flex;gap:.3rem;align-items:center}.key i{width:8px;height:8px;border-radius:50%;background:var(--key)}.detail{margin-top:1rem;border-top:1px solid var(--line);padding-top:1rem;max-width:900px}.detail h3{margin:0;color:var(--aqua)}.meta{display:flex;gap:.4rem;flex-wrap:wrap;margin:.45rem 0}.chip{border:1px solid var(--line);border-radius:999px;padding:.08rem .45rem;color:var(--muted);font-size:.77rem}.document{max-height:300px;overflow:auto;padding-right:1rem}.document h1,.document h2,.document h3,.document h4{font-size:1rem;margin:1rem 0 .35rem}.document p{margin:.55rem 0}.document ul{padding-left:1.25rem}.document a{color:var(--blue);cursor:pointer;text-decoration:underline}.related{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.75rem}.related button{background:transparent;border:1px solid var(--line);border-radius:5px;padding:.3rem .45rem;cursor:pointer}.related button:hover{border-color:var(--aqua)}footer{padding-top:1rem;padding-bottom:1.5rem;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line)}@media(max-width:850px){header{display:block}header p{margin-bottom:0}.shell{grid-template-columns:1fr}.controls{padding:1rem 0;border-right:0;border-bottom:1px solid var(--line)}.results{max-height:24vh}.graph-area{padding:1.2rem 0}.map{height:360px}.filters{grid-template-columns:repeat(3,1fr)}}@media(max-width:520px){h1{font-size:1.7rem}.filters{grid-template-columns:1fr 1fr}.map{height:300px}.document{max-height:360px}}
-</style></head><body><header><div><div class="eyebrow">Open research navigation</div><h1>Freight Trust Knowledge Radar</h1></div><p class="muted">Search, filter, and trace the document network.</p></header><main class="shell"><aside class="controls" aria-label="Knowledge base filters"><label class="field">Search<input id="q" type="search" placeholder="Titles, paths, and content"></label><div class="filters"><label class="field">Section<select id="section"></select></label><label class="field">Type<select id="type"></select></label><label class="field">Status<select id="status"></select></label><label class="field">Tag<select id="tag"></select></label></div><div class="actions"><button class="action" id="reset" type="button">Reset filters</button><button class="action" id="all" type="button">Show all links</button></div><div class="stats" id="stats"></div><div class="results" id="results" aria-live="polite"></div></aside><section class="graph-area"><div class="graph-head"><h2>Document graph</h2><span class="muted" id="focus"></span></div><div class="map" id="map" aria-label="Interactive document graph"></div><div class="legend" id="legend"></div><article class="detail" id="detail"><h3>Select a document</h3><p class="muted">Choose a result or graph node to inspect it and its direct connections.</p></article></section></main><footer>Research working materials, drafts, and hypotheses are provided for transparent discussion, not operational, legal, regulatory, or funding advice.</footer><script>
-const state={notes:[],selected:null,section:'',type:'',status:'',tag:'',query:'',showAll:false};const el=id=>document.getElementById(id);const q=el('q'),map=el('map'),results=el('results'),detail=el('detail'),stats=el('stats'),focus=el('focus');const colors=['#69b6ff','#50d4b0','#f5bd55','#ed8c73','#d99bff','#7ed889','#ff9fc5','#76d4dc','#d7c77d','#ab9bcf','#89a6b8'];const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function options(id,values,label){const select=el(id);select.innerHTML='<option value="">All '+label+'</option>'+values.map(v=>'<option value="'+esc(v)+'">'+esc(v)+'</option>').join('');select.value=state[id]||'';select.onchange=()=>{state[id]=select.value;state.selected=null;sync();render()}}
-function selected(){return state.notes.find(n=>n.path===state.selected)}function adjacent(note){return new Set([note.path,...note.links,...state.notes.filter(n=>n.links.includes(note.path)).map(n=>n.path)])}
-function filtered(){const terms=state.query.toLowerCase().trim().split(/\s+/).filter(Boolean);return state.notes.filter(n=>(!state.section||n.section===state.section)&&(!state.type||n.type===state.type)&&(!state.status||n.status===state.status)&&(!state.tag||n.tags.includes(state.tag))&&terms.every(t=>(n.title+' '+n.path+' '+n.text+' '+n.tags.join(' ')).toLowerCase().includes(t)))}
-function positions(notes){const sections=[...new Set(state.notes.map(n=>n.section))], out=new Map();sections.forEach((section,index)=>{const group=notes.filter(n=>n.section===section);const angle=index*2*Math.PI/sections.length-Math.PI/2;const cx=50+Math.cos(angle)*32,cy=50+Math.sin(angle)*32;group.forEach((n,i)=>{const a=i*2.39996;const radius=4+Math.sqrt(i)*3.5;out.set(n.path,[cx+Math.cos(a)*radius,cy+Math.sin(a)*radius])})});return out}
-function markdown(text){let out=esc(text).replace(/^---[\s\S]*?---\s*/,'');out=out.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g,(_,path,label)=>'<a data-note="'+esc(path)+'">'+esc(label||path.split('/').pop())+'</a>');out=out.replace(/^#### (.+)$/gm,'<h4>$1</h4>').replace(/^### (.+)$/gm,'<h3>$1</h3>').replace(/^## (.+)$/gm,'<h2>$1</h2>').replace(/^# (.+)$/gm,'<h1>$1</h1>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/`([^`]+)`/g,'<code>$1</code>');out=out.replace(/^(?:- |\* )(.+)$/gm,'<li>$1</li>').replace(/(<li>[\s\S]*?<\/li>)(?:\n(?!<li>))/g,'$1\n');out=out.replace(/(?:<li>.*<\/li>\n?)+/g,m=>'<ul>'+m+'</ul>');return out.split(/\n{2,}/).map(block=>/^<(h[1-4]|ul)/.test(block)?block:'<p>'+block.replace(/\n/g,'<br>')+'</p>').join('')}
-function show(note){state.selected=note.path;state.showAll=false;sync();render()}
-function sync(){const params=new URLSearchParams();for(const key of ['section','type','status','tag','query'])if(state[key])params.set(key,state[key]);if(state.selected)params.set('note',state.selected);history.replaceState(null,'','?'+params.toString())}
-function renderDetail(note){if(!note){detail.innerHTML='<h3>Select a document</h3><p class="muted">Choose a result or graph node to inspect it and its direct connections.</p>';return}const linked=[...new Set([...note.links,...state.notes.filter(n=>n.links.includes(note.path)).map(n=>n.path)])].map(path=>state.notes.find(n=>n.path===path)).filter(Boolean);detail.innerHTML='<h3>'+esc(note.title)+'</h3><div class="meta"><span class="chip">'+esc(note.section.replace(/^\d+-/,''))+'</span><span class="chip">'+esc(note.type)+'</span><span class="chip">'+esc(note.status)+'</span><span class="chip">'+note.degree+' connections</span></div><div class="document">'+markdown(note.text)+'</div><div class="related">'+linked.map(n=>'<button data-path="'+esc(n.path)+'">'+esc(n.title)+'</button>').join('')+'</div>';detail.querySelectorAll('[data-path]').forEach(button=>button.onclick=()=>show(state.notes.find(n=>n.path===button.dataset.path)));detail.querySelectorAll('a[data-note]').forEach(link=>link.onclick=()=>{const target=state.notes.find(n=>n.path===link.dataset.note||n.path.replace(/\.md$/,'')===link.dataset.note);if(target)show(target)})}
-function render(){const visible=filtered(),note=selected(),neighbors=note?adjacent(note):new Set(),pos=positions(visible);stats.textContent=visible.length+' of '+state.notes.length+' documents';focus.textContent=note?(neighbors.size-1)+' direct connections':'Select a node to focus';results.innerHTML=visible.slice(0,80).map(n=>'<button class="result" data-path="'+esc(n.path)+'"><strong>'+esc(n.title)+'</strong><small>'+esc(n.section+' / '+n.type+' / '+n.degree+' connections')+'</small></button>').join('');results.querySelectorAll('button').forEach(button=>button.onclick=()=>show(state.notes.find(n=>n.path===button.dataset.path)));map.innerHTML='';const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('class','edges');visible.forEach(n=>n.links.filter(path=>pos.has(path)&&n.path<path).forEach(path=>{const a=pos.get(n.path),b=pos.get(path),line=document.createElementNS(svg.namespaceURI,'line');line.setAttribute('x1',a[0]+'%');line.setAttribute('y1',a[1]+'%');line.setAttribute('x2',b[0]+'%');line.setAttribute('y2',b[1]+'%');if(note&&neighbors.has(n.path)&&neighbors.has(path))line.setAttribute('class','related');svg.append(line)}));map.append(svg);visible.forEach(n=>{const p=pos.get(n.path),button=document.createElement('button'),color=colors[[...new Set(state.notes.map(x=>x.section))].indexOf(n.section)%colors.length];button.className='node'+(n.path===state.selected?' selected':'')+(note&&!state.showAll&&!neighbors.has(n.path)?' dim':'');button.style.left=p[0]+'%';button.style.top=p[1]+'%';button.style.setProperty('--node',color);button.style.setProperty('--size',(7+Math.min(n.degree,18)/3)+'px');button.title=n.title+' ('+n.degree+' connections)';button.setAttribute('aria-label',button.title);button.onclick=()=>show(n);map.append(button)});renderDetail(note)}
-fetch('notes.json').then(r=>{if(!r.ok)throw new Error('Unable to load document index');return r.json()}).then(notes=>{state.notes=notes;const params=new URLSearchParams(location.search);for(const key of ['section','type','status','tag','query','note'])state[key==='note'?'selected':key]=params.get(key)||'';q.value=state.query;options('section',[...new Set(notes.map(n=>n.section))],'sections');options('type',[...new Set(notes.map(n=>n.type))].sort(),'types');options('status',[...new Set(notes.map(n=>n.status))].sort(),'statuses');options('tag',[...new Set(notes.flatMap(n=>n.tags))].sort(),'tags');el('legend').innerHTML=[...new Set(notes.map(n=>n.section))].map((s,i)=>'<span class="key"><i style="--key:'+colors[i%colors.length]+'"></i>'+esc(s.replace(/^\d+-/,''))+'</span>').join('');q.oninput=()=>{state.query=q.value;state.selected=null;sync();render()};el('reset').onclick=()=>{state.section=state.type=state.status=state.tag=state.query=state.selected='';q.value='';for(const id of ['section','type','status','tag'])el(id).value='';sync();render()};el('all').onclick=()=>{state.showAll=true;render()};render()}).catch(error=>{stats.textContent=error.message;console.error(error)});
-</script></body></html>"""
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", type=pathlib.Path, default=DEFAULT_ROOT)
+    parser.add_argument("--manifest", type=pathlib.Path, default=DEFAULT_MANIFEST)
+    parser.add_argument("--out", type=pathlib.Path, default=DEFAULT_OUT)
+    parser.add_argument("--site-url", default=os.environ.get("PUBLIC_SITE_URL", ""))
+    parser.add_argument("--source-date-epoch", type=int)
+    args = parser.parse_args()
+    try:
+        build(args.root, args.manifest, args.out, args.site_url, args.source_date_epoch)
+    except PublicationError as exc:
+        print(f"Public build refused: {exc}", file=sys.stderr)
+        return 1
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
