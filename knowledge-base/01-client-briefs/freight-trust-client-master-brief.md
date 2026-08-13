@@ -92,7 +92,14 @@ benefits, not a premise.
 ## Competitive and technical position
 
 The market includes carrier verification, visibility, telematics, load matching, and
-freight-data platforms. The identity prior-art boundary is broader than SCAC Verified alone. **FMCSA URSA** previously implemented automated risk-based chameleon/reincarnation screening and its lineage includes a prior SBIR Phase I; **FMCSA Motus** now separates individual identity proofing from company/business verification in the registration lifecycle; and **NMFTA SCAC Verified** adds natural-person identity verification at SCAC issuance/renewal for non-Class-8 carriers. The programme therefore does not claim novelty in automated chameleon screening, point-in-time identity verification, or registration-stage business verification. The proposed distinction is a neutral, federated, explainable evidence/provenance layer that resolves legal-person identity under incomplete/conflicting anchors while separately preserving registrant continuity, ownership/succession/operational relationships, regulatory dispositions, and later operational events — with calibrated uncertainty and contestability.
+freight-data platforms. Existing identity-verification and registration systems establish
+important prior art. The programme does not claim novelty in automated chameleon screening,
+point-in-time identity verification, or registration-stage business verification. The
+proposed distinction is a neutral, federated, explainable evidence/provenance layer that
+resolves legal-person identity under incomplete or conflicting anchors while separately
+preserving registrant continuity, ownership, succession, operational relationships,
+regulatory dispositions, and later operational events — with calibrated uncertainty and
+contestability.
 It should complement existing systems, not require their replacement.
 
 Knowledge-graph research supports representing multi-party supply-chain relationships;
@@ -161,7 +168,8 @@ pilot partners, and numeric Phase I thresholds being confirmed before submission
 ## Decisions required
 
 - Choose the first buyer and workflow.
-- Confirm Common Action's legal form and SBIR/STTR route; Ellie Young is now the confirmed PI, with employment/effort eligibility still to document.
+- Confirm legal form, the SBIR/STTR route, and the proposed PI's employment and effort
+  eligibility.
 - Secure one real partner and one permissioned event source.
 - Approve benchmark label and adjudication protocol.
 - Set subgroup and correction-latency thresholds.
