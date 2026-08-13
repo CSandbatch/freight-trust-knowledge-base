@@ -397,6 +397,7 @@ def build(root: pathlib.Path, manifest_path: pathlib.Path, out: pathlib.Path, si
     out = out.resolve()
     if out in {root, root.parent}:
         raise PublicationError("output directory is unsafe")
+    build_state = git_build_state()
     staging = out.parent / f".{out.name}-public-staging"
     if staging.exists():
         shutil.rmtree(staging)
@@ -441,7 +442,7 @@ def build(root: pathlib.Path, manifest_path: pathlib.Path, out: pathlib.Path, si
         "published_count": len(notes),
         "published_notes": [{"source": note.manifest.source, "url": note.manifest.url, "content_sha256": sha256_bytes(note.body.encode("utf-8"))} for note in notes],
         "approved_asset_count": len(assets),
-        **git_build_state(),
+        **build_state,
     }
     (staging / "release.json").write_text(json.dumps(release, indent=2) + "\n", encoding="utf-8")
     if out.exists():
