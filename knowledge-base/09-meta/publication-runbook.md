@@ -39,8 +39,10 @@ copy them into a public directory merely to make the build pass.
    redirect plan before release.
 4. Resolve every wiki link to another manifest entry, remove it, or obtain approval for
    the target. The build fails on links to unpublished or missing notes.
-5. For an image or other local asset, add one exact source-to-output mapping under
-   `assets` in the manifest. The build rejects every local image not on that list.
+5. For an image or other local asset, store it under `public/assets/` and add one exact
+   source-to-output mapping under `assets` in the manifest, with an output URL under
+   `assets/`. The build rejects every local image not on that list and refuses assets from
+   any other source location or output area.
 
 ## Pre-release check
 

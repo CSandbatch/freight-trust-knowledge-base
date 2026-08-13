@@ -31,6 +31,10 @@ def validate(site: pathlib.Path, manifest_path: pathlib.Path) -> list[str]:
     except PublicationError as exc:
         return [str(exc)]
     required = ["index.html", "robots.txt", "sitemap.xml", "release.json", *(note.url for note in notes), *assets.values()]
+    expected = set(required)
+    actual = {path.relative_to(site).as_posix() for path in site.rglob("*") if path.is_file()}
+    for relative in sorted(actual - expected):
+        issues.append(f"unexpected generated file: {relative}")
     for relative in required:
         if not (site / relative).is_file():
             issues.append(f"missing generated file: {relative}")

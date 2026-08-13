@@ -34,6 +34,8 @@ PROHIBITED_PREFIXES = (
     "08-archive/",
     "09-meta/",
 )
+PUBLIC_ASSET_PREFIX = "public/assets/"
+PUBLIC_ASSET_URL_PREFIX = "assets/"
 FRONTMATTER = re.compile(r"^---\r?\n(.*?)\r?\n---\r?\n", re.S)
 WIKILINK = re.compile(r"!?(\[\[([^\]]+)\]\])")
 
@@ -124,6 +126,14 @@ def load_manifest(path: pathlib.Path) -> tuple[dict[str, object], list[ManifestN
             raise PublicationError("each approved asset requires string source and url")
         source = normalise_relative(item["source"], "asset source")
         url = normalise_relative(item["url"], "asset url")
+        if not source.startswith(PUBLIC_ASSET_PREFIX):
+            raise PublicationError(
+                f"approved asset must be stored under {PUBLIC_ASSET_PREFIX}: {source}"
+            )
+        if not url.startswith(PUBLIC_ASSET_URL_PREFIX):
+            raise PublicationError(
+                f"approved asset URL must be stored under {PUBLIC_ASSET_URL_PREFIX}: {url}"
+            )
         if source in assets or url in assets.values():
             raise PublicationError("approved asset sources and URLs must be unique")
         assets[source] = url
@@ -170,11 +180,11 @@ def resolve_wikilink(source: str, target: str, source_to_note: dict[str, Manifes
     raise PublicationError(f"{source}: unresolved wikilink [[{target}]]")
 
 
-def relative_from_note(url: str) -> str:
-    return "../" + url
+def relative_from_page(page_url: str, destination: str) -> str:
+    return posixpath.relpath(destination, posixpath.dirname(page_url) or ".")
 
 
-def inline_markdown(value: str, source: str, source_to_note: dict[str, ManifestNote], root: pathlib.Path, assets: dict[str, str]) -> str:
+def inline_markdown(value: str, source: str, page_url: str, source_to_note: dict[str, ManifestNote], root: pathlib.Path, assets: dict[str, str]) -> str:
     """Render a deliberately safe, common subset of Markdown without raw HTML."""
     if "![[" in value:
         raise PublicationError(f"{source}: Obsidian embeds are not publishable; use an approved Markdown image asset")
@@ -193,7 +203,8 @@ def inline_markdown(value: str, source: str, source_to_note: dict[str, ManifestN
         alt, asset = match.group(1), normalise_relative(match.group(2).strip(), "image asset")
         if asset not in assets:
             raise PublicationError(f"{source}: image asset is not approved: {asset}")
-        return token(f'<img src="{html.escape("../" + assets[asset], quote=True)}" alt="{html.escape(alt, quote=True)}">')
+        destination = relative_from_page(page_url, assets[asset])
+        return token(f'<img src="{html.escape(destination, quote=True)}" alt="{html.escape(alt, quote=True)}">')
 
     value = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", image, value)
 
@@ -202,7 +213,8 @@ def inline_markdown(value: str, source: str, source_to_note: dict[str, ManifestN
         target, separator, label = raw.partition("|")
         destination = resolve_wikilink(source, target, source_to_note, root)
         text = label.strip() if separator else pathlib.PurePosixPath(target.split("#", 1)[0]).stem
-        return token(f'<a href="{html.escape(relative_from_note(destination), quote=True)}">{html.escape(text)}</a>')
+        href = relative_from_page(page_url, destination)
+        return token(f'<a href="{html.escape(href, quote=True)}">{html.escape(text)}</a>')
 
     value = WIKILINK.sub(wiki, value)
     value = html.escape(value, quote=False)
@@ -220,14 +232,14 @@ def inline_markdown(value: str, source: str, source_to_note: dict[str, ManifestN
     return value
 
 
-def render_markdown(body: str, source: str, source_to_note: dict[str, ManifestNote], root: pathlib.Path, assets: dict[str, str]) -> str:
+def render_markdown(body: str, source: str, page_url: str, source_to_note: dict[str, ManifestNote], root: pathlib.Path, assets: dict[str, str]) -> str:
     lines = body.replace("\r\n", "\n").split("\n")
     output: list[str] = []
     paragraph: list[str] = []
 
     def flush_paragraph() -> None:
         if paragraph:
-            output.append(f"<p>{inline_markdown(' '.join(part.strip() for part in paragraph), source, source_to_note, root, assets)}</p>")
+            output.append(f"<p>{inline_markdown(' '.join(part.strip() for part in paragraph), source, page_url, source_to_note, root, assets)}</p>")
             paragraph.clear()
 
     def table_cells(value: str) -> list[str]:
@@ -267,7 +279,7 @@ def render_markdown(body: str, source: str, source_to_note: dict[str, ManifestNo
         if heading:
             flush_paragraph()
             level = len(heading.group(1))
-            text = inline_markdown(heading.group(2), source, source_to_note, root, assets)
+            text = inline_markdown(heading.group(2), source, page_url, source_to_note, root, assets)
             anchor = re.sub(r"[^a-z0-9]+", "-", re.sub(r"<[^>]+>", "", heading.group(2)).lower()).strip("-")
             output.append(f"<h{level} id=\"{html.escape(anchor, quote=True)}\">{text}</h{level}>")
             index += 1
@@ -283,8 +295,8 @@ def render_markdown(body: str, source: str, source_to_note: dict[str, ManifestNo
                     raise PublicationError(f"{source}: table row has a different number of cells than its header")
                 rows.append(cells)
                 index += 1
-            header_html = "".join(f"<th scope=\"col\">{inline_markdown(cell, source, source_to_note, root, assets)}</th>" for cell in headers)
-            row_html = "".join("<tr>" + "".join(f"<td>{inline_markdown(cell, source, source_to_note, root, assets)}</td>" for cell in row) + "</tr>" for row in rows)
+            header_html = "".join(f"<th scope=\"col\">{inline_markdown(cell, source, page_url, source_to_note, root, assets)}</th>" for cell in headers)
+            row_html = "".join("<tr>" + "".join(f"<td>{inline_markdown(cell, source, page_url, source_to_note, root, assets)}</td>" for cell in row) + "</tr>" for row in rows)
             output.append(f"<table><thead><tr>{header_html}</tr></thead><tbody>{row_html}</tbody></table>")
             continue
         if re.match(r"^ {0,3}([-*_])(?: *\1){2,}\s*$", line):
@@ -298,7 +310,7 @@ def render_markdown(body: str, source: str, source_to_note: dict[str, ManifestNo
             while index < len(lines) and lines[index].startswith("> "):
                 quote.append(lines[index][2:])
                 index += 1
-            output.append(f"<blockquote><p>{inline_markdown(' '.join(quote), source, source_to_note, root, assets)}</p></blockquote>")
+            output.append(f"<blockquote><p>{inline_markdown(' '.join(quote), source, page_url, source_to_note, root, assets)}</p></blockquote>")
             continue
         list_match = re.match(r"^\s*([-+*])\s+(.+)$", line)
         ordered_match = re.match(r"^\s*(\d+)\.\s+(.+)$", line)
@@ -310,7 +322,7 @@ def render_markdown(body: str, source: str, source_to_note: dict[str, ManifestNo
                 current = re.match(r"^\s*\d+\.\s+(.+)$", lines[index]) if ordered else re.match(r"^\s*[-+*]\s+(.+)$", lines[index])
                 if not current:
                     break
-                entries.append(f"<li>{inline_markdown(current.group(1), source, source_to_note, root, assets)}</li>")
+                entries.append(f"<li>{inline_markdown(current.group(1), source, page_url, source_to_note, root, assets)}</li>")
                 index += 1
             tag = "ol" if ordered else "ul"
             output.append(f"<{tag}>{''.join(entries)}</{tag}>")
@@ -376,7 +388,12 @@ def build(root: pathlib.Path, manifest_path: pathlib.Path, out: pathlib.Path, si
         if not source_path(root, asset).is_file():
             raise PublicationError(f"{asset}: approved asset does not exist")
     # Render before replacing the old output, so a policy failure never leaves a partial site.
-    rendered = {note.manifest.source: render_markdown(note.body, note.manifest.source, source_to_note, root, assets) for note in notes}
+    rendered = {
+        note.manifest.source: render_markdown(
+            note.body, note.manifest.source, note.manifest.url, source_to_note, root, assets
+        )
+        for note in notes
+    }
     out = out.resolve()
     if out in {root, root.parent}:
         raise PublicationError("output directory is unsafe")
