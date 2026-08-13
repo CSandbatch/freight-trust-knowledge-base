@@ -15,3 +15,5 @@ jobs:
           python-version: '3.12'
       - run: pip install pyyaml
       - run: python scripts/validate_kb.py
+      - run: python scripts/build_site.py
+      - run: python scripts/validate_site.py

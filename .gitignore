@@ -21,3 +21,7 @@ knowledge-base/.obsidian/workspace.json.bak
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Python bytecode
+__pycache__/
+*.py[cod]

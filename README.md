@@ -28,10 +28,12 @@ Operational work records are stored as atomic objects in
 
 ## Browser and agent access
 
-Build the read-only browser locally with `python scripts/build_site.py`; open
-`_site/index.html` to search and read the vault. The public GitHub Pages site deploys the
-same artifact after each `master` update as an interactive Knowledge Radar: search, filter,
-and navigate the vault's document constellation without a server.
+Build the read-only browser locally with `python scripts/build_site.py`, then serve the
+generated directory with `python -m http.server 4173 --directory _site` and open
+`http://127.0.0.1:4173/`. Do not open `_site/index.html` directly: browsers block the
+document index request when the page is loaded from `file://`. The public GitHub Pages site
+deploys the same artifact after each `master` update as an interactive Knowledge Radar:
+search, filter, and navigate the vault's document constellation without a server.
 
 Agents can use the read-only gateway on a workstation or server with
 `python scripts/kb_gateway.py --port 8787`. Its OpenAPI document is available at
