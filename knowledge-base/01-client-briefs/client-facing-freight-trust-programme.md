@@ -45,10 +45,12 @@ automatically reduce fraud, detention, or empty miles. Those are outcomes to mea
 ## Why now
 
 ATRI estimated that 39.3% of stops involved detention in 2023, representing 135.9 million
-lost hours and $11.5 billion in productivity losses. FMCSA is modernizing carrier
-registration and anti-fraud capabilities. The Supreme Court's *Montgomery v. Caribe*
-decision also made broker negligent-selection claims more consequential without defining a
-universal standard of reasonable care.
+lost hours and $11.5 billion in productivity losses. [ATRI study record](https://trid.trb.org/View/2427471)
+FMCSA is modernizing carrier registration and anti-fraud capabilities through its
+[Motus registration system](https://www.fmcsa.dot.gov/regulations/federal-register-documents/2026-08334).
+The Supreme Court's [*Montgomery v. Caribe* decision](https://www.law.cornell.edu/supremecourt/text/24-1238)
+also made broker negligent-selection claims more consequential without defining a universal
+standard of reasonable care.
 
 These developments point to a practical need: better evidence, clearer provenance, and
 governed workflows that support human decisions without pretending to be a legal standard.
@@ -73,8 +75,7 @@ verification should remain accessible to small carriers without creating a new p
 manual-entry burden.
 
 A dedicated benchmark and experiments plan covers identity resolution, event provenance,
-policy enforcement, participation, and later orchestration. See the [[../03-research-evidence/datasets-and-experiments-moc|datasets and experiments MOC]]
-for the research design.
+policy enforcement, participation, and later orchestration.
 
 ## Scope of the claim
 

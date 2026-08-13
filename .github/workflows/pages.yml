@@ -17,12 +17,18 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || format('https://{0}.github.io/{1}/', github.repository_owner, github.event.repository.name) }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - run: pip install pyyaml
+      - run: python scripts/validate_kb.py
       - run: python scripts/build_site.py
+      - run: python scripts/validate_site.py
+      - run: python -m unittest discover -s tests -p "test_*.py"
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site

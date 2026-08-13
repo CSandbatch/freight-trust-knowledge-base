@@ -70,6 +70,7 @@ employment or budget commitment.
 - [[09-meta/drift-control]] — current and historical consistency issues.
 - [[09-meta/decision-log]] — durable decisions and direct human confirmations.
 - [[09-meta/release-audit]] — validation results for this release.
+- [[09-meta/publication-runbook]] — manifest-only public publication boundary and release checks.
 - [[CHANGELOG]] — distribution history.
 
 ## Academic methods status

@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "site": {
+    "title": "Freight Trust",
+    "description": "Public programme materials for Freight Trust.",
+    "language": "en"
+  },
+  "notes": [
+    {
+      "source": "public/overview.md",
+      "slug": "overview"
+    },
+    {
+      "source": "01-client-briefs/client-facing-freight-trust-programme.md",
+      "slug": "freight-trust-infrastructure"
+    },
+    {
+      "source": "01-client-briefs/freight-trust-client-master-brief.md",
+      "slug": "freight-trust-infrastructure-detailed"
+    }
+  ],
+  "assets": []
+}
