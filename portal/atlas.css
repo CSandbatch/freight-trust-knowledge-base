@@ -19,3 +19,4 @@ html[data-theme="dark"]{color-scheme:dark;--ink:#ecf5f3;--paper:#061824;--paper-
 .atlas-graph .collection-label{fill:var(--muted);font:800 9px var(--sans);letter-spacing:1.2px;text-transform:uppercase;pointer-events:none}
 @media (max-width:520px){body{overflow-x:hidden}.site-header{width:100%;max-width:100%;overflow:hidden}.site-header-inner{position:relative;width:100%;max-width:100%;padding-right:6.9rem}.header-actions{display:flex!important;position:absolute;right:.9rem;top:12px;margin-left:0}.search-trigger{width:2.75rem;padding:0;justify-content:center}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.pathway-card,.collection-card{transition:none}.pathway-card:hover,.collection-card:hover{transform:none}}
+.atlas-graph[data-local="true"] .node.is-dim{opacity:.48}
