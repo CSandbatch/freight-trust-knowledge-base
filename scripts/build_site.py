@@ -695,6 +695,7 @@ def shell_html(title: str, description: str, page: str, site_url: str, main: str
     ]
     navigation = "".join(f'<a class="nav-link {"is-active" if active == key else ""}" href="{html.escape(page_href(page, href), quote=True)}">{label}</a>' for label, href, key in nav)
     css_href = page_href(page, "assets/atlas.css")
+    favicon_href = page_href(page, "assets/favicon.svg")
     js_href = page_href(page, "assets/atlas.js")
     data_root = page_href(page, "index.html")
     command = f'''<dialog class="command-dialog" data-command-dialog aria-label="Search the knowledge atlas">
@@ -712,6 +713,7 @@ def shell_html(title: str, description: str, page: str, site_url: str, main: str
   <link rel="canonical" href="{html.escape(canonical_url(site_url, page.removesuffix('index.html')), quote=True)}">
   <meta property="og:type" content="website"><meta property="og:title" content="{html.escape(title, quote=True)}"><meta property="og:description" content="{html.escape(description, quote=True)}"><meta property="og:url" content="{html.escape(canonical_url(site_url, page.removesuffix('index.html')), quote=True)}">
   <meta name="twitter:card" content="summary">
+  <link rel="icon" href="{html.escape(favicon_href, quote=True)}" type="image/svg+xml">
   <link rel="stylesheet" href="{html.escape(css_href, quote=True)}">
 </head>
 <body data-root="{html.escape(data_root, quote=True)}" data-search="{html.escape(page_href(page, 'data/search.json'), quote=True)}" data-catalog="{html.escape(page_href(page, 'data/catalog.json'), quote=True)}">
@@ -921,7 +923,7 @@ def git_state(root: pathlib.Path) -> dict[str, Any]:
 
 
 def copy_static_assets(staging: pathlib.Path) -> list[str]:
-    required = ["atlas.css", "atlas.js", "graph.js"]
+    required = ["atlas.css", "atlas.js", "graph.js", "favicon.svg"]
     outputs: list[str] = []
     for name in required:
         source = STATIC_ROOT / name

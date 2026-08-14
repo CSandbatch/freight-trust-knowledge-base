@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Freight Trust Knowledge Atlas</title>
+  <path fill="#071b2b" d="M16 4h32a12 12 0 0 1 12 12v32a12 12 0 0 1-12 12H16A12 12 0 0 1 4 48V16A12 12 0 0 1 16 4Z"/>
+  <path fill="#2faeaa" d="M17 17h30v7H25v7h18v7H25v12h-8V17Z"/>
+  <path fill="#f6f3eb" d="M34 31h16v7h-4v12h-8V38h-4v-7Z"/>
+  <circle cx="50" cy="15" r="4" fill="#2778e3"/>
+</svg>

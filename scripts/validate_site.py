@@ -99,7 +99,7 @@ def expected_output_files(release: dict[str, object], catalog: list[dict[str, ob
         ".nojekyll", "index.html", "explore/index.html", "graph/index.html", "collections/index.html",
         "experiments/index.html", "about/index.html", "robots.txt", "sitemap.xml", "llms.txt", "release.json",
         "data/catalog.json", "data/search.json", "data/graph.json", "data/artifact-registry.json",
-        "assets/atlas.css", "assets/atlas.js", "assets/graph.js",
+        "assets/atlas.css", "assets/atlas.js", "assets/graph.js", "assets/favicon.svg",
     }
     for item in artifacts if isinstance(artifacts, list) else []:
         if isinstance(item, dict):
