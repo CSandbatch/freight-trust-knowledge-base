@@ -43,7 +43,11 @@ new allowlist rule.
 3. Do not add secrets, private keys, or local environment state to the vault. The build
    deliberately fails on credential-like filenames rather than silently omitting them.
 4. Stable portal routes derive from source paths. Keep paths deliberate; a rename changes
-   a public route and should receive a redirect plan if it has already been shared.
+   a public route and should receive a redirect plan if it has already been shared. The
+   `.obsidian/` vault-profile files are the one Pages compatibility exception: their
+   source/provenance path remains `.obsidian/...`, while their byte-identical public raw
+   downloads use `raw/vault-profile/...` because GitHub Pages cannot serve hidden URL
+   segments.
 
 ## Pre-release check
 
