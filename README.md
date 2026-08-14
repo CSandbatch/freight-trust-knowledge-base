@@ -28,20 +28,25 @@ Operational work records are stored as atomic objects in
 
 ## Public browser and agent access
 
-Build the manifest-authorized public browser locally with
+Build the complete public Knowledge Atlas locally with
 `python scripts/build_site.py --site-url https://example.test/freight-trust/`, then serve the
 generated directory with `python -m http.server 4173 --directory _site` and open
-`http://127.0.0.1:4173/`. The public GitHub Pages deployment uses the same artifact. It
-contains only exact entries from `knowledge-base/publication-manifest.json`; no directory,
-tag, or search rule can publish an unlisted note. Run `python scripts/validate_site.py`
-after each build. The release record in `_site/release.json` records the manifest hash,
-source revision, working-tree state, and published content hashes.
+`http://127.0.0.1:4173/`. The static portal includes the editorial Atlas home, full-text
+Explore library, Obsidian-style global/local graph, collection and experiment hubs, a
+reader for every Markdown note, artifact viewers, and byte-identical raw downloads.
+
+The compiler discovers every **Git-versioned** file under `knowledge-base/`; draft,
+archive, audience, confidence, and verification values are rendered as context rather than
+publication exclusions. `.env` files, credentials, ignored local state, and non-vault files
+are not source material. Run `python scripts/validate_site.py --check-deterministic` after
+each build. The generated `release.json`, `data/artifact-registry.json`, and
+`data/graph.json` record the exact source-to-output release.
 
 The value passed to `--site-url` must be the eventual HTTPS public URL, including its
 trailing slash, because canonical and social metadata use it. GitHub Pages uses the
 `PUBLIC_SITE_URL` repository variable when set, otherwise its standard project URL. See
 [`knowledge-base/09-meta/publication-runbook.md`](knowledge-base/09-meta/publication-runbook.md)
-before approving new public material.
+for the full corpus/release contract.
 
 Agents can use the read-only gateway on a workstation or server with
 `python scripts/kb_gateway.py --port 8787`. Its OpenAPI document is available at

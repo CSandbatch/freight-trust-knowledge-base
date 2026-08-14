@@ -1,23 +1,15 @@
 {
-  "schema_version": "1.0.0",
-  "site": {
-    "title": "Freight Trust",
-    "description": "Public programme materials for Freight Trust.",
-    "language": "en"
+  "schema_version": "2.0.0",
+  "publication_scope": {
+    "mode": "inclusive-versioned-vault",
+    "source_root": "knowledge-base",
+    "include": "Every Git-versioned file below the source root is represented by a reader or artifact page and an unchanged raw download.",
+    "exclude": "Ignored or untracked workstation state, credentials, .env files, and files outside the source root are not corpus material.",
+    "metadata_policy": "Audience, status, type, confidence, verification, draft, archive, and lifecycle fields are display context only; none are publication filters."
   },
-  "notes": [
-    {
-      "source": "public/overview.md",
-      "slug": "overview"
-    },
-    {
-      "source": "01-client-briefs/client-facing-freight-trust-programme.md",
-      "slug": "freight-trust-infrastructure"
-    },
-    {
-      "source": "01-client-briefs/freight-trust-client-master-brief.md",
-      "slug": "freight-trust-infrastructure-detailed"
-    }
-  ],
-  "assets": []
+  "site": {
+    "title": "Freight Trust Knowledge Atlas",
+    "description": "A public, source-derived working record for Freight Trust research, programme design, evidence, drafts, and governance.",
+    "language": "en"
+  }
 }
