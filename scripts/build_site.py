@@ -41,6 +41,7 @@ HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*#*\s*$")
 FENCED = re.compile(r"^\s*(`{3,}|~{3,})")
 SECRETISH = re.compile(r"(?:^|[-_.])(secret|credential|password|private[-_]?key)(?:[-_.]|$)", re.I)
 SAFE_RAW_SUFFIXES = {".md", ".mmd", ".csv", ".yaml", ".yml", ".json", ".txt", ".xml"}
+VAULT_PROFILE_RAW_ROOT = "raw/vault-profile"
 
 COLLECTION_NAMES = {
     "00-home": "Orientation",
@@ -310,9 +311,23 @@ def text_from_bytes(data: bytes, source: str) -> str:
         raise BuildError(f"{source}: public vault artifacts must be UTF-8 text in this release") from exc
 
 
+def raw_route_for(source: str) -> str:
+    """Return a Pages-safe public raw route while retaining the source path as provenance.
+
+    GitHub Pages does not serve URL segments beginning with ``.``.  The Obsidian vault
+    profile is still part of the versioned corpus, so its raw downloads use a stable
+    public mirror rather than an unreachable ``raw/.obsidian/`` route.  ``source``
+    remains the canonical vault-relative provenance path in every data record.
+    """
+    if source.startswith(".obsidian/"):
+        return f"{VAULT_PROFILE_RAW_ROOT}/{source.removeprefix('.obsidian/')}"
+    return f"raw/{source}"
+
+
 def create_artifacts(root: pathlib.Path, sources: Iterable[str]) -> list[Artifact]:
     artifacts: list[Artifact] = []
     used_routes: set[str] = set()
+    used_raw_routes: set[str] = set()
     for source in sources:
         data = (root / source).read_bytes()
         kind = kind_for(source)
@@ -322,6 +337,10 @@ def create_artifacts(root: pathlib.Path, sources: Iterable[str]) -> list[Artifac
         if page in used_routes:
             raise BuildError(f"duplicate portal route for {source}: {page}")
         used_routes.add(page)
+        raw = raw_route_for(source)
+        if raw in used_raw_routes:
+            raise BuildError(f"duplicate public raw route for {source}: {raw}")
+        used_raw_routes.add(raw)
         text = text_from_bytes(data, source)
         metadata: dict[str, Any] = {}
         body = text
@@ -353,7 +372,7 @@ def create_artifacts(root: pathlib.Path, sources: Iterable[str]) -> list[Artifac
                 title=title,
                 page=page,
                 url=url,
-                raw=f"raw/{source}",
+                raw=raw,
                 mime=mime_for(source),
                 size=len(data),
                 sha256=sha256_bytes(data),

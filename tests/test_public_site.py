@@ -89,6 +89,9 @@ Private working note text is intentionally still published with a draft badge.
                 source = root / item["source"]
                 self.assertEqual(raw.read_bytes(), source.read_bytes())
                 self.assertEqual(item["sha256"], hashlib.sha256(source.read_bytes()).hexdigest())
+                self.assertFalse(any(part.startswith(".") for part in pathlib.PurePosixPath(item["raw"]).parts))
+            profile = next(item for item in registry if item["source"] == ".obsidian/graph.json")
+            self.assertEqual(profile["raw"], "raw/vault-profile/graph.json")
             graph = json.loads((out / "data" / "graph.json").read_text(encoding="utf-8"))
             self.assertEqual(len(graph["nodes"]), 7)
             self.assertTrue(any(edge["target"] == "diagram.mmd" for edge in graph["edges"]))

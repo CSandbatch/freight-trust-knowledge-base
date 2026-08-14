@@ -176,6 +176,15 @@ def validate(site: pathlib.Path = DEFAULT_OUT, root: pathlib.Path = DEFAULT_ROOT
         if not raw or posixpath.normpath(raw).startswith("../") or not raw.startswith("raw/"):
             issues.append(f"unsafe or missing raw route for {source}")
             continue
+        if any(part.startswith(".") for part in pathlib.PurePosixPath(raw).parts):
+            issues.append(f"Pages-incompatible hidden raw route for {source}: {raw}")
+        for label, sibling, field in (
+            ("artifact registry", registry_by_source.get(source), "raw"),
+            ("catalog", catalog_by_source.get(source), "raw_url"),
+            ("graph node", node_by_source.get(source), "raw_url"),
+        ):
+            if not isinstance(sibling, dict) or sibling.get(field) != raw:
+                issues.append(f"{label} raw route does not match release metadata for {source}")
         raw_file = site / raw
         if not raw_file.is_file():
             issues.append(f"missing raw file for {source}")
