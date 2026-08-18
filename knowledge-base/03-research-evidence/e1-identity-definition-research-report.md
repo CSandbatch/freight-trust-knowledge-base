@@ -2,7 +2,7 @@
 type: evidence
 status: current
 schema_version: 1.0.0
-updated: 2026-08-08
+updated: 2026-08-18
 confidence_default: mixed
 tags:
 - type/evidence
@@ -21,6 +21,11 @@ tags:
 Establish, from current authoritative sources, an operational definition of carrier identity and carrier-to-carrier relationship states precise enough to support a blinded Freight Trust E1 entity-resolution benchmark. This pass intentionally does **not** optimize an ML model and does not choose definitions because they are easy to predict.
 
 Research cut-off: **2026-08-08**.
+
+Design-history provenance: the user-supplied August 8 design transcript is normalized and
+fingerprinted in [[../06-team-memory/mem-ft-000001-e1-carrier-identity-design-transcript]].
+It records the initial reasoning and requested review loop, but it is not an authority for
+the determinations below; the source map and claims ledger control factual support.
 
 ## Result in one sentence
 

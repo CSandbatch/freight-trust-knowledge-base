@@ -706,8 +706,8 @@ def structured_preview(artifact: Artifact) -> str:
 def shell_html(title: str, description: str, page: str, site_url: str, main: str, active: str = "") -> str:
     root_href = page_href(page, "index.html")
     nav = [
-        ("Explore", "explore/index.html", "explore"),
-        ("Graph", "graph/index.html", "graph"),
+        ("Files", "explore/index.html", "explore"),
+        ("Vault graph", "graph/index.html", "graph"),
         ("Collections", "collections/index.html", "collections"),
         ("Experiments", "experiments/index.html", "experiments"),
         ("About", "about/index.html", "about"),
@@ -727,7 +727,7 @@ def shell_html(title: str, description: str, page: str, site_url: str, main: str
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <title>{html.escape(title)} · Freight Trust Knowledge Atlas</title>
+  <title>{html.escape(title)} · Freight Trust Knowledge Base</title>
   <meta name="description" content="{html.escape(description, quote=True)}">
   <link rel="canonical" href="{html.escape(canonical_url(site_url, page.removesuffix('index.html')), quote=True)}">
   <meta property="og:type" content="website"><meta property="og:title" content="{html.escape(title, quote=True)}"><meta property="og:description" content="{html.escape(description, quote=True)}"><meta property="og:url" content="{html.escape(canonical_url(site_url, page.removesuffix('index.html')), quote=True)}">
@@ -738,12 +738,12 @@ def shell_html(title: str, description: str, page: str, site_url: str, main: str
 <body data-root="{html.escape(data_root, quote=True)}" data-search="{html.escape(page_href(page, 'data/search.json'), quote=True)}" data-catalog="{html.escape(page_href(page, 'data/catalog.json'), quote=True)}">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header"><div class="site-header-inner">
-    <a class="wordmark" href="{html.escape(root_href, quote=True)}"><span class="wordmark-mark" aria-hidden="true">FT</span><span><strong>Freight Trust</strong><small>Knowledge Atlas</small></span></a>
+    <a class="wordmark" href="{html.escape(root_href, quote=True)}"><span class="wordmark-mark" aria-hidden="true">FT</span><span><strong>Freight Trust</strong><small>Knowledge Base</small></span></a>
     <nav class="primary-nav" aria-label="Primary navigation">{navigation}</nav>
     <div class="header-actions"><button class="search-trigger" type="button" data-open-search><span aria-hidden="true">⌕</span> <span>Search</span><kbd>⌘K</kbd></button><button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme"><span aria-hidden="true">◐</span></button></div>
   </div></header>
   <main id="main-content">{main}</main>
-  <footer class="site-footer"><div><strong>Freight Trust Knowledge Atlas</strong><p>A public working record. Status, confidence, provenance, and draft markers describe each artifact’s evidentiary position; they do not hide it.</p></div><div><a href="{html.escape(page_href(page, 'data/artifact-registry.json'), quote=True)}">Artifact registry</a><a href="{html.escape(page_href(page, 'data/graph.json'), quote=True)}">Graph data</a><a href="{html.escape(page_href(page, 'release.json'), quote=True)}">Release provenance</a></div></footer>
+  <footer class="site-footer"><div><strong>Freight Trust Knowledge Base</strong><p>Public working files compiled from the version-controlled vault. Status labels describe the source; they are not approval marks.</p></div><div><a href="{html.escape(page_href(page, 'data/artifact-registry.json'), quote=True)}">File registry</a><a href="{html.escape(page_href(page, 'data/graph.json'), quote=True)}">Graph data</a><a href="{html.escape(page_href(page, 'release.json'), quote=True)}">Build record</a></div></footer>
   {command}
   <script defer src="{html.escape(js_href, quote=True)}"></script>
 </body></html>'''
@@ -761,17 +761,17 @@ def home_page(page: str, artifacts: list[Artifact], links: list[Link], site_url:
     )
     latest = sorted([artifact for artifact in notes if artifact.metadata.get("updated")], key=lambda item: str(item.metadata.get("updated")), reverse=True)[:6]
     experiments_html = "".join(card_html(artifact, page, compact=True) for artifact in experiments[:5]) or '<p class="muted">Experiment records will appear here as they are added to the vault.</p>'
-    main = f'''<section class="hero atlas-hero"><div class="hero-copy"><p class="eyebrow">Open research infrastructure · Release atlas</p><h1>Freight Trust<br><em>Knowledge Atlas</em></h1><p class="hero-dek">A navigable public record of the programme’s evidence, experiments, decision controls, working drafts, diagrams, and Obsidian knowledge graph.</p><div class="hero-actions"><a class="button" href="{html.escape(page_href(page, 'explore/index.html'), quote=True)}">Explore {len(artifacts):,} artifacts</a><a class="button button-quiet" href="{html.escape(page_href(page, 'graph/index.html'), quote=True)}">Enter the graph <span aria-hidden="true">↗</span></a></div><p class="hero-note">Everything versioned in the vault is accessible. “Draft,” “archive,” and “internal” labels remain evidence context—not access controls.</p></div><div class="instrument-panel" aria-label="Atlas summary"><div class="instrument-grid"><div><strong>{len(artifacts)}</strong><span>public artifacts</span></div><div><strong>{len(notes)}</strong><span>reading notes</span></div><div><strong>{len(links):,}</strong><span>resolved links</span></div><div><strong>{len(sections)}</strong><span>collections</span></div></div><div class="instrument-line"></div><p><span class="status-dot"></span> Static, source-derived, and release-provenanced</p><a href="{html.escape(page_href(page, 'about/index.html'), quote=True)}">How to read this atlas →</a></div></section>
-<section class="section-shell"><div class="section-heading"><p class="eyebrow">Editorial pathways</p><h2>Start with a question, then follow the evidence.</h2><p>Use thematic collections for orientation, or trace authored relationships through the graph.</p></div><div class="pathway-grid">{clusters}</div></section>
-<section class="section-shell split-feature"><div><p class="eyebrow">Evidence as a working system</p><h2>Experiments and evidence are first-class routes.</h2><p>Protocol, data, method, and source records remain adjacent so a visitor can inspect what a claim depends on rather than only its polished summary.</p><a class="text-link" href="{html.escape(page_href(page, 'experiments/index.html'), quote=True)}">Browse the experiment & evidence hub <span aria-hidden="true">→</span></a></div><div class="card-grid compact-grid">{experiments_html}</div></section>
-<section class="section-shell latest-section"><div class="section-heading"><p class="eyebrow">Recent record updates</p><h2>Freshness belongs beside the material.</h2></div><div class="card-grid">{"".join(card_html(artifact, page, compact=True) for artifact in latest)}</div></section>
-<section class="section-shell disclosure"><div><p class="eyebrow">Reading posture</p><h2>Transparent does not mean settled.</h2></div><p>The Atlas publishes working hypotheses, source records, draft SBIR material, archive documents, and governance controls together. Each page retains its status, confidence, owner, source path, checksum, and raw download so readers can judge it on its own terms.</p></section>'''
+    main = f'''<section class="hero atlas-hero"><div class="hero-copy"><p class="eyebrow">Freight Trust / public knowledge base</p><h1>Freight Trust Knowledge Base</h1><p class="hero-dek">Research notes, source records, experiment plans, draft programme material, diagrams, and governance files from the version-controlled vault.</p><div class="hero-actions"><a class="button" href="{html.escape(page_href(page, 'explore/index.html'), quote=True)}">Browse {len(artifacts):,} files</a><a class="button button-quiet" href="{html.escape(page_href(page, 'graph/index.html'), quote=True)}">Open vault graph</a></div><p class="hero-note">All tracked vault files are public. Draft, archive, and internal labels are metadata, not access controls.</p></div><div class="instrument-panel" aria-label="Repository summary"><div class="instrument-grid"><div><strong>{len(artifacts)}</strong><span>files</span></div><div><strong>{len(notes)}</strong><span>Markdown notes</span></div><div><strong>{len(links):,}</strong><span>resolved links</span></div><div><strong>{len(sections)}</strong><span>folders</span></div></div><div class="instrument-line"></div><p><span class="status-dot"></span>Static build from the tracked vault</p><a href="{html.escape(page_href(page, 'about/index.html'), quote=True)}">Build and publication details</a></div></section>
+<section class="section-shell"><div class="section-heading"><p class="eyebrow">Collections</p><h2>Browse by area</h2><p>Open a source folder or use the graph to follow links across folders.</p></div><div class="pathway-grid">{clusters}</div></section>
+<section class="section-shell split-feature"><div><p class="eyebrow">Research programme</p><h2>Experiments and supporting evidence</h2><p>Protocols are kept next to the datasets, methods, and source records they depend on.</p><a class="text-link" href="{html.escape(page_href(page, 'experiments/index.html'), quote=True)}">Browse experiments and evidence</a></div><div class="card-grid compact-grid">{experiments_html}</div></section>
+<section class="section-shell latest-section"><div class="section-heading"><p class="eyebrow">Updates</p><h2>Recently changed files</h2></div><div class="card-grid">{"".join(card_html(artifact, page, compact=True) for artifact in latest)}</div></section>
+<section class="section-shell disclosure"><div><p class="eyebrow">Publication scope</p><h2>Status is not approval</h2></div><p>This site includes working hypotheses, source records, draft SBIR material, archived documents, and governance controls. Check each file’s status, confidence, owner, source path, checksum, and raw download before relying on it.</p></section>'''
     return shell_html("Freight Trust Knowledge Atlas", "A public, source-derived research atlas for Freight Trust.", page, site_url, main, "")
 
 
 def explore_page(page: str, artifacts: list[Artifact], site_url: str) -> str:
     static_cards = "".join(card_html(artifact, page, compact=True) for artifact in artifacts)
-    main = f'''<section class="page-intro"><p class="eyebrow">Explore the complete vault</p><h1>Every artifact, one library.</h1><p>Search headings, body text, frontmatter, tags, IDs, and original paths. Facets and query state are shareable in the URL.</p></section>
+    main = f'''<section class="page-intro"><p class="eyebrow">Complete vault</p><h1>Browse files</h1><p>Search headings, body text, frontmatter, tags, IDs, and original paths. Filters are retained in the URL.</p></section>
 <section class="explore-layout" data-explore><aside class="filter-panel" aria-label="Explore filters"><div class="filter-heading"><p class="eyebrow">Refine</p><button type="button" class="text-button" data-reset-filters>Reset</button></div><label>Search<input data-explore-search type="search" placeholder="Identity, source, E1, #tag…"></label><label>Collection<select data-filter="section"><option value="">All collections</option></select></label><label>Type<select data-filter="type"><option value="">All types</option></select></label><label>Status<select data-filter="status"><option value="">All states</option></select></label><label>Confidence<select data-filter="confidence"><option value="">Any confidence</option></select></label><label>Tag<select data-filter="tag"><option value="">All tags</option></select></label><p class="result-count" data-explore-count>Loading the catalog…</p></aside><div class="explore-results"><div class="result-toolbar"><p data-explore-summary>All public artifacts</p><button type="button" class="text-button" data-copy-explore>Copy this view</button></div><div class="card-grid" data-explore-results></div><noscript><p class="state-notice is-planned">JavaScript refines this library. The full static artifact list remains available below.</p><div class="card-grid">{static_cards}</div></noscript></div></section>'''
     return shell_html("Explore the Atlas", "Search and filter every public Freight Trust vault artifact.", page, site_url, main, "explore")
 
@@ -788,7 +788,7 @@ def collections_index_page(page: str, artifacts: list[Artifact], site_url: str) 
         f'<a class="collection-card" href="{html.escape(page_href(page, f"collections/{collection_slug(section)}/index.html"), quote=True)}"><span class="collection-index">{index + 1:02d}</span><strong>{html.escape(section_label(section))}</strong><small>{section} · {sum(artifact.section == section for artifact in artifacts)} artifacts</small><span aria-hidden="true">→</span></a>'
         for index, section in enumerate(sections)
     )
-    main = f'''<section class="page-intro"><p class="eyebrow">Curated by vault location</p><h1>Collections retain source provenance.</h1><p>Physical vault paths are stable citations. These collection views make them readable without hiding cross-cutting tags and graph relationships.</p></section><section class="collection-grid">{cards}</section>'''
+    main = f'''<section class="page-intro"><p class="eyebrow">Vault folders</p><h1>Browse by source folder</h1><p>Folder paths are retained as stable source references. Tags and graph links connect files across folders.</p></section><section class="collection-grid">{cards}</section>'''
     return shell_html("Collections", "Browse Freight Trust materials by their original vault collection.", page, site_url, main, "collections")
 
 
@@ -801,7 +801,7 @@ def experiments_page(page: str, artifacts: list[Artifact], site_url: str) -> str
 
 def about_page(page: str, artifacts: list[Artifact], links: list[Link], site_url: str) -> str:
     kinds = Counter(artifact.kind for artifact in artifacts)
-    main = f'''<section class="page-intro about-intro"><p class="eyebrow">About this release</p><h1>A public Obsidian-style research portal.</h1><p>The Atlas is a static release compiler, not a separate editorial database. It derives readers, graph data, full-text search, and provenance directly from the tracked vault.</p></section><section class="section-shell prose-panel"><h2>What is included</h2><p>Every versioned file under <code>knowledge-base/</code> is published as both a human-readable portal page and an exact raw download. Local environment files, ignored workspace state, credentials, and anything outside that directory are never part of the corpus.</p><dl class="metric-list"><div><dt>{len(artifacts)}</dt><dd>versioned artifacts</dd></div><div><dt>{sum(1 for artifact in artifacts if artifact.is_note)}</dt><dd>Markdown readers</dd></div><div><dt>{len(links):,}</dt><dd>resolved authored links</dd></div><div><dt>{len(kinds)}</dt><dd>artifact formats</dd></div></dl><h2>How to interpret it</h2><p>Publication is not validation. Draft, planned, candidate, archival, confidence, verification, and audience markers are inherited from source frontmatter and rendered as context. Follow source citations and provenance rather than reading a presentation layer as a finding.</p><p><a class="button" href="{html.escape(page_href(page, 'release.json'), quote=True)}">Inspect release provenance</a> <a class="button button-quiet" href="{html.escape(page_href(page, 'llms.txt'), quote=True)}">Machine entrypoint</a></p></section>'''
+    main = f'''<section class="page-intro about-intro"><p class="eyebrow">About</p><h1>Static access to the research vault</h1><p>The site is compiled directly from tracked vault files. It provides file readers, full-text search, a relationship graph, raw downloads, and build provenance without maintaining a second editorial database.</p></section><section class="section-shell prose-panel"><h2>Included files</h2><p>Every versioned file under <code>knowledge-base/</code> is published as a reader or artifact page and as an exact raw download. Ignored workspace state, credentials, and files outside that directory are excluded.</p><dl class="metric-list"><div><dt>{len(artifacts)}</dt><dd>versioned files</dd></div><div><dt>{sum(1 for artifact in artifacts if artifact.is_note)}</dt><dd>Markdown notes</dd></div><div><dt>{len(links):,}</dt><dd>authored links</dd></div><div><dt>{len(kinds)}</dt><dd>file formats</dd></div></dl><h2>Interpretation</h2><p>Publication is not validation. Draft, planned, candidate, archive, confidence, verification, and audience fields come from source metadata. Review citations and provenance before treating a file as a finding.</p><p><a class="button" href="{html.escape(page_href(page, 'release.json'), quote=True)}">View build record</a> <a class="button button-quiet" href="{html.escape(page_href(page, 'llms.txt'), quote=True)}">Machine entry point</a></p></section>'''
     return shell_html("About the Atlas", "How the Freight Trust Knowledge Atlas is compiled and how to interpret its public working materials.", page, site_url, main, "about")
 
 
@@ -823,10 +823,64 @@ def artifact_page(page: str, artifact: Artifact, by_source: dict[str, Artifact],
 
 
 def graph_page(page: str, artifacts: list[Artifact], links: list[Link], site_url: str) -> str:
-    rows = "".join(f'<li><a href="{html.escape(page_href(page, artifact.url), quote=True)}">{html.escape(artifact.title)}</a><small>{html.escape(artifact.note_type)} · {len(artifact.outgoing)} out · {len(artifact.incoming)} in</small></li>' for artifact in artifacts)
+    groups: list[str] = []
+    for section in sorted({artifact.section for artifact in artifacts}):
+        members = sorted((artifact for artifact in artifacts if artifact.section == section), key=lambda item: item.title.lower())
+        rows = "".join(
+            f'''<li data-graph-list-item data-node-id="{html.escape(artifact.source, quote=True)}">
+              <button type="button" data-graph-node="{html.escape(artifact.source, quote=True)}"><span class="file-icon" aria-hidden="true">◇</span><span>{html.escape(artifact.title)}</span></button>
+              <a href="{html.escape(page_href(page, artifact.url), quote=True)}" aria-label="Open {html.escape(artifact.title, quote=True)}">Open</a>
+            </li>'''
+            for artifact in members
+        )
+        groups.append(f'''<details class="vault-folder" open data-vault-folder="{html.escape(section, quote=True)}">
+          <summary><span aria-hidden="true">▾</span>{html.escape(section_label(section))}<small>{len(members)}</small></summary>
+          <ul>{rows}</ul>
+        </details>''')
+    file_tree = "".join(groups)
+    search_options = "".join(f'<option value="{html.escape(artifact.title, quote=True)}">{html.escape(artifact.source)}</option>' for artifact in sorted(artifacts, key=lambda item: item.title.lower()))
     graph_js = page_href(page, "assets/graph.js")
-    main = f'''<section class="page-intro graph-intro"><p class="eyebrow">Obsidian-style relationship atlas</p><h1>Graph the working record.</h1><p>Positions are precomputed and stable. Start globally by collection, then focus a node to traverse authored links and artifacts at a depth of one to three.</p></section><section class="graph-layout" data-graph data-graph-url="{html.escape(page_href(page, 'data/graph.json'), quote=True)}"><aside class="graph-controls" aria-label="Graph controls"><label>Mode<select data-graph-mode><option value="global">Global atlas</option><option value="local">Local focus</option></select></label><label>Focus<input data-graph-search type="search" placeholder="Find an artifact"></label><label>Depth<select data-graph-depth><option value="1">1 hop</option><option value="2">2 hops</option><option value="3">3 hops</option></select></label><label>Collection<select data-graph-filter="collection"><option value="">All collections</option></select></label><label>Type<select data-graph-filter="type"><option value="">All types</option></select></label><label>Status<select data-graph-filter="status"><option value="">All states</option></select></label><label class="checkbox-label"><input data-graph-edges type="checkbox"> Show all relationship lines</label><button type="button" class="button button-quiet" data-graph-reset>Reset graph</button><p class="result-count" data-graph-count>Loading graph…</p></aside><div class="graph-stage"><div class="graph-legend" data-graph-legend></div><svg class="atlas-graph" data-graph-canvas viewBox="0 0 1000 700" role="img" aria-label="Freight Trust artifact relationship graph. Use the graph navigator list for a keyboard-accessible equivalent."></svg><section class="graph-inspector" data-graph-inspector aria-live="polite"><p class="eyebrow">Inspector</p><h2>Select an artifact</h2><p>Click a node or use the navigator below to inspect its authored links and backlinks.</p></section></div><section class="graph-navigator" aria-label="Accessible graph navigator"><p class="eyebrow">Graph navigator</p><p>This semantic list is equivalent to the visual graph and remains available without pointer interaction.</p><ul data-graph-list>{rows}</ul></section></section><noscript><section class="section-shell"><p class="state-notice is-planned">The interactive SVG graph requires JavaScript. The graph navigator above still exposes every artifact as a reading route.</p></section></noscript><script defer src="{html.escape(graph_js, quote=True)}"></script>'''
-    return shell_html("Knowledge graph", "Explore the Freight Trust Obsidian-style artifact graph.", page, site_url, main, "graph")
+    main = f'''<section class="page-intro graph-intro"><p class="section-label">Vault graph</p><h1>Trace the working record</h1><p>Select a file to isolate its authored links and backlinks. Each selection is added to the visible trail, so a research path can be followed without losing context.</p></section>
+<section class="vault-workspace" data-graph data-graph-url="{html.escape(page_href(page, 'data/graph.json'), quote=True)}">
+  <aside class="vault-sidebar" aria-label="Vault files">
+    <div class="pane-heading"><h2>Files</h2><span>{len(artifacts)}</span></div>
+    <label class="vault-search"><span class="sr-only">Find a vault file</span><input data-graph-search list="graph-files" type="search" placeholder="Find a file or path"><datalist id="graph-files">{search_options}</datalist></label>
+    <div class="vault-filters">
+      <label>Collection<select data-graph-filter="collection"><option value="">All</option></select></label>
+      <label>Type<select data-graph-filter="type"><option value="">All</option></select></label>
+      <label>Status<select data-graph-filter="status"><option value="">All</option></select></label>
+    </div>
+    <nav class="vault-tree" aria-label="Vault file tree" data-graph-list>{file_tree}</nav>
+  </aside>
+  <div class="graph-workbench">
+    <div class="graph-toolbar" aria-label="Graph view controls">
+      <div class="toolbar-group">
+        <label>View<select data-graph-mode><option value="global">Full vault</option><option value="local">Local graph</option></select></label>
+        <label>Depth<select data-graph-depth><option value="1">1 hop</option><option value="2">2 hops</option><option value="3">3 hops</option></select></label>
+        <label class="checkbox-label"><input data-graph-edges type="checkbox"> All edges</label>
+      </div>
+      <div class="toolbar-group graph-zoom-controls">
+        <button type="button" data-graph-back title="Previous selection" aria-label="Previous selection">←</button>
+        <button type="button" data-graph-zoom-out title="Zoom out" aria-label="Zoom out">−</button>
+        <button type="button" data-graph-fit title="Fit graph" aria-label="Fit graph">Fit</button>
+        <button type="button" data-graph-zoom-in title="Zoom in" aria-label="Zoom in">+</button>
+        <button type="button" data-graph-reset>Reset</button>
+      </div>
+    </div>
+    <div class="graph-trail" aria-label="Traversal history"><span>Trail</span><ol data-graph-trail><li>Choose a file to begin</li></ol></div>
+    <div class="graph-canvas-wrap">
+      <svg class="atlas-graph" data-graph-canvas viewBox="0 0 1000 700" role="img" aria-label="Interactive relationship graph. Nodes can be selected with a pointer or keyboard."></svg>
+      <div class="graph-legend" data-graph-legend></div>
+      <p class="graph-count" data-graph-count>Loading graph…</p>
+    </div>
+  </div>
+  <aside class="graph-inspector" data-graph-inspector aria-live="polite">
+    <div class="pane-heading"><h2>Properties</h2></div>
+    <p class="empty-state">Select a node to inspect its path, status, outgoing links, and backlinks.</p>
+  </aside>
+</section>
+<noscript><section class="section-shell"><p class="state-notice is-planned">The visual graph requires JavaScript. Every file remains available through Explore and Collections.</p></section></noscript><script defer src="{html.escape(graph_js, quote=True)}"></script>'''
+    return shell_html("Vault graph", "Trace files, authored links, and backlinks in the Freight Trust vault.", page, site_url, main, "graph")
 
 
 def catalog_record(artifact: Artifact) -> dict[str, Any]:

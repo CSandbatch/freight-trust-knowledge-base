@@ -2,7 +2,7 @@
 type: log
 status: active
 schema_version: 1.0.0
-updated: '2026-08-08'
+updated: '2026-08-18'
 tags:
 - type/log
 - domain/freight
@@ -75,8 +75,10 @@ tracked as `DRIFT-024`.
 **Control layer built.** New `09-meta/` folder: [[kb-schema]] 1.0.0, [[tag-taxonomy]]
 (seven layers), [[methodology]], [[agents-and-loops]] (five agent layers, four loops),
 [[drift-control]], [[gap-register]], [[decision-log]], [[glossary]], [[dataset-index]],
-[[client-common-action]], [[meta-moc]]. Eight executable agent definitions written to
-`.claude/agents/`.
+[[client-common-action]], [[meta-moc]]. Eight executable agent definitions were written to
+`.claude/agents/` at the time. On 2026-08-18, the active Codex definitions moved to root
+`.codex/agents/` under the root `AGENTS.md` orchestrator; this paragraph remains a record
+of the original run.
 
 **Client recorded.** Common Action (common-action.org), retrieved 2026-08-06. Knowledge
 infrastructure for climate action; Supply Chain is one of four stated focus areas. Entity

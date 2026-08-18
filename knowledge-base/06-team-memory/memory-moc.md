@@ -4,7 +4,7 @@ area: team-memory
 status: active
 owner: memory-keeper
 schema_version: 1.1.0
-updated: '2026-08-12'
+updated: '2026-08-18'
 tags:
 - type/moc
 - domain/knowledge-engineering
@@ -21,6 +21,8 @@ It complements durable evidence in `03-research-evidence/`, procedures in
 
 ## Memory objects
 
+- [[mem-ft-000001-e1-carrier-identity-design-transcript]] — candidate design-history
+  provenance for the E1 carrier-identity definition work.
 - [[templates/agent-run-template]] — reproducible execution record.
 - [[templates/handoff-template]] — transfer of an incomplete or reviewed work item.
 - [[templates/meeting-template]] — meeting record with decisions and actions.

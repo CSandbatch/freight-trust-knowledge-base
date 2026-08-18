@@ -4,7 +4,7 @@ area: vault
 status: active
 owner: kb-schema-steward
 schema_version: 1.0.0
-updated: '2026-08-08'
+updated: '2026-08-18'
 tags:
 - type/moc
 - domain/knowledge-engineering
@@ -173,11 +173,6 @@ Complete distribution inventory. This is a mechanical navigation layer, not a st
 
 ## `05-agent-system`
 
-- [[05-agent-system/01-rabbit-agent|Agent 1: Rabbit Agent — Discovery / Exploration]]
-- [[05-agent-system/02-synthesis-agent|Agent 2: Synthesis Agent — Intelligence Briefing]]
-- [[05-agent-system/03-review-agent|Agent 3: Review Agent — Adversarial Review]]
-- [[05-agent-system/04-publishing-agent|Agent 4: Publishing Agent — Briefing → Deliverables]]
-- [[05-agent-system/05-visualization-agent|Agent 5: Visualization Agent — Briefing → Diagrams]]
 - [[05-agent-system/agent-system-moc|Agent System]]
 - [[05-agent-system/framework|Freight Trust Agent Framework]]
 - [[05-agent-system/mcp-capabilities|MCP and Tooling Capability Contract]]
@@ -186,6 +181,16 @@ Complete distribution inventory. This is a mechanical navigation layer, not a st
 - [[05-agent-system/skills/freight-trust-research/references/artifact-contracts|Artifact Contracts]]
 - [[05-agent-system/skills/freight-trust-research/references/source-policy|Source Policy]]
 - [[05-agent-system/tools-and-skills|Tools & Skills Roster]]
+
+## `06-team-memory`
+
+- [[06-team-memory/memory-moc|Team Memory MOC]]
+- [[06-team-memory/mem-ft-000001-e1-carrier-identity-design-transcript|E1 carrier-identity design transcript]]
+- [[06-team-memory/templates/agent-run-template|Agent Run]]
+- [[06-team-memory/templates/handoff-template|Handoff]]
+- [[06-team-memory/templates/meeting-template|Meeting]]
+- [[06-team-memory/templates/memory-template|Memory]]
+- [[06-team-memory/templates/task-template|Task]]
 
 ## `07-visuals`
 

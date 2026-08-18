@@ -49,9 +49,11 @@ back to the correct research branch, and stop after bounded retries. See
 [[03-research-evidence/operating-model|03-research-evidence/operating-model.md]] for task packets, loops,
 gates, and escalation rules.
 
-The concise control-plane reference is [[05-agent-system/framework|framework.md]]. The reusable
-project skill is [[05-agent-system/skills/freight-trust-research/SKILL|`freight-trust-research`]], and
-the connector/tool boundary is [[05-agent-system/mcp-capabilities|mcp-capabilities.md]].
+The concise domain control-plane reference is [[05-agent-system/framework|framework.md]].
+Repository-root `AGENTS.md` now controls execution and routes work to project personas in
+`.codex/agents/`. The reusable project skill is
+[[05-agent-system/skills/freight-trust-research/SKILL|`freight-trust-research`]], and the
+connector/tool boundary is [[05-agent-system/mcp-capabilities|mcp-capabilities.md]].
 
 ## Shared contract
 
@@ -92,11 +94,14 @@ suggested query, and a return destination.
    retries, owns gates, and escalates judgment calls. This is a coordinating role, not a
    license for every agent to rewrite every artifact.
 
-1. [[05-agent-system/01-rabbit-agent|Rabbit Agent]] — discovery, breadth, no conclusions
-2. [[05-agent-system/02-synthesis-agent|Synthesis Agent]] — briefing, structure, named uncertainty
-3. [[05-agent-system/03-review-agent|Review Agent]] — adversarial stress test
-4. [[05-agent-system/04-publishing-agent|Publishing Agent]] — briefing → SBIR sections, memos, stakeholder-facing copy
-5. [[05-agent-system/05-visualization-agent|Visualization Agent]] — briefing → stakeholder maps, timelines, diagrams
+1. `source_scout` — Rabbit-style discovery, breadth, no unsupported conclusions
+2. `evidence_synthesizer` — briefing, structure, and named uncertainty
+3. `red_team_reviewer` — independent adversarial stress test
+4. `publisher` — accepted briefing → SBIR sections, memos, and stakeholder-facing copy
+5. `visualization_engineer` — accepted evidence → maps, timelines, and diagrams
+
+Specialized maintenance, graph, dataset, glossary, memory, and prose personas are listed
+in root `AGENTS.md` and defined in `.codex/agents/`.
 
 See [[05-agent-system/tools-and-skills|tools-and-skills.md]] for what each agent actually needs to do
 its job — available now, worth adding, or a human/access gap no agent closes.

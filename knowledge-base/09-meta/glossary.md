@@ -4,7 +4,7 @@ status: active
 owner: glossary-builder
 version: 1.1.0
 schema_version: 1.0.0
-updated: 2026-08-07
+updated: 2026-08-18
 tags:
 - type/taxonomy
 - domain/knowledge-engineering
@@ -256,8 +256,7 @@ carried on the return leg; deadhead is the distance/cost metric for running that
 empty. Securing a backhaul is what avoids deadheading a given leg; the two terms describe
 opposite outcomes of the same trip segment, not the same thing.
 **Used in.** [[preliminary-freight-trust-brief]], [[research-programme]],
-[[experiment-e5-orchestration-value]], [[method-synthetic-orchestration-simulation]],
-[[05-visualization-agent]]
+[[experiment-e5-orchestration-value]], [[method-synthetic-orchestration-simulation]]
 
 ### Deadhead
 
@@ -276,7 +275,7 @@ consistent with how this vault already treats ATRI-sourced operational figures (
 deadhead is time/distance spent moving without a load; dwell is time spent stationary at a
 facility. E5 tracks them as separate outcomes: empty/deadhead miles as a primary outcome,
 dwell as a secondary one.
-**Used in.** [[experiment-e5-orchestration-value]], [[01-rabbit-agent]]
+**Used in.** [[experiment-e5-orchestration-value]], [[03-research-evidence/evidence]]
 
 ## Governance and federation
 

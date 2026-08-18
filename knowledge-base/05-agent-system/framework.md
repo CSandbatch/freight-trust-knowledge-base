@@ -12,7 +12,9 @@ tags:
 
 ## Control model
 
-**Terra** owns research-cycle decomposition, routing, acceptance gates, and escalation.
+The repository-root primary orchestrator, historically called **Terra**, owns
+research-cycle decomposition, routing, acceptance gates, integration, and escalation
+under root `AGENTS.md`.
 **Luna** is a bounded subagent role used for independent source domains. **Rabbit** is the
 discovery mode Luna uses; it collects without resolving contradictions. Synthesis, Review,
 Publishing, and Visualization retain their existing artifact ownership.
@@ -52,7 +54,7 @@ high-severity unresolved findings to the human owner.
 
 ## Operating routes
 
-Before assigning work, Terra applies [[guiding-routes]]. It turns a request into the
+Before assigning work, the root orchestrator applies [[guiding-routes]]. It turns a request into the
 responsible role, expected artifact, verification gate, and escalation owner. This keeps
 maintenance roles (schema, links, drift, memory) separate from research and publication
 work, and prevents a downstream deliverable from bypassing evidence review.

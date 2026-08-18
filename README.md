@@ -12,8 +12,8 @@ Open `knowledge-base/` as an Obsidian vault, then begin with
 
 - Treat `knowledge-base/` as the sole tracked source of truth.
 - Follow the metadata, source, link, and archive controls in `knowledge-base/09-meta/`.
-- Use the agent system's [routing guide](knowledge-base/05-agent-system/guiding-routes.md)
-  before delegating work.
+- Use the root [AGENTS.md](AGENTS.md) as the orchestration contract. Callable project
+  personas live in [`.codex/agents/`](.codex/agents/), outside the public vault.
 - Keep credentials and local session state out of Git. `.env` and Obsidian workspace files
   are intentionally ignored.
 
@@ -21,8 +21,9 @@ Open `knowledge-base/` as an Obsidian vault, then begin with
 
 `master` is the canonical remote state. Research and maintenance work starts from it,
 uses an `agent/<area>/<run-id>` branch, runs `python scripts/validate_kb.py`, and is
-submitted as a pull request. The portable agent contract and retrieval order live in
-[`knowledge-base/05-agent-system/runtime/`](knowledge-base/05-agent-system/runtime/).
+submitted as a pull request. Portable Git and retrieval contracts remain documented in
+[`knowledge-base/05-agent-system/runtime/`](knowledge-base/05-agent-system/runtime/), while
+the executable persona factory lives at [`.codex/agents/`](.codex/agents/).
 Operational work records are stored as atomic objects in
 [`knowledge-base/06-team-memory/`](knowledge-base/06-team-memory/).
 

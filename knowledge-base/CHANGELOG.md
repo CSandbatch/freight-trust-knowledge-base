@@ -3,7 +3,7 @@ type: log
 status: active
 owner: orchestrator
 schema_version: 1.0.0
-updated: '2026-08-08'
+updated: '2026-08-18'
 tags:
 - type/log
 - domain/freight
@@ -13,6 +13,17 @@ tags:
 ---
 
 # Changelog
+
+## Unreleased — 2026-08-18
+
+- Moved executable agent personas out of the public vault into root `.codex/agents/`.
+- Added root `AGENTS.md` as the task-graph orchestrator with persona routing, bounded
+  repair loops, single-writer coordination, graph semantics, and repository gates.
+- Parsed and fingerprinted the user-supplied August 8 E1 carrier-identity design transcript.
+- Added it as candidate design-history memory and mapped its proposals to the authoritative
+  E1 standard, ontology, claims ledger, decision tree, freeze review, and edge-case suite.
+- Preserved the canonical source hierarchy: the transcript records provenance but is not
+  treated as legal or factual authority.
 
 ## Team v0.9.2 — 2026-08-08
 

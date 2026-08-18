@@ -4,7 +4,7 @@ status: active
 owner: orchestrator
 version: 1.0.0
 schema_version: 1.0.0
-updated: 2026-08-06
+updated: 2026-08-18
 tags:
 - type/policy
 - domain/knowledge-engineering
@@ -14,11 +14,11 @@ tags:
 # Agents and Loops
 
 The build system for this vault: five layers of agents and four loops that drive them,
-under one rule — an agent produces structure and finds problems; a human decides. Every
-canonical, platform-neutral executable definitions live in
-[[05-agent-system/runtime/runtime-moc]]. Local Claude, Codex, Cursor, and MCP adapters are
-generated or installed from those tracked specifications; credentials and machine-specific
-configuration remain local. This note holds the architecture and the contract between the layers.
+under one rule — an agent produces structure and finds problems; a human decides. This
+note holds the domain architecture between the layers. Repository-root `AGENTS.md` is the
+executable orchestration contract, and project-scoped Codex personas live in root
+`.codex/agents/`, outside the public vault. [[05-agent-system/runtime/runtime-moc]] retains
+the platform-neutral Git, retrieval, and MCP contracts.
 
 This supersedes nothing in [[05-agent-system/framework]] — the Terra/Luna/Rabbit roster
 described there is the *research* control plane for a single investigation pass. The
@@ -111,11 +111,11 @@ does not apply fixes to anything a human owns.
 
 **`red-team-reviewer`** attacks claims rather than prose: overreach, insufficient support,
 entailment failures, freshness, equity blind spots, and scope creep. It files findings in
-the [[artifact-contracts]] review-finding format. It is the descendant of the Review Agent
-role in [[05-agent-system/03-review-agent]] and inherits its standing objections.
+the [[artifact-contracts]] review-finding format. Its current executable definition is
+root `.codex/agents/red-team-reviewer.toml`.
 
 **`ai-tell-editor`** removes LLM-statistical prose without touching facts, hedges,
-citations, or structure. Definition in `.claude/agents/ai-tell-editor.md`. It runs last in
+citations, or structure. Definition in root `.codex/agents/ai-tell-editor.toml`. It runs last in
 any pipeline, because rewriting prose before the facts settle wastes the pass.
 
 ## Layer 5 — Continuity
@@ -175,12 +175,12 @@ exceptions recorded in [[decision-log]].
 
 ## Invocation
 
-Agents are Claude Code subagents in `.claude/agents/`. A newly added definition is
-registered at the next session start.
+The primary Codex agent follows root `AGENTS.md` and routes bounded tasks to custom agents
+in `.codex/agents/`. A newly added definition is registered at the next session start.
 
 ```
 # single agent
-"Use source-scout to verify the FMCSA MCMIS catalog page and update its card."
+"Use source_scout to verify the FMCSA MCMIS catalog page, then have the orchestrator integrate the source card."
 
 # a loop
 "Run L1 drift sweep."
