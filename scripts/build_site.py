@@ -58,6 +58,59 @@ COLLECTION_NAMES = {
     "(root)": "Vault release files",
 }
 
+EXPERIMENT_PROGRAM = (
+    {
+        "id": "E1",
+        "slug": "e1",
+        "title": "Entity resolution and identity assurance",
+        "question": "Can fragmented carrier records be resolved to the correct legal person without collapsing relationships, registration continuity, or regulatory status?",
+        "role": "Identity foundation",
+        "phase": "Phase I core",
+        "build": "Ontology, deterministic and probabilistic baselines, candidate reconciliation, and conformance fixtures.",
+        "gate": "Semantic freeze, source rights, reviewer determination, benchmark construction, and numeric lock.",
+    },
+    {
+        "id": "E2",
+        "slug": "e2",
+        "title": "Facility-event provenance and dwell reconstruction",
+        "question": "Can incomplete and contradictory event records support an uncertainty-aware timeline without inventing missing events?",
+        "role": "Evidence integrity",
+        "phase": "Phase I research lane",
+        "build": "EPCIS profile, deterministic trace generator, anomaly operators, and interval reconstruction metrics.",
+        "gate": "Threat review, reviewer determination, privacy thresholds, and optional partner authorization.",
+    },
+    {
+        "id": "E3",
+        "slug": "e3",
+        "title": "Federated access and policy enforcement",
+        "question": "Can purpose-limited evidence access be authenticated, enforced, audited, and corrected across organizational boundaries?",
+        "role": "Governed access",
+        "phase": "Phase I core",
+        "build": "One pinned native policy lane, PEP harness, JWT/JWKS fixtures, request ledger, and audit-chain tests.",
+        "gate": "Authority-approved oracle, pinned identity configuration, coverage thresholds, and privacy model.",
+    },
+    {
+        "id": "E4",
+        "slug": "e4",
+        "title": "Participation and small-carrier equity",
+        "question": "What participation burden, refusal, comprehension, and spillover effects arise for small carriers under bounded offers?",
+        "role": "Adoption and equity",
+        "phase": "Conditional feasibility",
+        "build": "Blank instruments, synthetic assignment and spillover simulations, burden logs, and disclosure controls.",
+        "gate": "Institutional determination, approved instruments, private store, partners, budget, and recruitment authorization.",
+    },
+    {
+        "id": "E5",
+        "slug": "e5",
+        "title": "Orchestration value",
+        "question": "Does governed cross-actor information improve a bounded planning decision without shifting safety, service, cost, or burden?",
+        "role": "Application value",
+        "phase": "Phase II default",
+        "build": "Scenario and constraint schemas, HOS state machine, solver adapter, baselines, and feasibility checks.",
+        "gate": "Scope authorization, qualified solver, frozen outcomes, and accepted upstream evidence for non-synthetic claims.",
+    },
+)
+
 
 class BuildError(ValueError):
     """The public corpus cannot be compiled faithfully or safely."""
@@ -494,6 +547,9 @@ def graph_positions(artifacts: list[Artifact]) -> None:
 def article_excerpt(artifact: Artifact, limit: int = 260) -> str:
     if artifact.is_note:
         body = re.sub(r"```[\s\S]*?```", "", artifact.body)
+        body = re.sub(r"^#\s+.*?(?:\r?\n)+", "", body, count=1)
+        body = re.sub(r"^Protocol standard:.*?(?:\r?\n)+", "", body, count=1, flags=re.I)
+        body = re.sub(r"^#{1,6}\s+", "", body, flags=re.M)
         text = plain_text(body)
     else:
         text = plain_text(artifact.body)
@@ -526,7 +582,8 @@ def tag_badges(tags: Iterable[str], limit: int | None = None) -> str:
 
 
 def metadata_badges(artifact: Artifact) -> str:
-    badges = [f'<span class="badge badge-type">{html.escape(artifact.note_type)}</span>', f'<span class="badge badge-status">{html.escape(artifact.status)}</span>']
+    status_class = slugify(artifact.status)
+    badges = [f'<span class="badge badge-type">{html.escape(artifact.note_type)}</span>', f'<span class="badge badge-status status-{status_class}">{html.escape(artifact.status)}</span>']
     confidence = next((tag.split("/", 1)[1] for tag in artifact.tags if tag.startswith("confidence/")), None)
     if confidence:
         badges.append(f'<span class="badge badge-confidence">confidence: {html.escape(confidence)}</span>')
@@ -590,6 +647,7 @@ def render_markdown(artifact: Artifact, by_source: dict[str, Artifact]) -> str:
 
     renderer.renderer.rules["heading_open"] = heading_open
     output = renderer.render(source)
+    output = re.sub(r'^\s*<h1 id="[^"]+">[\s\S]*?</h1>\s*', "", output, count=1)
     for token, markup in placeholders.items():
         output = output.replace(f'href="{token}"', f'href="{html.escape(markup.split(chr(34))[1], quote=True)}"')
         # Preserve generated text inside the regular Markdown anchor, then give it the
@@ -706,10 +764,10 @@ def structured_preview(artifact: Artifact) -> str:
 def shell_html(title: str, description: str, page: str, site_url: str, main: str, active: str = "") -> str:
     root_href = page_href(page, "index.html")
     nav = [
-        ("Files", "explore/index.html", "explore"),
-        ("Vault graph", "graph/index.html", "graph"),
+        ("Programme", "experiments/index.html", "experiments"),
+        ("Library", "explore/index.html", "explore"),
+        ("Graph", "graph/index.html", "graph"),
         ("Collections", "collections/index.html", "collections"),
-        ("Experiments", "experiments/index.html", "experiments"),
         ("About", "about/index.html", "about"),
     ]
     navigation = "".join(f'<a class="nav-link {"is-active" if active == key else ""}" href="{html.escape(page_href(page, href), quote=True)}">{label}</a>' for label, href, key in nav)
@@ -749,10 +807,51 @@ def shell_html(title: str, description: str, page: str, site_url: str, main: str
 </body></html>'''
 
 
+def experiment_protocols(artifacts: list[Artifact]) -> dict[str, Artifact]:
+    protocols: dict[str, Artifact] = {}
+    for artifact in artifacts:
+        if artifact.note_type != "experiment":
+            continue
+        match = re.search(r"(?:^|/)experiment-(e[1-5])-", artifact.source, flags=re.I)
+        if match:
+            protocols[match.group(1).upper()] = artifact
+    return protocols
+
+
+def experiment_support(config: dict[str, str], protocol: Artifact, artifacts: list[Artifact], limit: int = 5) -> list[Artifact]:
+    linked = set(protocol.outgoing) | set(protocol.incoming)
+    prefix = config["id"].lower()
+    priority = {"dataset": 0, "method": 1, "strategy-note": 2, "evidence": 3, "source": 4}
+    candidates = [
+        artifact for artifact in artifacts
+        if artifact.source != protocol.source
+        and artifact.note_type in priority
+        and (artifact.source in linked or pathlib.PurePosixPath(artifact.source).name.lower().startswith(prefix + "-"))
+    ]
+    candidates.sort(key=lambda item: (0 if item.source in linked else 1, priority[item.note_type], item.title.lower()))
+    return candidates[:limit]
+
+
+def programme_index(page: str, protocols: dict[str, Artifact], compact: bool = False) -> str:
+    items: list[str] = []
+    for config in EXPERIMENT_PROGRAM:
+        protocol = protocols.get(config["id"])
+        if protocol is None:
+            continue
+        href = f"#{config['slug']}" if page == "experiments/index.html" else page_href(page, f"experiments/index.html#{config['slug']}")
+        state = protocol.status
+        items.append(
+            f'''<a class="programme-index-item experiment-{config['slug']}" href="{html.escape(href, quote=True)}">
+              <span class="experiment-code">{config['id']}</span><span><strong>{html.escape(config['title'])}</strong><small>{html.escape(config['role'])}</small></span><em>{html.escape(state)}</em>
+            </a>'''
+        )
+    return f'<nav class="programme-index {"is-compact" if compact else ""}" aria-label="Research experiments">{"".join(items)}</nav>'
+
+
 def home_page(page: str, artifacts: list[Artifact], links: list[Link], site_url: str) -> str:
     notes = [artifact for artifact in artifacts if artifact.is_note]
     sections = sorted({artifact.section for artifact in artifacts})
-    experiments = [artifact for artifact in artifacts if artifact.note_type == "experiment"]
+    protocols = experiment_protocols(artifacts)
     featured_sections = ["03-research-evidence", "04-sbir", "07-visuals", "09-meta"]
     clusters = "".join(
         f'<a class="pathway-card pathway-{index}" href="{html.escape(page_href(page, f"collections/{collection_slug(section)}/index.html"), quote=True)}"><span class="eyebrow">{index + 1:02d}</span><strong>{html.escape(section_label(section))}</strong><small>{sum(item.section == section for item in artifacts)} artifacts</small><span aria-hidden="true">↗</span></a>'
@@ -760,12 +859,12 @@ def home_page(page: str, artifacts: list[Artifact], links: list[Link], site_url:
         if section in sections
     )
     latest = sorted([artifact for artifact in notes if artifact.metadata.get("updated")], key=lambda item: str(item.metadata.get("updated")), reverse=True)[:6]
-    experiments_html = "".join(card_html(artifact, page, compact=True) for artifact in experiments[:5]) or '<p class="muted">Experiment records will appear here as they are added to the vault.</p>'
-    main = f'''<section class="hero atlas-hero"><div class="hero-copy"><p class="eyebrow">Freight Trust / public knowledge base</p><h1>Freight Trust Knowledge Base</h1><p class="hero-dek">Research notes, source records, experiment plans, draft programme material, diagrams, and governance files from the version-controlled vault.</p><div class="hero-actions"><a class="button" href="{html.escape(page_href(page, 'explore/index.html'), quote=True)}">Browse {len(artifacts):,} files</a><a class="button button-quiet" href="{html.escape(page_href(page, 'graph/index.html'), quote=True)}">Open vault graph</a></div><p class="hero-note">All tracked vault files are public. Draft, archive, and internal labels are metadata, not access controls.</p></div><div class="instrument-panel" aria-label="Repository summary"><div class="instrument-grid"><div><strong>{len(artifacts)}</strong><span>files</span></div><div><strong>{len(notes)}</strong><span>Markdown notes</span></div><div><strong>{len(links):,}</strong><span>resolved links</span></div><div><strong>{len(sections)}</strong><span>folders</span></div></div><div class="instrument-line"></div><p><span class="status-dot"></span>Static build from the tracked vault</p><a href="{html.escape(page_href(page, 'about/index.html'), quote=True)}">Build and publication details</a></div></section>
-<section class="section-shell"><div class="section-heading"><p class="eyebrow">Collections</p><h2>Browse by area</h2><p>Open a source folder or use the graph to follow links across folders.</p></div><div class="pathway-grid">{clusters}</div></section>
-<section class="section-shell split-feature"><div><p class="eyebrow">Research programme</p><h2>Experiments and supporting evidence</h2><p>Protocols are kept next to the datasets, methods, and source records they depend on.</p><a class="text-link" href="{html.escape(page_href(page, 'experiments/index.html'), quote=True)}">Browse experiments and evidence</a></div><div class="card-grid compact-grid">{experiments_html}</div></section>
+    main = f'''<section class="hero programme-hero"><div class="hero-copy"><p class="eyebrow">Freight Trust / research programme</p><h1>Freight Trust Research Programme</h1><p class="hero-dek">Five linked experiments test identity, event evidence, governed access, participation, and decision value. The public Atlas keeps each protocol beside its datasets, methods, sources, gates, and run records.</p><div class="hero-actions"><a class="button" href="{html.escape(page_href(page, 'experiments/index.html'), quote=True)}">Open the programme</a><a class="button button-quiet" href="{html.escape(page_href(page, 'explore/index.html'), quote=True)}">Search {len(artifacts):,} files</a></div><p class="hero-note">All five experiments are documented for build start and remain unrun. Pilot, protected-data, and confirmatory gates stay closed until their named approvals are recorded.</p></div><div class="programme-status" aria-label="Programme status"><p class="eyebrow">Current programme state</p><strong>Build-start-ready</strong><p>Protocol and fixture implementation may begin. No benchmark, operational, or deployment claim has been established.</p><dl><div><dt>{len(protocols)}/5</dt><dd>protocols mapped</dd></div><div><dt>{len(notes)}</dt><dd>public notes</dd></div><div><dt>{len(links):,}</dt><dd>evidence links</dd></div></dl></div></section>
+<section class="section-shell programme-overview"><div class="section-heading"><p class="eyebrow">Experiment portfolio</p><h2>One programme, five bounded tests</h2><p>E1 and E3 form the Phase I onboarding core. E2 validates the evidence architecture, E4 tests participation feasibility, and E5 asks whether accepted upstream evidence changes planning value.</p></div>{programme_index(page, protocols)}</section>
+<section class="section-shell architecture-section"><div class="section-heading"><p class="eyebrow">Programme architecture</p><h2>Capabilities become evidence before they become claims</h2></div><div class="programme-flow" role="img" aria-label="E1 identity and E3 governed access form the core. E2 validates event evidence. E4 measures participation feasibility. Accepted upstream evidence can later enter E5 orchestration."><div class="flow-core"><span>E1</span><strong>Identity</strong></div><div class="flow-plus" aria-hidden="true">+</div><div class="flow-core"><span>E3</span><strong>Governed access</strong></div><div class="flow-arrow" aria-hidden="true">to</div><div class="flow-outcome"><span>Phase I</span><strong>Bounded onboarding</strong></div><div class="flow-branches"><span>E2 / evidence</span><span>E4 / participation</span><span>E5 / value</span></div></div></section>
+<section class="section-shell"><div class="section-heading"><p class="eyebrow">Knowledge system</p><h2>Browse the supporting record</h2><p>Use curated programme sections first; use folders, search, and the graph when tracing provenance or locating exact source files.</p></div><div class="pathway-grid">{clusters}</div></section>
 <section class="section-shell latest-section"><div class="section-heading"><p class="eyebrow">Updates</p><h2>Recently changed files</h2></div><div class="card-grid">{"".join(card_html(artifact, page, compact=True) for artifact in latest)}</div></section>
-<section class="section-shell disclosure"><div><p class="eyebrow">Publication scope</p><h2>Status is not approval</h2></div><p>This site includes working hypotheses, source records, draft SBIR material, archived documents, and governance controls. Check each file’s status, confidence, owner, source path, checksum, and raw download before relying on it.</p></section>'''
+<section class="section-shell disclosure"><div><p class="eyebrow">Publication scope</p><h2>Status is not approval</h2></div><p>This site includes working hypotheses, source records, draft SBIR material, archived documents, and governance controls. Check each file's status, confidence, owner, source path, checksum, and raw download before relying on it.</p></section>'''
     return shell_html("Freight Trust Knowledge Atlas", "A public, source-derived research atlas for Freight Trust.", page, site_url, main, "")
 
 
@@ -792,11 +891,52 @@ def collections_index_page(page: str, artifacts: list[Artifact], site_url: str) 
     return shell_html("Collections", "Browse Freight Trust materials by their original vault collection.", page, site_url, main, "collections")
 
 
+def experiment_section_html(config: dict[str, str], protocol: Artifact, artifacts: list[Artifact], page: str) -> str:
+    support = experiment_support(config, protocol, artifacts)
+    support_html = "".join(
+        f'''<li><a href="{html.escape(page_href(page, artifact.url), quote=True)}"><span>{html.escape(artifact.note_type)}</span><strong>{html.escape(artifact.title)}</strong></a></li>'''
+        for artifact in support
+    ) or '<li class="muted">No directly authored supporting links are available.</li>'
+    phase = str(protocol.metadata.get("phase", config["phase"])).replace("-", " ")
+    owner = str(protocol.metadata.get("owner", "unassigned")).replace("-", " ")
+    outcome = str(protocol.metadata.get("primary_outcome", "not frozen")).replace("-", " ")
+    protocol_href = page_href(page, protocol.url)
+    graph_href = page_href(page, f"graph/index.html?focus={quote(protocol.source)}&mode=local&depth=1")
+    contract = next((artifact for artifact in artifacts if artifact.source == "03-research-evidence/e1-e5-build-readiness-and-run-contract.md"), None)
+    contract_action = f'<a class="button button-quiet" href="{html.escape(page_href(page, contract.url), quote=True)}">Build contract</a>' if contract else ""
+    return f'''<section class="experiment-band experiment-{config['slug']}" id="{config['slug']}" aria-labelledby="{config['slug']}-title">
+      <div class="experiment-rail"><span>{config['id']}</span><small>{html.escape(config['role'])}</small></div>
+      <div class="experiment-body">
+        <header class="experiment-header"><div><p class="eyebrow">{html.escape(config['phase'])}</p><h2 id="{config['slug']}-title">{html.escape(config['title'])}</h2><p class="experiment-question">{html.escape(config['question'])}</p></div><span class="readiness-label">Build-start-ready</span></header>
+        <dl class="experiment-metadata"><div><dt>Status</dt><dd>{html.escape(protocol.status)}</dd></div><div><dt>Phase</dt><dd>{html.escape(phase)}</dd></div><div><dt>Owner</dt><dd>{html.escape(owner)}</dd></div><div><dt>Primary outcome</dt><dd>{html.escape(outcome)}</dd></div></dl>
+        <div class="experiment-plan"><div><p class="eyebrow">First build slice</p><p>{html.escape(config['build'])}</p></div><div><p class="eyebrow">Real-run gate</p><p>{html.escape(config['gate'])}</p></div></div>
+        <div class="readiness-track" aria-label="Readiness: protocol complete, build start current, dry run pilot and findings not yet reached"><span class="is-complete">Protocol</span><span class="is-current">Build start</span><span>Dry run</span><span>Pilot</span><span>Findings</span></div>
+        <div class="experiment-actions"><a class="button" href="{html.escape(protocol_href, quote=True)}">Read full protocol</a>{contract_action}<a class="button button-quiet" href="{html.escape(graph_href, quote=True)}">Trace evidence</a></div>
+        <div class="experiment-support"><p class="eyebrow">Directly linked records</p><ul>{support_html}</ul></div>
+      </div>
+    </section>'''
+
+
 def experiments_page(page: str, artifacts: list[Artifact], site_url: str) -> str:
-    experiments = [artifact for artifact in artifacts if artifact.note_type == "experiment"]
-    evidence = [artifact for artifact in artifacts if artifact.note_type in {"evidence", "dataset", "source", "method"}]
-    main = f'''<section class="page-intro"><p class="eyebrow">Programme instruments</p><h1>Experiments & evidence</h1><p>Follow the programme’s falsifiable hypotheses alongside the datasets, methods, source records, and controls that delimit them.</p></section><section class="section-shell"><div class="section-heading"><p class="eyebrow">E1–E5</p><h2>Experiment protocols</h2></div><div class="card-grid">{"".join(card_html(artifact, page) for artifact in experiments)}</div></section><section class="section-shell"><div class="section-heading"><p class="eyebrow">Evidence library</p><h2>Methods, datasets, and sources</h2><p>These records vary in source class, freshness, verification, and confidence. Their metadata stays visible in the reader.</p></div><div class="card-grid">{"".join(card_html(artifact, page, compact=True) for artifact in evidence[:30])}</div><p><a class="button button-quiet" href="{html.escape(page_href(page, 'explore/index.html') + '?section=03-research-evidence', quote=True)}">Open all research & evidence artifacts</a></p></section>'''
-    return shell_html("Experiments & evidence", "A source-aware hub for Freight Trust experiments, methods, datasets, and evidence.", page, site_url, main, "experiments")
+    protocols = experiment_protocols(artifacts)
+    by_source = {artifact.source: artifact for artifact in artifacts}
+    sections = "".join(
+        experiment_section_html(config, protocols[config["id"]], artifacts, page)
+        for config in EXPERIMENT_PROGRAM
+        if config["id"] in protocols
+    )
+    integrated = by_source.get("03-research-evidence/integrated-e1-e5-research-programme.md")
+    gap = by_source.get("09-meta/gaps/gap-019-e1-e5-programme-readiness.md")
+    programme_actions = "".join([
+        f'<a class="button" href="{html.escape(page_href(page, integrated.url), quote=True)}">Programme contract</a>' if integrated else "",
+        f'<a class="button button-quiet" href="{html.escape(page_href(page, gap.url), quote=True)}">Open readiness gates</a>' if gap else "",
+    ])
+    explore_href = page_href(page, "explore/index.html") + "?section=03-research-evidence"
+    main = f'''<section class="page-intro programme-intro"><p class="eyebrow">Freight Trust / research programme</p><h1>Five experiments, one evidence chain</h1><p>Each experiment has a distinct scientific role, implementation slice, run gate, and claim boundary. All are documented for build start; none has produced a scientific finding.</p><div class="hero-actions">{programme_actions}</div></section>
+<section class="section-shell programme-nav-shell"><div><p class="eyebrow">Jump to an experiment</p><p class="muted">The portfolio is ordered by experiment ID, not by implied deployment sequence.</p></div>{programme_index(page, protocols, compact=True)}</section>
+<div class="experiment-sections">{sections}</div>
+<section class="section-shell library-cta"><div><p class="eyebrow">Research library</p><h2>Methods, datasets, sources, and controls</h2><p>Supporting records above come only from authored protocol links or experiment-prefixed records. Use the full library for broader discovery and verify provenance in every reader.</p></div><a class="button button-quiet" href="{html.escape(explore_href, quote=True)}">Browse research files</a></section>'''
+    return shell_html("Research programme", "Five source-aware Freight Trust experiments with explicit build and run gates.", page, site_url, main, "experiments")
 
 
 def about_page(page: str, artifacts: list[Artifact], links: list[Link], site_url: str) -> str:

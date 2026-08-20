@@ -14,6 +14,19 @@ tags:
 
 # Changelog
 
+## Experiment-first Atlas redesign - 2026-08-20
+
+- Reframed the home page as the Freight Trust Research Programme rather than a folder inventory.
+- Rebuilt the Programme route as five ordered, separately addressable E1-E5 sections with phase,
+  owner, primary outcome, build slice, real-run gate, readiness track, protocol actions, and only
+  directly authored supporting records.
+- Added a compact programme architecture view and promoted Programme ahead of Library, Graph,
+  Collections, and About in primary navigation.
+- Separated planned, stretch, active, and blocked status treatments; removed viewport-scaled type
+  and negative letter spacing; hardened narrow-screen layouts and table overflow.
+- Removed duplicated source H1 headings from note readers and cleaned Markdown heading syntax out
+  of artifact excerpts.
+
 ## Experiment build-readiness and publication - 2026-08-20
 
 - Added [[03-research-evidence/e1-e5-build-readiness-and-run-contract]] with explicit

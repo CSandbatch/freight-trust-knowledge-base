@@ -156,6 +156,45 @@ Private working note text is intentionally still published with a draft badge.
             self.assertIn('addEventListener("wheel"', graph_script)
             self.assertIn('addEventListener("pointerdown"', graph_script)
 
+    def test_programme_page_presents_five_distinct_experiment_sections(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root, out = self.fixture(pathlib.Path(temporary))
+            research = root / "03-research-evidence"
+            research.mkdir()
+            for index in range(1, 6):
+                status = "stretch" if index == 5 else "planned"
+                (research / f"experiment-e{index}-fixture.md").write_text(
+                    f"""---
+type: experiment
+id: E{index}
+status: {status}
+phase: phase-i
+owner: owner-e{index}
+primary_outcome: outcome-e{index}
+updated: '2026-08-20'
+tags:
+- type/experiment
+- lifecycle/{status}
+---
+# E{index} fixture protocol
+
+## Thesis
+
+Fixture thesis for E{index}.
+""",
+                    encoding="utf-8",
+                )
+            build(root, None, out, "https://example.test/freight-trust/", source_date_epoch=0)
+            programme = (out / "experiments" / "index.html").read_text(encoding="utf-8")
+            anchors = [programme.index(f'id="e{index}"') for index in range(1, 6)]
+            self.assertEqual(anchors, sorted(anchors))
+            self.assertEqual(programme.count('class="experiment-band '), 5)
+            self.assertIn("owner e1", programme)
+            self.assertIn("outcome e5", programme)
+            self.assertIn("Build-start-ready", programme)
+            protocol = (out / "notes" / "03-research-evidence" / "experiment-e1-fixture" / "index.html").read_text(encoding="utf-8")
+            self.assertEqual(protocol.count("E1 fixture protocol</h1>"), 1)
+
 
 if __name__ == "__main__":
     unittest.main()
