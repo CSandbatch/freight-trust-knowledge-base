@@ -4,8 +4,8 @@ status: active
 schema_version: 1.0.0
 source_class: primary
 verification: confirmed
-accessed: 2026-08-08
-updated: 2026-08-08
+accessed: 2026-08-20
+updated: 2026-08-20
 review_by: 2027-02-08
 tags:
 - type/source
@@ -38,11 +38,17 @@ FMCSA's current bulletin states that a USDOT number belongs to the same legal pe
 
 This is the strongest current operational guidance for the primary E1 identity anchor.
 
-## The sole-proprietor form-change exception
+## Unresolved sole-proprietor guidance conflict
 
-The older but still published FMCSA FAQ creates an important exception to a naive one-USDOT/one-state-law-entity model. It says FMCSA will allow a sole proprietor to maintain the USDOT number when changing form of business if the new entity operates virtually identically, with no change in officials/address/demographics and identical operations, employees, and assets; the Tax ID may change.
+The older but still published FMCSA FAQ says FMCSA will allow a sole proprietor to maintain the
+USDOT number when changing form of business if the new entity operates virtually identically,
+with no change in officials/address/demographics and identical operations, employees, and assets;
+the Tax ID may change. The March 2026 bulletin uses stronger language that the USDOT number stays
+with the same legal person. The two live guidance pages are not silently reconciled here.
 
-**Consequence:** E1 needs both `legal_person_id` and `fmcsa_registrant_continuity_id`. They coincide in ordinary cases but must not be declared universally identical.
+**Consequence:** E1 needs both `legal_person_id` and `fmcsa_registrant_continuity_id`. Never infer
+Task A legal-person gold from USDOT continuity alone. Route real form-change cases through
+competent-source adjudication and counsel/domain review; preserve the conflict in the case record.
 
 ## Operating authority is a different object
 

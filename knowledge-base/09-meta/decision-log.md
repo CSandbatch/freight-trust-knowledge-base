@@ -203,7 +203,7 @@ The resulting package is [[e1-carrier-identity-and-relationship-standard]] `1.0.
 [[e1-state-corporate-source-access-memo]], and [[e1-definition-conformance-report]]. The hostile review found eight Critical and eleven Major defects
 in the prior loose formulation; RC1 closes those design findings in the synthetic suite.
 
-**Not yet approved/frozen:** PI scientific sign-off, freight/FMCSA-domain walk-through of all 60
+**Not yet approved/frozen:** PI scientific sign-off, freight/FMCSA-domain walk-through of all 70
 cases, counsel/domain review of reincarnation/affiliation language and sensitive evidence, first
 state/jurisdiction source-access memo, adjudicator COI/training/pilot double-label run. No model or
 benchmark builder may silently change the target while these gates are being completed.

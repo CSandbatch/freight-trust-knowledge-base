@@ -15,6 +15,12 @@ Every Freight Trust experiment must be specified before data or results are insp
 The protocol must distinguish a technical feasibility result, a causal effect estimate,
 an external-validity result, and a governance judgment.
 
+The shared readiness vocabulary, run-manifest minimum, fixture build slices, and opening
+gates for E1-E5 are controlled by
+[[e1-e5-build-readiness-and-run-contract]]. A documented protocol can be
+`build-start-ready` before numeric locks, protected data, or a confirmatory run are authorized;
+that state does not establish feasibility or permit a pilot.
+
 ## Required protocol fields
 
 1. Thesis and decision the experiment informs.

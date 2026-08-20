@@ -6,7 +6,7 @@ audience:
 - client
 - internal
 schema_version: 1.0.0
-updated: '2026-08-08'
+updated: '2026-08-20'
 tags:
 - type/brief
 - domain/freight
@@ -43,6 +43,11 @@ The role assignments above are recorded in [[09-meta/decision-log#DEC-010 — Te
 | Russell Berry classification, effort, and rate | **Open fact** | Ellie Young + Common Action | Needed to turn the working Research & Knowledge Architecture Lead role into a real budget/personnel line |
 | E1 identity/adjudication standard | **RC1 complete; human freeze pending** | Ellie Young + E1 protocol owner + domain reviewer/counsel | Source-grounded standard, ontology, decision tree, 64-claim ledger, 70-case suite, hostile review, adjudicator-governance/COI protocol, automated conformance report, and Louisiana/Texas state-source pilot exist. Freeze still requires PI/domain/counsel sign-off plus actual reviewer training and pilot double-labeling/case-level retrieval |
 | E1 benchmark corpus | **To build** | Technical/data team | Highest-value next experimental artifact; needed before numeric targets can be responsibly frozen |
+| E1 operating point and implementations | **Build-start-ready; values/code open** | E1 technical lead + methods reviewer | Build schemas/adapters, deterministic C1 and Fellegi-Sunter C2 on development fixtures under [[03-research-evidence/e1-e5-build-readiness-and-run-contract]]. Pilot closure/interval behavior precedes numeric freeze and holdout construction. |
+| E1 LLM challenger | **Specified; implementation and development gates open** | E1 technical lead + data governance | [[method-llm-assisted-entity-resolution]] and current source cards exist; close [[09-meta/gaps/gap-018-e1-llm-readiness]] before C6 can compete for `C*`. Do not use `openrouter/auto` or restricted packets in hosted inference. |
+| E2/E3 scientific and security correction | **Build-start-ready; implementations open** | E2/E3 technical leads + policy authority | E2 has a namespaced EPCIS fixture contract; E3 has separate engine lanes, hardened JWT/JWKS and deterministic audit-chain requirements. Numeric/privacy/authority gates still block scientific runs. |
+| E4 participant research | **Non-participant build-ready; study gated** | PI + institutional reviewer + participation lead | Blank instruments, synthetic assignment/exposure code and disclosure checks may build. No recruitment or row-level Git data before the documented institutional/sponsor determination and private-data approval. |
+| E5 orchestration | **Synthetic smoke build-ready; execution conditional** | Operations-research lead | Build a solver-validated CPU smoke test with a declared HOS scope and one frozen primary outcome. Operational, fairness and deployment claims remain prohibited. |
 | Pilot-interest participants | **Open external dependency** | Commercial/product lead | Needed for Commercial Potential and bounded-pilot credibility |
 | Discovery interviews, including small carriers | **Open external dependency** | Commercial/product lead | Buyer pain, willingness-to-pay, participation burden, and interview counts remain unverified |
 | Permissioned facility-event data | **Open external dependency** | Data/product lead + counsel | E2 can proceed synthetically, but real-data validation depends on authorization |
@@ -66,4 +71,11 @@ being filled with plausible prose.
 
 ## E1 academic-design hardening
 
-E1 has completed an iterative academic methods review with no Critical/Major design findings left open. The experiment is **ready for preregistration/pilot**, not yet ready for final test. Remaining freeze dependencies are PI/domain approval of the identity standard, real reviewer qualification/pilot, and pilot-based numerical freeze of the safety precision floor `P*`, minimum meaningful gain `Delta*`, and confirmatory sample size. See [[e1-academic-design-review]].
+E1's controlling sampling/statistical design completed an iterative academic methods review with
+no pre-LLM Critical/Major design findings left open. The experiment is **ready for semantic
+freeze and development pilot**, not final test. The 2026-08-18 C6 extension is specified but has
+not inherited that verdict: it still needs an executable implementation, data-egress approval,
+adversarial/conformance testing and frozen development promotion thresholds. Remaining shared
+dependencies are PI/domain approval of the identity standard, reviewer qualification/pilot, and
+pilot-based freeze of `P*`, `Delta*`, review budget and confirmatory sample size. See
+[[e1-academic-design-review]] and [[09-meta/gaps/gap-018-e1-llm-readiness]].

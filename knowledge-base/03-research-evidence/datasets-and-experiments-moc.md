@@ -48,8 +48,8 @@ The benchmark should ship as four versioned artifacts:
 2. **Event cases**: ordered event traces for tender, appointment, arrival, dock, loading,
    departure, and delivery, with missing, delayed, duplicated, contradictory, and tampered
    variants.
-3. **Policy cases**: `(policy, request, expected decision)` triples covering permitted and
-   disallowed partner, field, and purpose combinations.
+3. **Policy cases**: neutral `(policy version, request, expected domain decision, expected
+   audit event, rationale)` tuples with authority, effective date and engine-adapter mapping.
 4. **Metadata and governance**: provenance, license, consent, sensitivity, retention,
    redaction, adjudicator agreement, and known limitations for every case.
 
@@ -61,7 +61,7 @@ The benchmark should ship as four versioned artifacts:
 - [[e1-carrier-identity-and-relationship-standard]] — human semantic contract, `1.0.0-rc1`.
 - [[e1-identity-ontology.yaml]] — machine-readable object/relation semantics.
 - [[e1-adjudication-decision-tree]] — reviewer procedure.
-- [[e1-edge-case-suite.csv]] — 60 synthetic conformance/adversarial cases.
+- [[e1-edge-case-suite.csv]] — 70 synthetic conformance/adversarial cases.
 - [[e1-definition-freeze-review]] · [[e1-state-corporate-source-access-memo]] — hostile Eval Agent findings and second-pass verdict.
 
 The initial loose “same carrier” formulation failed hostile review with eight Critical and eleven
@@ -72,6 +72,15 @@ gates.
 ## Experiment entries
 
 Shared standard: [[experiment-protocol-standard]].
+
+Portfolio contract: [[integrated-e1-e5-research-programme]]. E1 orientation:
+[[e1-experiment-brief-and-readiness-map]].
+
+Execution bridge: [[aws-experiment-execution-and-findings-plan]] — CPU-first AWS runtime,
+accelerator promotion gates, reproducible run packets, and findings ingestion.
+
+Build bridge: [[e1-e5-build-readiness-and-run-contract]] — shared implementation boundary,
+manifest, experiment-specific first slices, fixture gates and build/pilot/confirmatory states.
 
 - [[experiment-e1-entity-resolution-and-identity-assurance]]
 - [[experiment-e2-facility-event-provenance-and-dwell-reconstruction]]
@@ -89,30 +98,31 @@ blocks.
 
 | Experiment | Forced by | External lineage it borrows from | Durable artifact it leaves | Blocked by |
 |---|---|---|---|---|
-| E1 — identity | R-WN-04, R-WN-03, R-WN-05; G14, G13 | Current FMCSA legal/registration rules; GAO/ARCHI/URSA prior art; GLEIF identity-vs-relationship analogue; multi-reviewer gold-label methodology; Company Census File + corruption/blocking methods | Layered identity standard + ontology; adjudicated legal-person corpus; split/feature-regime manifests; error taxonomy | RC1 complete; PI/domain/counsel freeze, adjudicator panel/COI, first state source-access memo |
-| E2 — event provenance | R-WN-04; G14, G11 | OpenEPCIS generator (Apache 2.0) over GS1 EPCIS 2.0/CBV 2.0; Process Discovery Contest and Nolle-tradition anomaly injection; BTS–ATRI travel times; NIST IR 8536; NIST SP 800-188 | Event ontology and data contract, base-trace generator, anomaly-injection manifest, hidden-label set | Case count and taxonomy; C5 partner access |
-| E3 — governed federation | R-WN-03; G11, G13 | NIST Policy Machine (NGAC reference implementation); OASIS/AT&T XACML conformance format; NIST SP 800-162 / 800-178 / 800-192; GLEIF governance analogue; FCRA and Oversight Board as reporting precedents | Policy catalogue, attribute dictionary, versioned conformance suite, audit-integrity evidence | Plain-language policy authoring (legal/commercial judgment) |
-| E4 — participation and equity | R-WN-02, R-WN-05; G7, G12, G8 | Imai/Jiang/Malani on interference; GAO-16-401R (99.1% small carriers); OOIDA's 49 CFR 371 comment. **Negative finding:** LEAF/FedML/Flower were checked and address none of this | Recruitment/consent protocol, spillover map, burden codebook, refusal analysis | Named pilot participants; fleet-size band definitions |
-| E5 — orchestration value | Improvement item 1 (demote, don't discard); R-WN-01; G10 | SINTEF VRPTW benchmark instances for solver validation; agent-based empty-truck-trip modelling precedent; E2's dwell and E3's constraints as inputs | Scenario and constraint specification, validated simulator, ablation and Pareto results | E2/E3/E4 outputs; Phase I-versus-II scoping decision |
+| E1 — identity | R-WN-04, R-WN-03, R-WN-05; G14, G13 | Current FMCSA legal/registration rules; GAO/ARCHI/URSA prior art; GLEIF identity-vs-relationship analogue; multi-reviewer gold-label methodology; Company Census File + corruption/blocking methods; Fellegi-Sunter, Ditto, MatchGPT/ComEM and GraLMatch learned-method precedents | Layered identity standard + ontology; adjudicated legal-person corpus; split/feature-regime manifests; deterministic/probabilistic/graph/LLM comparison; error taxonomy | RC1 complete; PI/domain/counsel freeze, reviewer pilot, benchmark construction, C1/C2 implementation, and C6 readiness gap |
+| E2 — event provenance | R-WN-04; G14, G11 | OpenEPCIS over pinned GS1 EPCIS 2.0.1/CBV 2.0.0; PDC hidden-truth process evaluation; Nolle/BINet artificial anomaly injection; BTS–ATRI transit percentiles; NIST privacy/traceability guidance | Freight event profile, separate canonical/observability/source traces, generator and injection manifests, reconstruction/anomaly/privacy report | Numeric gates, freight threat operators, privacy release model; optional C5 partner access |
+| E3 — governed federation | R-WN-03; G11, G13 | NIST NGAC Policy Machine as one implementation; OASIS XACML as a separate policy model; NIST access-control verification/audit/privacy guidance | Authority-backed policy catalogue, neutral domain-decision test corpus, authenticated engine/adapter results, independently reconciled audit/correction evidence | Policy authority/legal-commercial review, engine lane, identity provider/JWKS, numeric coverage/privacy gates |
+| E4 — participation and equity | R-WN-02, R-WN-05; G7, G12, G8 | Imai/Jiang/Malani interference design; GAO's SBA-standard estimate; Common Rule/NSF institutional review; OOIDA record-access position | Public instrument/schema, recruitment/exposure flow and disclosure-controlled aggregate burden/comprehension/refusal report | Institutional determination, private data store, named participants, assignment/exposure map, fleet/capacity strata and budget |
+| E5 — orchestration value | Improvement item 1; R-WN-01; G10 | Solomon/SINTEF solver validation, HOS rules, stochastic/multiobjective/collaborative VRP and agent-based empty-trip precedents | Scenario/constraint specification, validated simulator, crossed policy/stress/reporting results, ablations and Pareto sets | Formal solver/HOS/equity/uncertainty gates; upstream outputs or labeled priors; Phase II execution scope |
 
-Two provenance facts apply across all five and should not be lost in the detail. The
-2026-08-01 scans established several **confirmed absences** — no public adjudicated carrier-
-identity benchmark with the layered E1 labels, no freight-specific facility-event benchmark,
-no participation-economics answer in the federated-learning literature. The 2026-08-08 E1
+Two provenance facts apply across all five and should not be lost in the detail. The documented
+searches through 2026-08-18 located no qualifying public adjudicated carrier-identity benchmark
+with the layered E1 labels, no qualifying public freight facility-event benchmark, and no
+participation-economics answer in the reviewed federated-learning benchmark literature. These
+are bounded negative-search findings, not proof of universal nonexistence. E1
 research simultaneously established substantial **prior art in chameleon screening and
 point-in-time identity verification** (GAO/ARCHI/URSA, Motus, SCAC Verified). The novelty claim
 must therefore concern the evaluated benchmark/provenance/relationship architecture, not the
 existence of carrier identity screening itself.
-Several sources also remain **unverified in this evidence base** — the FMCSA L&I and
-MCMIS catalog pages (HTTP 403 or JS shell), the Company Census File's licence text, PIERS's
-terms, and FCRA's exact statutory window. None of them is load-bearing for any experiment,
-and each is flagged inline where it appears.
+Current Motus successor records and FCRA's statutory text are now directly verified. The Company
+Census and Motus catalog licence remains `Unknown License`; old L&I/MCMIS retrieval failures stay
+as dated history; PIERS terms and redistribution rights for a joined benchmark remain unresolved.
 
 ## Method entries
 
 - [[method-deterministic-entity-matching]]
 - [[method-probabilistic-entity-resolution]]
 - [[method-graph-assisted-entity-resolution]]
+- [[method-llm-assisted-entity-resolution]]
 - [[method-expert-adjudication]]
 - [[method-event-log-generation-and-anomaly-injection]]
 - [[method-provenance-aware-event-reconstruction]]
@@ -135,9 +145,15 @@ and each is flagged inline where it appears.
 
 ## Minimum data contract
 
-Every record needs: `case_id`, `entity_or_event_id`, `source_id`, `observed_at`, `valid_from`,
-`valid_to`, `claim_type`, `value_or_hash`, `confidence`, `access_purpose`, `consent_or_basis`,
-`label_status`, `adjudication_status`, `correction_status`, `retention_until`, and `version`.
+Every exchanged record needs: `case_id`, `entity_or_event_id`, `source_id`, `observed_at`,
+`valid_from`, `valid_to`, `claim_type`, `value_or_hash`, uncertainty semantics,
+`access_purpose`, `consent_or_basis`, `label_status`, `adjudication_status`,
+`correction_status`, `retention_until`, producer run/schema version, rights/classification and
+content hash. See [[integrated-e1-e5-research-programme#Versioned interface contract]].
+
+Raw/pseudonymized participant, partner, adjudication and restricted records stay outside this
+public Git corpus. The vault may contain public schemas, synthetic examples and disclosure-
+controlled aggregates only.
 
 ## Evidence and provenance links
 
@@ -152,12 +168,12 @@ Every record needs: `case_id`, `entity_or_event_id`, `source_id`, `observed_at`,
 
 | Gate | Evidence required | Decision |
 |---|---|---|
-| G0 — protocol freeze | Schemas, labels, baselines, thresholds, governance approval | Build benchmark |
-| G1 — identity feasibility | E1 results and subgroup analysis | Continue, revise, or stop identity aim |
-| G2 — event feasibility | E2 results and provenance completeness | Continue, revise, or stop event aim |
-| G3 — federation feasibility | E3 policy and audit test results | Continue to partner pilot or redesign |
-| G4 — participation | E4 adoption and equity results | Scale, change incentives, or stop |
-| G5 — application value | E5 bounded workflow result | Consider Phase II orchestration |
+| `DG-P0` — common lock | Schemas, authority, rights, baselines, estimands, thresholds and governance approval | Build benchmark/pilot artifacts |
+| `DG-E1` — identity feasibility | E1 safety/yield result, subgroup/closure/reference-standard analyses | Continue, narrow or stop identity capability |
+| `DG-E2` — event feasibility | E2 scoped synthetic result, uncertainty and privacy/utility review; partner holdout separate | Continue event research or redesign |
+| `DG-E3` — governed access | Authenticated policy, audit-reconciliation, correction and privacy results | Continue to bounded E1+E3 integration or redesign |
+| `DG-E4` — participation | Institutionally approved recruited-frame burden/comprehension evidence | Fund powered study, redesign offers or stop |
+| `DG-E5` — application value | Valid solver and bounded deployable-policy result with safety/service/distribution gates | Consider Phase II orchestration |
 
 ## Open decisions
 
@@ -166,10 +182,16 @@ Every record needs: `case_id`, `entity_or_event_id`, `source_id`, `observed_at`,
 - Freight-specific correction-latency threshold.
 - Minimum acceptable subgroup sample size for small carriers.
 - First permissioned partner and facility-event feed.
-- Whether E5 belongs in Phase I or is reserved for Phase II.
+- Whether resources justify more than an E5 specification/CPU smoke test in Phase I; full
+  execution defaults to Phase II unless the work plan, budget and upstream gates are amended.
+- Whether C6 passes its frozen development promotion gates and may compete for `C*`; exact
+  model/checkpoint, provider, evidence-egress approval, calibration interface and cost ceiling
+  remain open under [[09-meta/gaps/gap-018-e1-llm-readiness]].
 
 ## E1 validation architecture
 
 [[e1-academic-design-review]] · [[e1-benchmark-sampling-and-split-plan]] · [[e1-statistical-analysis-and-preregistration-plan]] · [[e1-reporting-and-reproducibility-checklist]]
 
 - [[03-research-evidence/e1-academic-design-conformance-report]]
+- [[method-llm-assisted-entity-resolution]] · [[09-meta/decisions/dec-013-llm-e1-challenger]] ·
+  [[09-meta/gaps/gap-018-e1-llm-readiness]]

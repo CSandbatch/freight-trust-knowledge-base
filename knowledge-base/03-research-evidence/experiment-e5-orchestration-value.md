@@ -5,6 +5,7 @@ status: stretch
 phase: phase-ii-or-late-phase-i
 owner: operations-research-lead-plus-domain-panel
 schema_version: 1.0.0
+updated: 2026-08-20
 primary_outcome: service-and-empty-mile-improvement-without-risk-shifting
 tags:
 - type/experiment
@@ -44,8 +45,8 @@ optimize well in isolation.
 
 E5 must not retroactively define the value of the entire project. If it fails, identity,
 provenance, governance, or participation may still be valuable. If it succeeds only under
-C1's perfect-information oracle, it supports the importance of information but not product
-feasibility. The strongest result is a C2/C3 improvement that survives uncertainty, partial
+P2's perfect-information oracle, it supports the importance of information but not product
+feasibility. The strongest result is a P3/P4 improvement that survives uncertainty, partial
 participation, and competing interests.
 
 ### How the methods connect to the thesis
@@ -61,11 +62,11 @@ participation, and competing interests.
 - **Pareto and distributional analysis** tests whether one actor's benefit is another
   actor's hidden cost or risk.
 
-### How the conditions map to decisions
+### How the factors map to decisions
 
-C0 represents fragmented/local decisions and C1 an upper-bound oracle. C2 tests the actual
-federated concept, C3 uncertainty-aware governance, C4 operational disruption, and C5 safe
-behavior under strategic withholding or misreporting.
+P0 represents fragmented/local decisions, P1 a simple feasible comparator, and P2 an upper-bound
+oracle. P3 tests governed point-estimate planning and P4 tests uncertainty-aware governance.
+Stress and reporting behavior are crossed modifiers, not alternative planning policies.
 
 ## Provenance
 
@@ -79,7 +80,7 @@ happens later — comes from a recommendation to *stop* leading with it.
 |---|---|---|
 | [[improvement-suggestions]] item 1 — "Narrow the first buyer and workflow… keep network-wide orchestration as the later application" | The `status: stretch`, `phase: phase-ii-or-late-phase-i` framing. Orchestration was the programme's most attractive story and the least evidenced; the fix was to demote it in sequence without discarding it | Adopted |
 | [[review-notes]] R-WN-01 — "Outcome overreach" (severity: high) | The finding that available sources establish a material operational problem and technical plausibility, **not** that a freight trust graph causes industry-wide reduction in fraud, detention, or empty miles. Empty-mile reduction is the specific claim E5 is allowed to test at bounded scale and forbidden to assert at industry scale | Resolved in programme section 7A; still enforced in publishing |
-| [[goals]] G10 — "Replace broad outcome assertions with falsifiable pilot hypotheses" | The requirement for a baseline, intervention, comparison, success threshold, and failure condition — which for orchestration means C0 as the local baseline and a predeclared primary objective | Open |
+| [[goals]] G10 — "Replace broad outcome assertions with falsifiable pilot hypotheses" | The requirement for a baseline, intervention, comparison, success threshold, and failure condition — which for orchestration means P0/P1 as baselines and a predeclared primary objective | Open |
 | [[04-sbir/drafts/phase-1-project-description-draft]] Sections 6, 10 | The explicit statement that this is not a claim that empty miles are reduced at industry scale, and that expansion beyond the single bounded workflow is a Phase II candidate contingent on Phase I results | Draft |
 | [[dataset-scan-event-provenance-and-federation]] | The dwell and travel-time inputs, and the confirmation that no real multi-actor freight planning dataset is accessible | Current |
 
@@ -91,7 +92,7 @@ its inputs must be the trust layer's own artifacts.
 
 | Input | Origin | Access | Verification status | What it can support | What it cannot support |
 |---|---|---|---|---|---|
-| [[dataset-openepcis-generated-event-logs]] | The E2 generator (OpenEPCIS, Apache 2.0, GS1 EPCIS 2.0/CBV 2.0) | Open, local generation | **Primary** for the tooling | Event and dwell distributions, and above all the event *quality* and uncertainty characteristics E2 measured | Real facility behavior. Synthetic dwell is calibrated, not observed |
+| [[dataset-openepcis-generated-event-logs]] | The E2 generator (OpenEPCIS, Apache 2.0, GS1 EPCIS 2.0/CBV 2.0) | Open, local generation | **Primary** for the tooling | Schema-valid synthetic events and controlled missing, delayed, duplicated, contradictory, and tampered cases | Real facility behavior or empirical dwell distributions. Dwell remains an authored prior until permissioned facility data supports calibration |
 | [[dataset-bts-truck-travel-time-data]] | BTS–ATRI Freight Mobility Initiative, county-to-county truck travel times from a panel of ~350,000 unique tractors, 2018–2024 | Free, data.bts.gov Socrata portal | **Primary/secondary mix** — BTS is a federal statistical agency; the underlying ATRI panel terms are not stated on the BTS page | Travel-time calibration so route timing is not invented | Appointment, dock, chassis, or labor constraints. These are the constraints that most affect whether a backhaul match is feasible, and none of them are in this data |
 | [[dataset-permissioned-terminal-facility-event-feed]] | A pilot partner, if secured | Registration, contract, or partner permission | **Partner-dependent**, not a dependency | Optional external-validity inputs | Anything, absent an agreement |
 | Synthetic demand, truck availability, HOS limits, service windows, equipment constraints, load attributes, actor objectives, data freshness | Authored by the project | Project-defined | **To-build** | A controlled factorial in which coordination value can be isolated | External validity. Synthetic demand and behavior may be unrealistic, and the design says so first rather than last |
@@ -100,14 +101,14 @@ its inputs must be the trust layer's own artifacts.
 
 | Method | Intellectual origin | What E5 borrows | What must be built | Known limitation |
 |---|---|---|---|---|
-| [[method-synthetic-orchestration-simulation]] | The constrained vehicle-routing and assignment literature. Solver sanity-checking against SINTEF's published VRPTW benchmark instances; agent-based modeling of empty freight truck trips as published precedent that this problem class is simulated in the literature | Established benchmark instances to validate the solver *before* freight-specific scenarios, so solver quality is never confused with architecture value | The multi-actor objective model, the governance constraints on what evidence the planner may use, the strategic-behavior model, and the whole scenario factorial | Simulated incentives and constraints must eventually be validated against real operations. Strategic behavior in particular is hard to model credibly, and E5 models it as *bounded* behavior rather than an assumed malicious optimum |
+| [[method-synthetic-orchestration-simulation]] | [[source-solomon-sintef-vrptw-benchmark]], [[source-ismael-2024-empty-freight-trips]], [[source-fmcsa-hours-of-service]], [[source-stochastic-and-strategic-collaborative-vrp]], and [[source-multiobjective-and-equitable-vrp]] | Exact-convention benchmark validation before freight scenarios; regulatory HOS checks; explicit uncertainty, strategic-reporting, and actor-distribution models | The governance constraints, authored scenario priors, adversary bounds, actor deterioration gates, and whole scenario factorial | Modeling precedents do not validate Freight Trust assumptions, U.S. freight parameters, or operational benefits |
 | [[method-travel-time-calibration]] | Shared with E2; BTS/ATRI-derived travel times | Realistic timing distributions | Facility-side service-time distributions | Aggregate travel time is not facility ground truth |
 
 ### Provenance of the individual design choices
 
 | Design choice | Why it is there, and whose finding forced it |
 |---|---|
-| C1 is an explicit oracle *diagnostic*, never a deployable claim | The single most common way an orchestration result misleads: full-information performance presented as achievable. If gains appear only under C1, the honest reading is that information matters, not that this product works. Failure mode F06 (oracle information unavailable in deployment) |
+| P2 is an explicit oracle *diagnostic*, never a deployable claim | The single most common way an orchestration result misleads: full-information performance presented as achievable. If gains appear only under P2, the honest reading is that information matters, not that this product works. Failure mode F06 (oracle information unavailable in deployment) |
 | Ablations that remove cross-actor evidence, provenance, uncertainty, governance constraints, and dwell modeling one at a time | The question E5 has to answer is *what caused the gain*. Without ablations, a better solver would be indistinguishable from a working trust layer — which would make the result useless as evidence for the architecture. Failure mode F13 (solver artifact) |
 | Actor objectives kept separate before any composite, with Pareto frontiers and shadow prices reported | A composite objective with weights chosen after seeing results can manufacture any conclusion. Failure mode F12 (objective-weight manipulation) |
 | H5 and the distributional analysis: no stakeholder subgroup may bear a material unpriced shift in delay, margin, or risk | The substantive claim, not a fairness footnote. A reduction in empty miles that relocates delay or risk to a facility, a driver, or a small carrier is cost transfer described as efficiency. R-WN-05's segment discipline extended to the operational setting |
@@ -148,10 +149,11 @@ vocabulary.
 
 ### To risk retirement
 
-It retires the largest commercial unknown — whether the trust layer produces decision value
-beyond compliance and dispute avoidance — and it does so before Phase II capital is
-committed. The strategic-behavior condition also retires a governance
-risk the technical experiments cannot reach: what the planner does when a participant
+It addresses the largest commercial unknown — whether the trust layer produces decision value
+beyond compliance and dispute avoidance. A Phase I specification and CPU feasibility smoke test
+can inform the Phase II ask; only an executed late-Phase-I experiment can retire the operational
+hypothesis before Phase II capital is committed. The strategic-reporting axis also tests a
+governance risk the technical experiments cannot reach: what the planner does when a participant
 withholds, delays, or misreports within modeled bounds.
 
 ### What E5 deliberately does not add
@@ -177,21 +179,25 @@ by the actors who would bear its costs.
 | Alternative | Why rejected |
 |---|---|
 | Lead with orchestration as the Phase I headline | Improvement item 1. It was the least evidenced claim in the strongest position, and it depends on identity, provenance, governance, and participation all being credible first |
-| Claim value from the C1 oracle condition | Explicitly forbidden in the decision rules. Oracle information is unavailable to real participants; a C1-only result supports the importance of information, not the feasibility of the product |
+| Claim value from the P2 oracle policy | Explicitly forbidden in the decision rules. Oracle information is unavailable to real participants; a P2-only result supports the importance of information, not the feasibility of the product |
 | Run a live multi-actor pilot instead of a simulation | No such network exists to run it on, and no partner is secured. Simulation isolates coordination value before a live network is available — that is its entire justification |
 | Use a single composite objective for simplicity | It would let weight selection determine the finding. Actor objectives stay separate, and trade-offs are reported as frontiers |
-| Skip the strategic-behavior condition | A federated system that assumes universal cooperation because it is called federated has assumed away its hardest operating condition. C5 exists so the simulator cannot make that assumption silently |
+| Skip the strategic-reporting axis | A federated system that assumes universal cooperation because it is called federated has assumed away its hardest operating condition. The reporting axis exists so the simulator cannot make that assumption silently |
 | Compare only on empty miles | Empty-mile reduction can be bought with service degradation, safety exceptions, or unserved demand. The comparison is made at equal feasibility and safety, or it is not made |
 
 ### Cost, dependency, and sequencing
 
-E5 is the most expensive to build and the most dependent. It needs E2's dwell and event
-quality characteristics, E3's governance constraints on what evidence the planner may use,
-and E4's participation levels to make the partial-participation scenarios meaningful. That
+E5 is the most expensive to build and the most dependent. Simulator mechanics can begin with
+authored synthetic priors. E2's synthetic output can test sensitivity mechanics but cannot
+empirically calibrate dwell or facility behavior; that claim requires permissioned observations
+with documented truth fitness and rights. A governance-specific claim needs E3's constraints on what evidence the
+planner may use, and an adoption-realistic claim needs E4's measured participation distributions.
+Before those outputs exist, E5 must use labeled sensitivity ranges rather than imply observation. That
 dependency chain is why it carries `status: stretch` and `phase: phase-ii-or-late-phase-i`,
 and why [[datasets-and-experiments-moc]] still lists "whether E5 belongs in Phase I or is
 reserved for Phase II" as an open decision. The defensible default is that E5 is scoped and
-specified during Phase I and executed when G5's gate is reached — the specification itself
+specified during Phase I and executed when the application-value decision gate `DG-E5` is
+reached — the specification itself
 is a deliverable, and it is what makes the Phase II ask concrete.
 
 ## Research questions
@@ -206,35 +212,43 @@ is a deliverable, and it is what makes the Phase II ask concrete.
 
 | ID | Hypothesis | Null / failure interpretation |
 |---|---|---|
-| H1 | Governed planning lowers empty miles or total cost at equal safety and service. | Cross-actor information adds no operational value. |
-| H2 | Modeling dwell explicitly improves backhaul feasibility more than matching on route proximity alone. | The empty-mile problem is not materially upstream of dwell. |
+| H1 | Governed planning improves one preregistered primary outcome (empty miles or total cost, not selected after results) against P0/P1 while satisfying hard safety and service non-inferiority gates. | The tested cross-actor information/policy provides no improvement under those gates. |
+| H2 | Modeling dwell explicitly improves backhaul feasibility more than matching on route proximity alone. | Explicit dwell modeling provides no improvement in the tested synthetic scenarios. |
 | H3 | Provenance/confidence-aware planning outperforms planning that treats all data as certain. | Uncertainty handling adds no value or is too conservative. |
 | H4 | Benefits persist across demand and travel-time scenarios. | Result depends on one favorable synthetic case. |
 | H5 | No stakeholder subgroup bears a material unpriced shift in delay, margin, or risk. | Optimization is merely cost transfer. |
 
-## Experimental conditions
+## Experimental factors
 
-| Condition | Description |
+| Policy | Description |
 |---|---|
-| C0 | Local baseline: each actor optimizes its own route or dispatch objective with no shared coordination. |
-| C1 | Centralized oracle: full information and no governance friction; upper-bound diagnostic, not deployable claim. |
-| C2 | Governed planner: only permitted, provenance-tagged, confidence-aware evidence is shared. |
-| C3 | C2 with uncertainty, abstention, and recourse when evidence is stale or incomplete. |
-| C4 | Stress tests: demand downturn, missed appointment, port delay, HOS tightening, weather, and stale events. |
-| C5 | Strategic/adversarial scenario: actor withholds, delays, or misreports data within modeled bounds. |
+| P0 | Local baseline: each actor optimizes its own route or dispatch objective with no shared coordination. |
+| P1 | Simple time-window- and HOS-feasible planner without the trust-layer capabilities. |
+| P2 | Centralized oracle: full information and no governance friction; upper-bound diagnostic, not deployable claim. |
+| P3 | Governed point-estimate planner: uses only permitted, provenance-tagged evidence and fixed predeclared acceptance rules. |
+| P4 | Governed uncertainty-aware planner: uses predeclared predictive distributions or intervals, robust or chance-constrained decisions, abstention, clarification/recourse, and safe fallback. |
+
+Cross every deployable policy with the same two modifier axes rather than treating modifiers as
+competing policies:
+
+- **Stress axis:** demand, appointment, port/dock, weather, stale-event, travel, dwell, and
+  explicitly non-legal synthetic-tightening scenarios.
+- **Reporting axis:** truthful, missing/withheld, delayed, and bounded biased/misreported data.
 
 ## Unit of analysis and estimand
 
 - Primary unit: simulated planning episode under a fixed seed and scenario.
 - Secondary units: load assignment, truck route, facility visit, actor, and constraint violation.
-- Primary estimand: difference between C2/C3 and C0 in empty miles and service outcomes at
+- Primary estimand: difference between P3/P4 and P0/P1 in empty miles and service outcomes at
   equal safety and feasibility.
-- Secondary estimands: cost, margin, dwell, missed appointments, on-time delivery, HOS
-  violations, risk exceptions, fairness/distributional effects, and data-value sensitivity.
+- Secondary estimands: cost, margin, dwell, missed appointments, on-time delivery, rejected
+  HOS-infeasible alternatives, risk exceptions, fairness/distributional effects, and data-value
+  sensitivity. Accepted-route HOS violations are a stop condition, not a tradeable outcome.
 
 ## Inputs and datasets
 
-- [[dataset-openepcis-generated-event-logs]] — event and dwell distributions.
+- [[dataset-openepcis-generated-event-logs]] — schema-valid synthetic events and anomaly cases;
+  it does not provide empirical dwell distributions.
 - [[dataset-bts-truck-travel-time-data]] — travel-time calibration.
 - [[dataset-permissioned-terminal-facility-event-feed]] — optional external-validity inputs.
 - Synthetic demand, truck availability, HOS limits, service windows, equipment constraints,
@@ -246,21 +260,21 @@ is a deliverable, and it is what makes the Phase II ask concrete.
 - [[method-travel-time-calibration]]
 
 The problem is a constrained vehicle-routing/assignment simulation with time windows,
-uncertain travel and service times, and multi-actor objectives. Use established benchmark
-instances for solver sanity checks before freight-specific scenarios; see [SINTEF’s VRPTW
-benchmark resource](https://www.sintef.no/projectweb/top/vrptw/100-customers/) and research
-on modeling empty freight truck trips with agent-based simulation
-([study](https://www.sciencedirect.com/science/article/pii/S1877050924013292)).
+uncertain travel and service times, and multi-actor objectives. Use exact-convention benchmark
+validation before freight-specific scenarios; see [[source-solomon-sintef-vrptw-benchmark]] and
+the bounded simulation precedent in [[source-ismael-2024-empty-freight-trips]].
 
 ## Protocol
 
 1. Define one bounded workflow, actor objectives, hard constraints, and permitted evidence.
 2. Validate the simulator against simple hand-checkable cases and known routing benchmarks.
-3. Calibrate travel-time and dwell distributions without using the outcome as an input.
+3. Calibrate travel time from eligible public observations. Treat dwell as an authored,
+   provenance-labeled prior until permissioned facility observations support calibration; never
+   use the outcome as a calibration input.
 4. Generate a scenario factorial: demand density, dwell variance, service-window tightness,
    HOS slack, data freshness, and disruption rate.
-5. Run C0-C3 on identical seeds and scenario inputs.
-6. Run C4 stress scenarios and C5 strategic behavior scenarios.
+5. Run P0-P4 on identical seeds, scenario inputs, and realized uncertainty.
+6. Cross the policies with every predeclared stress and reporting-behavior cell.
 7. Record every assignment, rejected load, constraint violation, delay, and actor outcome.
 8. Perform sensitivity analysis on objective weights; do not hide trade-offs in one composite score.
 9. Report whether a result is caused by better information, better optimization, or an
@@ -271,10 +285,11 @@ on modeling empty freight truck trips with agent-based simulation
 **Scenario factors:** demand density, spatial dispersion, dwell mean/variance, time-window
 tightness, HOS slack, travel-time uncertainty, data freshness, disruption rate, and actor mix.
 
-**Treatment:** planning condition C0-C5.
+**Treatment:** planning policy P0-P4, crossed with separate stress and reporting axes.
 
-**Primary outcomes:** empty/deadhead miles, feasible loads assigned, missed appointments,
-on-time delivery, and HOS/safety violations.
+**Primary outcomes:** the preregistered empty/deadhead-mile or total-cost contrast, feasible loads
+assigned, missed appointments and on-time delivery, subject to zero accepted-route HOS/safety
+violations and a frozen service non-inferiority rule.
 
 **Secondary outcomes:** dwell, total miles, fuel proxy, operating cost, margin, load rejection,
 constraint shadow prices, data freshness value, and actor-level distributional effects.
@@ -287,20 +302,31 @@ unserved demand or hidden delay; all actor outcomes must be reported.
 - Use common random numbers across conditions to reduce simulation noise.
 - Run multiple independent seeds and report confidence intervals or quantile intervals.
 - Use factorial or fractional-factorial analysis to identify interaction effects.
-- Compare C2/C3 with C0 at equal feasibility and safety, not on miles alone.
-- Treat C1 as an oracle ceiling; do not compare it as a deployable product.
+- Compare P3/P4 with P0/P1 at equal feasibility and safety, not on miles alone.
+- Treat P2 as an oracle ceiling; do not compare it as a deployable product.
 - Report Pareto frontiers across empty miles, service, margin, safety, and equity; do not
   select weights after seeing results.
+- Predeclare the actor/fleet strata, workload resource, actor-level deterioration statistic,
+  non-inferiority or veto rule, and treatment of priced versus unpriced transfers. Pareto status
+  alone is not an equity finding, and no numeric threshold may be selected after results.
+- Predeclare every uncertainty distribution or interval, source, scenario range, and adversary
+  capability. Separate missing, withheld, delayed, biased, and false reports; do not infer their
+  real-world prevalence from simulated frequency.
 - Conduct ablations: remove event provenance, remove uncertainty, remove cross-actor data,
   and remove governance constraints to identify the source of any gain.
 
 ## Initial decision rules
 
-- No Phase II orchestration claim unless C2/C3 beats C0 on the predeclared primary objective
+- No Phase II orchestration claim unless P3/P4 beats P0/P1 on the predeclared primary objective
   without worsening safety or service beyond guardrails.
-- No scale recommendation if benefits occur only under C1 oracle information.
+- No scale recommendation if benefits occur only under P2 oracle information.
 - No success claim if one actor’s gains are explained by another actor’s unpriced losses.
-- No deployment recommendation unless results survive demand, dwell, travel-time, and stale-data stress tests.
+- Synthetic E5 results never authorize deployment. Passing demand, dwell, travel-time and stale-
+  data stress tests gates only a later permissioned external evaluation.
+- No fairness claim unless every predeclared actor/fleet deterioration gate is evaluated; synthetic
+  labels support sensitivity analysis, not a real-world equity conclusion.
+- No calibrated-realism claim until the relevant authored priors are replaced or bounded by
+  permissioned observations with documented rights and fitness.
 
 ## Threats to validity
 
@@ -332,8 +358,9 @@ Keep actor objectives separate before creating any composite objective. At minim
 - risk exceptions, data uncertainty, and correction burden; and
 - distributional outcomes by actor and fleet-size band.
 
-The weights must be declared before results. Report Pareto frontiers and shadow prices so a
-decision-maker can see what each improvement costs elsewhere.
+The weights and actor-deterioration gates must be declared before results. Report Pareto
+frontiers and shadow prices so a decision-maker can see what each improvement costs elsewhere.
+The frontier is descriptive; it does not choose a normative fairness threshold.
 
 ### Scenario matrix
 
@@ -345,7 +372,7 @@ Run at least these factors independently and in interaction:
 | Demand volatility | stable, seasonal, shock |
 | Dwell | low variance, heavy tail, facility-specific |
 | Time windows | loose, normal, tight |
-| HOS slack | high, normal, constrained |
+| HOS slack | regulation-conformant ample, typical, constrained; any synthetic tightening is explicitly non-legal |
 | Travel uncertainty | low, calibrated, disruption-heavy |
 | Evidence freshness | current, delayed, stale |
 | Participation | full, partial, asymmetric |
@@ -358,17 +385,29 @@ replayable. Validate the state transitions with hand-worked cases before optimiz
 ### Baselines and ablations
 
 Required baselines are local greedy dispatch, proximity-only backhaul matching, and a simple
-time-window-feasible planner. C1 is an oracle diagnostic, not a deployable baseline. Ablate
+time-window- and HOS-feasible planner. P2 is an oracle diagnostic, not a deployable baseline. Ablate
 one capability at a time: remove cross-actor evidence, remove provenance, remove uncertainty,
 remove governance constraints, and remove dwell modeling. This identifies whether gains come
 from the trust layer or from giving the solver more information.
 
 ### Feasibility and safety checks
 
-Every proposed route must pass hard constraints for HOS, service windows, capacity,
-equipment, legal travel, and appointment order. Log infeasible alternatives and the first
-binding constraint. Never award an objective improvement for unserved loads, hidden lateness,
+Every proposed route must pass hard constraints for service windows, capacity, equipment, legal
+travel, appointment order, and the applicable property-carrying HOS clocks and exceptions in
+[[source-fmcsa-hours-of-service]]. The conformance layer must represent driving, on-duty,
+off-duty/break, duty-window, cycle, and explicitly invoked exception state. Synthetic tightening
+is a stress assumption, not a statement of law. Log infeasible alternatives and the first binding
+constraint. Never award an objective improvement for unserved loads, hidden lateness,
 unrecorded waiting, or safety violations.
+
+### Solver qualification
+
+Before freight scenarios, pin benchmark-instance files and checksums, solver and dependency
+versions, hardware, objective convention, distance precision, time limit, random seed, solver
+status, and reported gap. Match the hierarchical fleet-count/distance convention when comparing
+with SINTEF. Independently verify depot return, capacity, service, and time-window feasibility;
+separate solver correctness from solution quality. A mismatch in convention is not evidence of
+inferior or superior optimization.
 
 ### Statistical design
 
@@ -382,16 +421,18 @@ uncertainty at the scenario/network level.
 
 Vary objective weights, solver time limits, demand forecasts, dwell parameters, HOS slack,
 and data freshness. A result that disappears after a small plausible parameter change is a
-fragile hypothesis. Compare deterministic and uncertainty-aware planners under identical
-realizations; do not let one condition receive better forecasts.
+fragile hypothesis. Compare point-estimate and uncertainty-aware planners under identical
+realizations; do not let one policy receive better forecasts. Report coverage or calibration of
+predictive intervals where observations exist and label authored ranges as sensitivity inputs.
 
 ### Strategic behavior
 
-Model withholding and delayed reporting conservatively as bounded behavior, not as an assumed
-malicious optimum. Test whether the planner abstains, requests clarification, falls back to
-a safe local policy, or reallocates work. Record which actor bears the consequence. The
-simulator should not silently assume universal cooperation because the system is called
-federated.
+Model missing, withholding, delayed, biased, and false reporting separately as bounded behavior,
+not as an assumed malicious optimum. Freeze the actor's information, action set, budget, and
+objective before runs. Test whether the planner detects the condition, abstains, requests
+clarification, falls back to a safe local policy, or reallocates work. Record which actor bears the
+consequence. The simulator should not silently assume universal cooperation because the system
+is called federated; simulated behavior does not estimate its real-world prevalence.
 
 ### Exit and escalation
 
@@ -400,11 +441,27 @@ degradation, or relies on oracle information unavailable to participants. Escala
 result is highly weight-sensitive, if the solver fails to find comparable feasible solutions,
 or if improvements are explained by shifting cost or risk to a less powerful actor.
 
+## Build-start specification
+
+Start with a declared operating population and HOS scope, formal scenario/state/constraint
+schemas, deterministic generator, hand-worked route cases, explicit P0/P1 algorithms and tie-
+breaks, a pinned solver adapter, independent feasibility checker and mock P3/P4 policy/evidence
+fixtures. Pin Solomon/SINTEF instances and checksums; they qualify VRPTW conventions and solution
+feasibility only, not HOS, governance, uncertainty, actor economics or Freight Trust value. Use
+the common packet in [[e1-e5-build-readiness-and-run-contract]].
+
+The base HOS state machine must test 11/14-hour clocks, cumulative eight-hour break and 60/70-hour
+cycles for the declared property-carrying population. Add sleeper-berth, restart, adverse-driving
+or short-haul vectors only when those exceptions are explicitly in scope. Build acceptance also
+requires one frozen primary contrast/outcome, service bounds, actor-deterioration rules, identical
+information/seeds/realizations, deterministic smoke replay and zero accepted-route hard-constraint
+violations. Findings remain synthetic build-feasibility evidence.
+
 ## Required outputs
 
 1. Formal scenario and constraint specification.
 2. Simulator validation and benchmark report.
 3. Scenario generator and random seeds.
-4. Condition, ablation, sensitivity, and Pareto-frontier results.
+4. Policy, stress, reporting, ablation, sensitivity, and Pareto-frontier results.
 5. Actor-level distributional and safety report.
 6. Decision memo on whether orchestration belongs in Phase II.

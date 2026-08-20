@@ -5,7 +5,7 @@ owner: product/data lead + counsel
 authority: NSF 26-510
 schema_version: 1.0.0
 deliverable: Data Management Plan
-updated: 2026-08-01
+updated: 2026-08-18
 tags:
 - type/draft
 - domain/freight
@@ -23,11 +23,12 @@ tags:
 
 | Data type | Description | Primary aim(s) | Source |
 |---|---|---|---|
-| Freight records | Carrier/broker/shipper identity and transaction-adjacent records (e.g., registration numbers, insurance filings, safety history references) used as raw material for entity resolution. | Aim 1 | At least one real, nameable source: FMCSA's public carrier registration/safety data (the SAFER system and its Motus-based successor, per [[phase-1-project-description-draft#1. Problem and significance]]) is a lawfully public federal registry usable within its public-data terms; [ADDITIONAL SOURCE PLACEHOLDER — authoritative registries, partner-provided extracts; confirm lawful basis for each] |
+| Freight records | Carrier/broker/shipper identity and transaction-adjacent records used as raw material for entity resolution. | Aim 1 | FMCSA/Motus sources are publicly downloadable where named, but catalog licence and derived benchmark redistribution rights must be checked source by source; [ADDITIONAL SOURCE PLACEHOLDER — authoritative registries, partner-provided extracts; confirm lawful basis for each] |
 | Identity attributes | Fields describing a counterparty's identity and affiliations (legal name, DOT/MC-type identifiers, affiliate/ownership signals) used to test resolution across fragmented, conflicting records. | Aim 1 | FMCSA's public registration data (SAFER/Motus) as above, for the identifier fields it publishes; [ADDITIONAL SOURCE PLACEHOLDER] |
-| Event assertions | Facility/operational event claims (e.g., appointment, arrival, gate, dock, loading/unloading, departure) with source, timestamp, and confidence metadata, used to test provenance and tamper/contradiction detection. | Aim 2 | [SOURCE PLACEHOLDER — facility or telematics partner feeds, per [[01-client-briefs/freight-trust-client-master-brief#Proposed system]]] |
-| Benchmark labels | Adjudicated ground-truth labels (correct/incorrect entity match, verified/contradicted event) created to evaluate Aim 1 and Aim 2 systems against defined baselines. | Aim 1, Aim 2 | Created by the project team through an adjudication protocol; underlying raw records may be partner-sourced. [ADJUDICATION PROTOCOL OWNER PLACEHOLDER] |
+| Event assertions | Facility/operational event claims (e.g., appointment, arrival, gate, dock, loading/unloading, departure) with source, timestamp, and confidence metadata, used to test provenance-aware reconstruction and injected anomaly/contradiction detection. | Aim 2 | [SOURCE PLACEHOLDER — facility or telematics partner feeds, per [[01-client-briefs/freight-trust-client-master-brief#Proposed system]]] |
+| Benchmark reference states | Aim 1 adjudicated reference states, including `UNRESOLVED`, and Aim 2's separate synthetic hidden truth, observability truth, source assertions and any uncertain partner adjudication. | Aim 1, Aim 2 | Created under experiment-specific protocols; underlying raw records may be partner-sourced only under an executed authorization. [ADJUDICATION PROTOCOL OWNER PLACEHOLDER] |
 | Interview records | Structured customer-discovery interview notes/recordings/transcripts with buyer-role contacts (brokers, carriers, facilities) capturing workflow pain, alternatives, and pilot interest. | Commercialization evidence supporting all aims | Collected directly by the project team; see [[commercialization-plan-draft]]. |
+| Participation and burden records | E4 invitations, assignment/exposure, receipt, activation, repeat use, staff time/cost, comprehension, refusal, correction, appeal and adverse-event records. | Cross-cutting E4 feasibility or later field experiment | Collected only after an institutional IRB/exemption determination and approved recruitment/consent/data plan. Row-level and linkage-key data remain in separately controlled storage outside the public knowledge-base repository. |
 
 ## 2. Provenance and permitted-use recording
 
@@ -39,7 +40,16 @@ Every ingested record — freight record, identity attribute, or event assertion
 - **Permitted-use tag**: the purpose(s) for which the data's source or contributing partner has authorized use (e.g., benchmark evaluation only; internal R&D only; not for redistribution) — recorded per record or per source-batch, not assumed globally.
 - **Correction/dispute status**: whether the record has been challenged, corrected, or is under active dispute, with a pointer to the correcting record (see Section 7).
 
-No record should be used for a purpose beyond its recorded permitted-use tag. Where a partner's authorization is undocumented, the record is treated as evaluation-only pending written confirmation, never as freely shareable or reusable by default. [PARTNER AUTHORIZATION LOG OWNER PLACEHOLDER].
+No record may be used beyond its recorded permitted-use tag. If partner authorization or another
+lawful basis is undocumented, the record is quarantined and is not ingested, evaluated, shared or
+reused until an executed authorization/data-use instrument and permitted-purpose record exist.
+The run must instead use public, synthetic or separately authorized data. [PARTNER AUTHORIZATION
+LOG OWNER PLACEHOLDER].
+
+The Git-tracked `knowledge-base/` is a public corpus regardless of `audience` or `status`
+metadata. It may hold schemas, synthetic examples and disclosure-controlled aggregate reports,
+but never raw or pseudonymized participant/partner rows, linkage keys, direct identifiers,
+adjudicator packets or commercially sensitive refusal/adverse-event narratives.
 
 ## 3. Proprietary-data handling without a blanket designation
 
@@ -49,7 +59,10 @@ Proprietary handling is scoped at the field/record level:
 
 - **Field-level sensitivity classification**: each ingested field is tagged as (a) shareable for benchmark/methodology reporting in de-identified or aggregate form, (b) usable for internal evaluation only, not reportable even in aggregate, or (c) restricted to the minimum personnel required, per partner agreement. [CLASSIFICATION OWNER PLACEHOLDER — data/product lead + counsel, per [[nsf-sbir-sttr-process-and-readiness-guide#9. Immediate deliverables for the programme]]].
 - **De-identification for reporting**: where Aim 1/Aim 2 results are reported to NSF or in any public artifact, identity-level detail is removed or aggregated (e.g., segment-level precision/recall rather than named-carrier results), unless a specific partner has authorized identified reporting in writing.
-- **No validation-blocking default**: the classification scheme must preserve at least one lawful, sufficiently representative slice of data on which the held-out benchmark and calibration tests (per [[nsf-sbir-sttr-process-and-readiness-guide#5. Full Phase I proposal: build around proof, not aspiration]]) can actually run and be independently reviewed — a partner's proprietary designation cannot be allowed to eliminate all testable evidence.
+- **No rights override**: the project should seek at least one lawful, sufficiently representative
+  slice for held-out evaluation and independent review. If agreements do not permit that evidence,
+  the benchmark, claim or partner-data lane is narrowed or stopped; a partner designation is never
+  overridden for scientific convenience.
 - **Written basis required**: no dataset is treated as "proprietary and unusable for validation" or "shareable" based on assumption; each partner's actual data-use agreement or letter governs its classification. [PARTNER DATA-USE AGREEMENTS PLACEHOLDER — list actual agreements once executed].
 
 ## 4. Retention and deletion
@@ -59,7 +72,8 @@ Proprietary handling is scoped at the field/record level:
 | Raw partner-sourced freight/identity/event records | Retained only as long as needed for the funded benchmark and prototype work, per the partner's data-use terms. | **Provisional default: award period plus 3 years, per standard federal audit-retention practice**, unless a partner agreement specifies a shorter period — [OVERRIDE PLACEHOLDER — apply only where a specific partner agreement requires shorter retention or earlier deletion/return]. |
 | Benchmark labels (adjudicated ground truth) | Retained for the duration of the award plus any NSF-required post-award reporting window. | **Provisional default: award period plus 3 years**, matching the raw-record default above; reviewed for continued lawful basis before Phase II reuse, if any. |
 | Interview records (notes/recordings/transcripts) | Retained per participant consent terms; recordings, if any, minimized in retention relative to notes. | **Provisional default: raw recordings deleted within 1 year of the interview** unless the participant's consent terms specify otherwise — [CONSENT TERMS PLACEHOLDER — apply only where an actual consent form states a different period]; de-identified synthesis may be retained longer for commercialization evidence. |
-| Derived/aggregate benchmark artifacts (e.g., precision/recall tables, calibration curves) | Retained indefinitely as project evidence, since these do not expose raw partner data. | No routine deletion trigger; reviewed if a source dataset's authorization is later withdrawn. |
+| E4 row-level participation/burden records and linkage key | Retained only in encrypted, access-logged non-Git storage under the institutional determination and consent/data plan; the linkage key is stored separately. | [PLACEHOLDER — institutionally approved retention/withdrawal/deletion schedule]; public export requires minimum-cell/suppression and disclosure review. |
+| Derived/aggregate benchmark artifacts (e.g., precision/recall tables, calibration curves) | Retained only under the governing agreement, withdrawal terms, institutional plan and a documented disclosure/re-identification review; aggregation alone does not make an artifact harmless. | Delete, suppress or revise when the governing terms, withdrawal request, small-cell/re-identification review or research-retention rule requires it. |
 
 Deletion and retention commitments in this section must be checked against, and cannot exceed, whatever a partner's actual written data-use agreement permits. The 3-year and 1-year figures above are provisional company-stateable defaults (matching standard federal grant audit-retention practice), not partner-specific commitments; they are overridden by any partner agreement requiring shorter retention. [COMPANY RETENTION POLICY OWNER PLACEHOLDER — confirm or adjust these defaults].
 
@@ -76,9 +90,10 @@ Deletion and retention commitments in this section must be checked against, and 
 | Artifact class | Sharing posture | Rationale |
 |---|---|---|
 | Methodology, benchmark protocol, evaluation code/harness | Shareable in the proposal, in publications, and potentially as open methodology after award, subject to company IP decisions. | Permits independent review of Intellectual Merit without exposing partner data (per NSF's expectation that claims be verifiable). |
-| Aggregate/segment-level benchmark results (precision/recall, calibration, disparity metrics) | Shareable in reporting and publication in de-identified/aggregate form. | Supports Broader Impacts and Intellectual Merit reporting while protecting identified partner data. |
+| Aggregate/segment-level benchmark results (precision/recall, calibration, disparity metrics) | Potentially shareable only when the governing agreement permits it and small-cell, linkage, re-identification and disclosure review passes. | Aggregation reduces some exposure but does not itself prove that partner or participant information is non-identifiable or publishable. |
 | Raw partner-sourced freight records, identity attributes, event assertions | Not shared outside the funded project team and NSF-required reporting/audit channels; not published or redistributed. | Preserves partner trust and matches the federated, source-stays-authoritative design principle. |
 | Interview records (raw) | Not shared outside the project team; synthesis only is used in commercialization evidence (see [[commercialization-plan-draft]]). | Protects interviewee confidentiality and matches typical discovery-interview consent scope. |
+| E4 row-level participation/burden data | Never Git-tracked or publicly released; only disclosure-controlled aggregates may enter the vault or reports after export review. | Metadata cannot make a tracked vault file private; records can expose commercial choices, refusal reasons, burden and adverse consequences. |
 | Correction/redress case records | Retained internally; may be summarized (counts, resolution time) for reporting, not shared as raw content. | Supports the measurable "correction-time target" milestone in [[nsf-sbir-sttr-process-and-readiness-guide#5. Full Phase I proposal: build around proof, not aspiration]] without exposing dispute specifics. |
 
 ## 7. Correction and redress records
@@ -96,6 +111,8 @@ Consistent with the governance loop in [[01-client-briefs/freight-trust-client-m
 - [ ] Actual data-use agreements or letters governing proprietary/sensitivity classification per partner.
 - [ ] Company's chosen retention periods and deletion mechanics for raw partner data.
 - [ ] Interview consent language and recording-retention policy.
+- [ ] Institutional IRB/exemption determination and approved E4 recruitment, consent,
+      adverse-event, withdrawal, private-storage and disclosure-control plan before recruitment.
 - [ ] Encryption/storage/compliance specifics (cloud provider, security controls already in place).
 - [ ] Named data/product lead and counsel responsible for classification and access decisions.
 - [ ] Adjudication protocol and adjudicator identity for benchmark ground-truth labels.

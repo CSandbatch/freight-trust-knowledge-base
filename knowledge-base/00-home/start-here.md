@@ -35,6 +35,8 @@ This is the canonical navigation layer for the Freight Trust research programme:
 | Verify a research claim | [[03-research-evidence/research-evidence-moc]] → [[03-research-evidence/evidence]] |
 | Understand the Terra/Luna/Rabbit research workflow | [[05-agent-system/agent-system-moc]] |
 | Design or review the benchmark and Phase I experiments | [[03-research-evidence/datasets-and-experiments-moc]] |
+| Understand E1 end to end | [[03-research-evidence/e1-experiment-brief-and-readiness-map]] → [[03-research-evidence/experiment-e1-entity-resolution-and-identity-assurance]] |
+| See how E1–E5 fit together | [[03-research-evidence/integrated-e1-e5-research-programme]] |
 | Reuse a diagram | [[07-visuals/visual-index]] |
 | Understand how the vault itself is built and kept true | [[09-meta/meta-moc]] |
 | Look up a term of art | [[09-meta/glossary]] |
@@ -81,7 +83,7 @@ flowchart TD
 |---|---|---|
 | Client narrative | Consolidated | Confirm priority audience and first pilot workflow. |
 | Evidence | Sourced baseline assembled | Add primary interviews and permissioned benchmark data. |
-| Datasets and experiments | E1 identity-definition RC1 source-grounded and hostile-reviewed; benchmark not yet built | PI/domain/counsel freeze, train adjudicators, pilot double-labeling, then construct E1 corpus and run baselines. |
+| Datasets and experiments | E1–E5 source-refreshed and aligned under a versioned interface/claim contract; all remain unrun. E1 is the most mature protocol; E2/E3 received major semantic/security corrections; E4/E5 are conditional later lanes | Close [[09-meta/gaps/gap-019-e1-e5-programme-readiness]], beginning with E1 human freeze, reviewer pilot, benchmark and C1/C2 implementations. |
 | SBIR | Full draft package: Pitch, project description, budget, DMP, commercialization plan, risk register (all placeholder-gated) | Confirm legal form, SBIR/STTR route, PI effort/employment eligibility, and remaining personnel rates to resolve placeholders. |
 | Agents | Framework, roles, and skill contract documented | Use the task-packet loop for each new research pass. |
 | Vault machinery | Schema 1.0.0, seven-layer tag taxonomy, methodology, five agent layers and four loops defined | Team-release migration completed 2026-08-08; run the release audit before each subsequent distribution. |

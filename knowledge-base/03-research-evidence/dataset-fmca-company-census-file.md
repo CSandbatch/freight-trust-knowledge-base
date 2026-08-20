@@ -5,8 +5,8 @@ phase: phase-i
 schema_version: 1.0.0
 verification: confirmed
 access: bulk download, CSV/JSON/XML via Socrata; no login, no API key, no agreement
-licence: metadata licence field reads "unknown"; presumed public domain under 17 U.S.C. §105 but not stated — confirm, do not assume
-updated: 2026-08-04
+licence: metadata licence field reads "unknown"; public access is confirmed but reuse and derived-benchmark redistribution rights are unresolved
+updated: 2026-08-20
 tags:
 - type/dataset
 - domain/identity
@@ -23,5 +23,7 @@ Real identity and registration seed records for carrier entity resolution.
 - Fields: carrier identifiers, legal names, addresses, status, and temporal changes as available.
 - Use: normalize entities and create time-aware identity cases.
 - Limitation: it carries no labeled fraud or chameleon-carrier outcomes; expert adjudication is required.
+- Rights boundary: do not infer a public-domain or redistribution licence from government hosting;
+  freeze the source terms and obtain a rights decision before distributing derived record data.
 - Linked experiment: [[experiment-e1-entity-resolution-and-identity-assurance]]
 - Linked methods: [[method-deterministic-entity-matching]], [[method-probabilistic-entity-resolution]], [[method-graph-assisted-entity-resolution]].

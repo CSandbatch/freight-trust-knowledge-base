@@ -6,7 +6,7 @@ schema_version: 1.0.0
 verification: not-attempted
 access: to-build — created through blinded expert adjudication over permitted source records
 licence: unresolved — redistribution depends on the rights of each incorporated source; source-derived fields and release rights must be tracked per case
-updated: 2026-08-08
+updated: 2026-08-18
 tags:
 - type/dataset
 - domain/identity
@@ -18,7 +18,7 @@ tags:
 ---
 # E1 Adjudicated Carrier Identity Cases
 
-The gold-standard corpus for E1. This dataset is intentionally **not** a “chameleon-carrier
+The adjudicated reference-standard corpus for E1. This dataset is intentionally **not** a “chameleon-carrier
 list.” Its primary purpose is to evaluate whether observations can be assigned to the correct
 legal-person identity and whether distinct but related entities can be represented without
 being falsely merged.
@@ -49,7 +49,10 @@ At minimum: `case_id`; canonical legal-person cluster IDs; source-record IDs; so
 claimed identifiers; authoritative identifier assignments; names/DBAs; addresses; corporate
 transaction evidence; relationship assertions; reviewer-1 label/rationale; reviewer-2
 label/rationale; third-adjudicator disposition where required; unresolved reason; confidence;
-PII/sensitivity flags; redistribution rights; correction history; benchmark split; feature regime.
+PII/sensitivity flags; redistribution rights; correction history; benchmark split; feature regime;
+sampled anchor IDs; anchor-to-entity multiplicity; anchor, entity, and observation inclusion
+probabilities; cluster-closure status and exclusion reason; model action; action-specific outcome;
+and false-attachment/false-new-cluster harm category.
 
 ## Construction rules
 
@@ -62,12 +65,18 @@ PII/sensitivity flags; redistribution rights; correction history; benchmark spli
   cutoff is masked from the model.
 - Safety/enforcement/motive history is excluded from Task A identity labeling except when
   necessary to interpret an already-issued authoritative disposition.
+- Model/LLM outputs, generated explanations, candidate ranks, embeddings, and inferred facts are
+  excluded from gold construction and cluster closure. They are predictions, never source evidence.
 - A claimed USDOT is not treated as an authoritative assignment.
 - Weak fields such as address, phone, name similarity, shared insurer, or shared equipment are
   never individually dispositive.
 - State-law identity/transaction facts use the competent official state source. Each sampled
   jurisdiction requires an access adapter; tax/right-to-transact status is not silently mapped to
   legal existence.
+- When multiple sampled registration anchors resolve to one legal person, retain every selection
+  in the audit but compute the legal person's probability of selection through at least one
+  in-frame anchor. Entity-level metrics count the full cluster once under the multiplicity-adjusted
+  weight specified in [[e1-benchmark-sampling-and-split-plan]].
 
 
 ## Benchmark cohorts and inferential use
@@ -80,12 +89,29 @@ The dataset is no longer treated as one undifferentiated collection of “hard c
 
 Within Cohort R, confirmatory evaluation distinguishes F6a continuing entities from F6b truly novel entities. Gold/model chronology and design-weighted analysis follow [[e1-statistical-analysis-and-preregistration-plan]].
 
+The complete-case primary analysis estimates performance in the explicitly named
+closure-eligible target population. The corpus retains all incomplete clusters and carries the
+design-weighted closure-exclusion and frozen bounds/sensitivity inputs needed to assess whether
+that restriction changes the conclusion; it must not silently present closure-eligible results as
+performance over the unrestricted registration frame.
+
 ## Evaluation use
 
 The corpus supports anchor-visible control tests plus anchor-masked, anchor-missing,
 anchor-corrupted, claim-versus-assignment-conflict, cross-registration, entity-disjoint, and
 time-forward evaluation regimes. Headline E1 performance must not be a trivial rediscovery of
 an authoritative USDOT field used to construct the gold label.
+
+Joint automatic-assignment outcomes are supplemented by separate `LINK_EXISTING` and
+`CREATE_NEW` confusion fields so false attachments and false new-cluster decisions cannot cancel
+or disappear inside one pooled precision estimate.
+
+For C6 under [[method-llm-assisted-entity-resolution]], the corpus also stores access-controlled
+feature-view manifests and frozen diagnostic memberships for repeated identical packets,
+masked/randomized names or identifiers, chronology canaries, and inert prompt-injection strings.
+These are model diagnostics, not new gold layers or representative strata. Any hosted-model
+request/response artifact inherits the most restrictive input classification; the public corpus
+does not acquire a right to redistribute prompts or responses containing restricted source data.
 
 ## Limits
 
@@ -95,5 +121,5 @@ identity-verification systems are prior art, not gold labels for this corpus. A 
 does not authorize consequential carrier decisions.
 
 - Linked experiment: [[experiment-e1-entity-resolution-and-identity-assurance]].
-- Linked methods: [[method-deterministic-entity-matching]], [[method-probabilistic-entity-resolution]], [[method-graph-assisted-entity-resolution]], [[method-expert-adjudication]].
+- Linked methods: [[method-deterministic-entity-matching]], [[method-probabilistic-entity-resolution]], [[method-graph-assisted-entity-resolution]], [[method-llm-assisted-entity-resolution]], [[method-expert-adjudication]].
 - Research basis: [[e1-identity-definition-research-report]], [[e1-identity-claims-ledger]], [[e1-definition-freeze-review]].

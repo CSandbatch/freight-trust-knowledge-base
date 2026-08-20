@@ -13,6 +13,9 @@ COMP/
 knowledge-base.rollback-*/
 freight-trust-kb_team-v*.zip
 _site/
+.venv/
+venv/
+env/
 knowledge-base/.obsidian/workspace.json
 knowledge-base/.obsidian/workspace-mobile.json
 knowledge-base/.obsidian/workspace.json.bak

@@ -21,6 +21,8 @@ evidence rules, and historical handoff design.
 - [[guiding-routes]] — request-to-role routing, acceptance gates, handoffs, and exit checks.
 - [[roster]] — roles and handoffs.
 - [[mcp-capabilities]] — tool and connector boundaries.
+- [[experiment-mcp-and-tooling-setup]] — least-privilege MCP profile and runtime tool candidates
+  for E1-E5 implementation.
 - [[tools-and-skills]] — current tool/skill roster.
 - [[runtime/runtime-moc]] — portable runtime specifications and Git/PR agent contract.
 

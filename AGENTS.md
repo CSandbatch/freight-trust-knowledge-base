@@ -15,6 +15,28 @@ whole change, and remains accountable for the final answer.
 - Preserve user changes in a dirty worktree. Do not rewrite unrelated files.
 - Never commit credentials, `.env` contents, personal Obsidian workspace state, or
   connector tokens.
+- **Always use the repository virtual environment for Python.** On Windows invoke
+  `.\.venv\Scripts\python.exe`; do not use bare `python`, `py`, or `pip` after `.venv`
+  exists. If it is missing, create it first and install `requirements.txt` before running
+  any repository script, test, or Python helper.
+
+## AWS and OpenRouter boundary
+
+- `.codex/agents/` configures Codex project subagents; it is not an AWS-hosted or
+  OpenRouter-backed application runtime.
+- Local provider configuration starts from `.env.example`. Keep populated values only in
+  ignored `.env` or an approved secret manager.
+- Use `OPENROUTER_API_KEY`, `OPENROUTER_BASE_URL`, and an explicit
+  `OPENROUTER_MODEL`. Do not reinterpret generic `API_SERVER_*` or another provider's key
+  as OpenRouter configuration.
+- Prefer AWS profiles for local work and attached IAM roles/workload identity in deployed
+  workloads. Do not put console usernames, passwords, or sign-in URLs in application env.
+- Before provider-dependent work, run
+  `.\.venv\Scripts\python.exe scripts\check_runtime.py --live`. This validates AWS STS,
+  OpenRouter key metadata, the local venv, and the persona factory without printing
+  secret or account material.
+- STS success proves credential validity only. Validate service-specific IAM permissions
+  after the target AWS services and deployment shape are named.
 
 ## Orchestrator operating loop
 
@@ -104,14 +126,15 @@ change.
 - Use focused patches. Preserve established encodings and line endings where practical.
 - Search with `rg`/`rg --files` before broader scans.
 - Add or update tests for behavior changes.
-- For vault-only changes, run `python scripts/validate_kb.py`.
+- For vault-only changes, run
+  `.\.venv\Scripts\python.exe scripts\validate_kb.py`.
 - For portal/compiler changes, run:
 
 ```powershell
-python scripts/validate_kb.py
-python -m unittest discover -s tests -p "test_*.py" -v
-python scripts/build_site.py --site-url https://csandbatch.github.io/freight-trust-knowledge-base/
-python scripts/validate_site.py --check-deterministic
+.\.venv\Scripts\python.exe scripts\validate_kb.py
+.\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_*.py" -v
+.\.venv\Scripts\python.exe scripts\build_site.py --site-url https://csandbatch.github.io/freight-trust-knowledge-base/
+.\.venv\Scripts\python.exe scripts\validate_site.py --check-deterministic
 git diff --check
 ```
 

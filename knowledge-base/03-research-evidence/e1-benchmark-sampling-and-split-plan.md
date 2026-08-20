@@ -2,7 +2,7 @@
 type: method
 status: candidate
 schema_version: 1.0.0
-updated: 2026-08-08
+updated: 2026-08-18
 tags:
 - type/method
 - lifecycle/candidate
@@ -37,6 +37,24 @@ Before sampling, freeze:
 
 The sampling frame is **FMCSA registration records**, not pre-assumed legal-person clusters. The adjudication process determines the underlying `LegalPerson` clusters. If two sampled registration anchors resolve to one legal person, the duplicate selection is retained in the sampling audit and handled in estimation rather than silently discarded.
 
+### 1.1 Anchor multiplicity and analysis weights
+
+After adjudication reveals the in-frame anchors belonging to each sampled legal person, compute
+that person's design inclusion probability as the probability that **at least one** of its in-frame
+registration anchors would be selected under the frozen stratified sampling design. Under
+stratified sampling without replacement, calculate this from the frame stratum sizes, stratum
+sample sizes, and the number of the person's anchors in each stratum; do not sum anchor inclusion
+probabilities or count the same legal person once per sampled anchor. Entity-level cluster metrics
+use a multiplicity-adjusted Horvitz-Thompson total or its preregistered Hájek ratio form with weight
+`1 / pi_entity`. Observation-decision estimands use the inclusion probability induced by the same
+entity-selection and frozen cluster-expansion rule. The preregistration must freeze the exact
+formula, finite-population correction, ratio/total form, variance/replicate-weight implementation,
+and handling of an entity whose full in-frame anchor multiplicity cannot be established.
+
+Duplicate anchor selections remain in the audit manifest, but one entity's full contribution is
+carried together once in each entity-level replicate. A simulation test with known duplicated
+anchors must recover the generating finite-population estimand before the real holdout is opened.
+
 The confirmatory target population must be stated narrowly enough that the benchmark can actually support it. Generalization outside sampled jurisdictions/source environments is not claimed without an additional validation cohort.
 
 ## 2. Cohort R — representative entity-centric evaluation cohort
@@ -59,6 +77,15 @@ If rare but scientifically important strata would otherwise have too few units, 
 
 For every selected anchor, reviewers construct the **complete in-scope legal-person cluster** under the identity standard. The cluster is not defined by one model's candidate list. Cluster construction uses a broad, model-independent retrieval protocol across permitted authoritative sources and documented weak-field search routes.
 
+Before case construction, freeze the source list, predicate-specific query templates, normalized
+search keys, jurisdiction adapters, temporal windows, candidate ledger, and stopping rule. Closure
+requires every permitted route to be attempted, every returned candidate to receive a documented
+disposition, every evidence request to be resolved or logged as unavailable, and a final repeated
+retrieval pass to yield no new in-scope candidate. An independent, blinded audit sample repeats the
+frozen retrieval protocol without model outputs; its missed-candidate rate and disagreement are
+reported. The pilot sets the audit-sample size and any numeric closure threshold before
+confirmatory sampling.
+
 A cluster is primary-evaluation eligible only after a closure audit records:
 
 - all retrieval routes attempted;
@@ -67,13 +94,25 @@ A cluster is primary-evaluation eligible only after a closure audit records:
 - unresolved records/candidates;
 - an explicit `cluster_closure_status` (`closed`, `provisionally_closed`, `incomplete`).
 
-`incomplete` clusters remain scientifically useful but are excluded from confirmatory global metrics and analyzed separately.
+`incomplete` clusters remain scientifically useful but are excluded from the complete-case primary
+analysis and analyzed separately. The primary estimand is explicitly named the
+**closure-eligible target-population estimand**, not the unrestricted frame-population estimand.
+Report the design-weighted closure rate and exclusion reasons overall and by preregistered stratum.
+Also report preregistered conservative bounds that assign excluded observations the plausible
+best/worst method outcomes; a development-fitted response-propensity adjustment may be secondary
+only if its model and diagnostics are frozen before test access. If closure failure is systematic
+or the bounds change the decision, no unrestricted population-performance claim is made.
 
 This follows the entity-centric logic of [[source-binette-2024-entity-centric-er-evaluation]]: fully resolved sampled entities permit sampling-aware estimation of pairwise and cluster metrics and reduce dependence on system-proposed pairs.
 
 ### 2.3 Probability-aware estimation
 
 Population estimates are design-weighted. Naive precision/recall computed after disproportionate sampling are prohibited. The analysis preserves stratum, inclusion probability, and replicate-weight/bootstrap information.
+
+The analysis archive contains both anchor-level selection probabilities and the adjudication-
+derived entity/observation inclusion probabilities. It reports the unweighted sample count,
+weighted target-population denominator, effective sample size, number of duplicated sampled
+anchors, and number of unique resolved legal persons.
 
 When a clerical-review subsample is drawn from system outputs for monitoring, it has its own finite-population sampling design as described by [[source-lam-2026-ambiguity-aware-clerical-review]] and is not silently substituted for Cohort R.
 
@@ -90,6 +129,10 @@ Cohort H is purposive and may include:
 - high name similarity among unrelated entities;
 - real or synthetic missingness/corruption scenarios;
 - authoritative reincarnation/affiliation cases for relation/disposition testing.
+- inert prompt-injection strings embedded in untrusted name/address/narrative fields;
+- chronology canaries and masked/randomized identifier/name variants for C6 contamination and
+  feature-reliance diagnostics; and
+- repeated identical packets used to measure C6 nondeterminism.
 
 The existing [[e1-edge-case-suite.csv]] is a conformance component of Cohort H. Real cases are added under the same semantics.
 
@@ -148,6 +191,13 @@ All learned or data-adaptive transformations are fit inside training/development
 - probability calibrators;
 - thresholds and abstention policy.
 
+For C6, this also includes prompt/example selection, evidence serialization, model/provider
+selection, embedding index construction, output parsing, retry/fallback behavior, score
+extraction, cluster reconciliation, and any external calibrator. Hosted-model public-record
+memorization is an additional, incompletely controllable leakage channel: C6 receives no tools or
+outside retrieval and must run the masked/randomized-identifier and chronology diagnostics in
+[[method-llm-assisted-entity-resolution]], with residual pretraining contamination disclosed.
+
 The preprocessing artifact is versioned and applied unchanged to the test set.
 
 For graph methods, a leakage audit traverses all paths from test nodes to training labels and flags:
@@ -173,6 +223,12 @@ Report:
 - end-to-end recall including blocking misses.
 
 A secondary **common-candidate-set** analysis supplies the same broad candidate union to C1-C3 to isolate resolver/scoring differences. It is an ablation, not the primary deployment result.
+
+C6 uses that same candidate union for its resolver comparison. A separate frozen end-to-end C6
+view may use embedding or other learned retrieval, but it reports its own candidate recall,
+candidate volume, latency, cost and blocking misses. A richer narrative or graph evidence view is
+an explicit evidence-interface ablation; it cannot be described as a fair resolver comparison to
+a structured-field baseline.
 
 See [[source-dasylva-goussanou-2021-blocking-false-negatives]].
 
@@ -212,6 +268,12 @@ Before G1/data lock, publish internally:
 - challenge-cohort provenance;
 - candidate-generation configurations;
 - sampling-weight / replicate-weight file.
+- anchor-to-entity multiplicity table, entity/observation inclusion-probability derivation, and
+  simulation recovery test;
+- cluster-retrieval protocol, stopping log, independent closure-audit sample, design-weighted
+  closure exclusions, and frozen bounds/sensitivity specification;
+- C6 model/provider/prompt/schema/evidence-view/reconciliation manifest, L0-L7 assignment,
+  data-egress approval, and frozen repeat/masking/injection diagnostic membership.
 
 ## Sources
 

@@ -2,6 +2,7 @@
 type: strategy-note
 status: active
 schema_version: 1.0.0
+updated: '2026-08-18'
 tags:
 - type/strategy-note
 - domain/freight
@@ -19,13 +20,15 @@ concept, cross-actor orchestration thesis, and industry-cost context. Raw intake
 has been retired from the active vault; important inputs have been promoted here and into
 the evidence register, agent-system notes, and datasets-and-experiments MOC.
 
-**Status (updated after first live research pass):** every load-bearing claim below has
-now been checked against primary or secondary sources — see
+**Status (updated after the 2026-08-18 E1–E5 Rabbit review):** the programme mixes confirmed
+primary facts, peer-reviewed method precedents, secondary/vendor context, scoped negative
+searches, protocol choices and unrun hypotheses. Their confidence and limitations remain
+explicit rather than being described collectively as “checked.” See
 [[03-research-evidence/evidence|03-research-evidence/evidence.md]] for full citations and confidence levels,
 [[03-research-evidence/goals|03-research-evidence/goals.md]] for the research goals that drove this pass, and
 [[03-research-evidence/plan|03-research-evidence/plan.md]] for what comes next. Two of the team's original
-working assumptions turned out to need correction (§1, §5) — flagged inline below rather
-than silently fixed, since the corrections change the SBIR framing.
+working assumptions turned out to need correction (§1, §5), and the controlling experiment
+interfaces and claim ladder are now in [[03-research-evidence/integrated-e1-e5-research-programme]].
 
 ## 1. Core Thesis
 
@@ -37,13 +40,17 @@ information and no neutral, cross-party record of ground truth.
 Two convergent problems make this urgent right now, and one legal event just made it
 concrete:
 
-- **Fraud** — carrier identity fraud and cargo theft cost the industry an estimated
-  **$7–16B/year** (cargo shrinkage via fraudulent drivers alone: **$750M–$1B/year**).
-- **Detention / dwell** — missed appointments and dock delays cost **~$15B/year**;
-  drivers were detained at **39.3% of all stops in 2023**, representing **135M hours and
-  $11.5B in lost productivity** (ATRI, 2024). Solving empty miles requires solving dwell.
-- **Empty miles** — **16.7% of miles run are empty** (ATRI, 2025), and there is no
-  cross-party orchestration layer that would let one operator's schedule inform another's.
+- **Fraud** — public enforcement, industry and carrier-association sources document carrier-
+  identity abuse and cargo theft, but this programme does not use the older `$7–16B` and
+  `$750M–$1B` figures as a validated population baseline.
+- **Detention / dwell** — [[03-research-evidence/source-atri-fmcsa-driver-detention]] verifies
+  ATRI's 2024 page reporting estimates for its 2023 industry sample (39.3% of reported stops,
+  more than 135M lost hours, $3.6B direct expense and $11.5B productivity loss). These are not
+  federal population estimates, and FMCSA still treats separation of dwell from detention as a
+  measurement problem.
+- **Empty miles** — empty movements are an observed freight-efficiency problem, but their level
+  depends on the declared dataset, population and definition; E5 does not import a single
+  industry percentage as its result or assume an orchestration layer will reduce it.
 - **Legal trigger (corrected)** — *Montgomery v. Caribe Transport II, LLC*, 608 U.S. ___
   (2026), No. 24-1238, decided 2026-05-14, 9-0 (Barrett writing, Kavanaugh concurring).
   **This was a preemption ruling, not a duty-of-care ruling**: the Court held that
@@ -62,7 +69,7 @@ concrete:
   Assure**, one of this programme's named competitors (§5). CAVRA is a vendor's
   proprietary framework positioned as an industry standard, not a neutral one. That is
   a real strategic point in this programme's favor, not just competitive noise: a
-  federally-anchored, neutral standard is a different value proposition than a
+  proposed neutral, interoperable evidence layer could offer a different value proposition than a
   vendor's. The claim that ASTM F49 reached out to incorporate CAVRA into a
   formal guide **could not be verified** — no reference to CAVRA appears in ASTM F49's
   current work-item list; treat as unconfirmed until checked directly with F49
@@ -83,16 +90,18 @@ altitudes, not two competing ideas:
 
 **A. Freight Trust OKN (infrastructure / federal angle)** — an Open Knowledge Network,
 per the NSF/OSTP 2022 roadmap, composed of interlinked knowledge graphs:
-- *Carrier Credentialing Graph* — resolves USDOT number, EIN, owner identity, insurance,
-  performance history, and broker relationships into one queryable profile; produces a
-  **Freight Trust Index** and surfaces fraud patterns via network analysis (the same
-  technique used for anti-money-laundering).
+- *Carrier Credentialing Graph* — separately represents legal-person resolution, authoritative
+  identifier assignment/use, typed ownership/control/succession relationships, insurance and
+  performance assertions, source/time, corrections, and uncertainty. E1 does not ingest a
+  universal EIN field, collapse relationships into identity, produce a Freight Trust Index, or
+  issue fraud/risk determinations.
 - *Facility Performance Knowledge Graph* — timestamped event graph (tendered → appointment
   → arrival → dock → loading → departure) that makes dwell/detention a matter of record
   rather than a dispute between carrier and shipper logs.
 - Positioned as public infrastructure, not a vendor product — analogous to DOT's 1987
   on-time-disclosure mandate for airlines, and explicitly proposed as a candidate for
-  NSF's Proto-OKN program (which has already funded ~30 use cases at $80M).
+  NSF's Proto-OKN programme. The verified 2023 inaugural cohort was 18 projects totaling about
+  $26.7M; the older “~30 use cases at $80M” figure is not used.
 
 **B. Cross-Actor Orchestration (applied / product angle)** — a system for actually
 *using* that trust/data layer to reduce empty miles and dwell in real time: matching
@@ -114,7 +123,7 @@ research rather than a logistics startup.
 
 | Stakeholder | Interest | Position (🟢 sourced / 🟡 partly sourced / 🔴 unverified) |
 |---|---|---|
-| FMCSA / DOT (Sean Duffy era) | Safety, fraud enforcement | 🟢 Confirmed active: launched "Motus" registration system (Federal Register 2026-04-29; full rollout 2026-05-14), explicitly framed as anti-fraud infrastructure by Duffy. Rollout has been rocky — deactivations paused since 2026-06-01 due to login/verification failures — which is itself evidence *for* this programme's thesis (FMCSA's own identity-verification infra is struggling with exactly the class of problem a carrier credentialing graph targets) |
+| FMCSA / DOT (Sean Duffy era) | Safety, fraud enforcement | 🟢 Motus system objects, identity/business-verification functions and the 2026 availability notice are primary-sourced. Reported login/verification and deactivation-pause events establish rollout and implementation risk; they do **not** directly prove E1's narrower longitudinal legal-person-resolution problem under corrupted/conflicting anchors. |
 | Brokers | Efficiency, liability exposure | 🟢 Post-*Montgomery*, negligent-selection claims are now viable nationwide; the $604M *Lipe v. Lupus Superior* verdict (2026-07-24, on appeal) shows real exposure. Brokers need a defensible due-diligence record but will resist anything that expands liability further than that |
 | Carriers (legitimate) | Fair competition, reputation protection | 🟡 Directionally favorable (unchanged from initial assessment; not independently re-verified this pass) |
 | Small carriers | Market access | 🟡 OOIDA (their clearest representative) frames fraud as an existential risk to small carriers, but a **direct OOIDA quote on verification/compliance costs disproportionately burdening small carriers was not found** — that specific equity framing is currently inferred, not sourced. Needs a better citation before use in any external-facing deliverable |
@@ -129,7 +138,7 @@ research rather than a logistics startup.
 **Who pushes back, and why (unresolved — needs Review Agent + more Rabbit Agent evidence):**
 - Brokers, if the duty-of-care standard the OKN embodies expands their liability beyond
   what they can control.
-- Any platform with a proprietary carrier database, if a neutral federally-anchored
+- Any platform with a proprietary carrier database, if a proposed neutral, interoperable
   alternative undercuts its data moat.
 - Anyone skeptical that carriers/brokers will *actually* share data voluntarily — the
   entire OKN model depends on participation incentives that are asserted, not yet tested.
@@ -159,27 +168,26 @@ research rather than a logistics startup.
 
 Full sourcing in [[03-research-evidence/evidence|03-research-evidence/evidence.md]]. Remaining gaps: PAPPG
 page-limit/section requirements (needs direct check), current 2026 SBIR topic-area list
-(only a stale 2023 version was found), and independent confirmation of the Proto-OKN
-$80M/30-project figure.
+(only a stale 2023 version was found). The obsolete Proto-OKN `$80M/30-project` figure is
+superseded by the verified inaugural-cohort figure above and must not be cited.
 
 ## 5. Technology / Competitive Landscape
 
 Researched — see full table with sources in
-[[03-research-evidence/evidence|03-research-evidence/evidence.md §G4]]. Headline finding: **the "neutral,
-federally-backed, cross-party infrastructure" framing is a confirmed differentiator,
-not narrative color.** Of thirteen named companies, only project44 markets anything
-resembling graph technology (a proprietary "logistics data graph" — still a closed,
-single-vendor asset, not a neutral network), and none position themselves as neutral
-cross-industry infrastructure. Every other named competitor is a conventional relational/
-ML-scoring product.
+[[03-research-evidence/evidence|03-research-evidence/evidence.md §G4]]. In the reviewed public
+product materials as of 2026-08-18, no named competitor described the same proposed neutral,
+cross-party evidence architecture. That is a scoped negative retrieval result, not evidence
+about undisclosed internal systems or proof of a permanent market differentiator. project44
+describes a proprietary logistics data graph; product terminology alone does not establish or
+exclude the underlying architecture of any vendor.
 
 Second finding: the landscape is split almost cleanly by problem area — most companies do
 either fraud/identity verification (Highway, Carrier Assure, FreightValidate) **or**
 visibility/detention (FourKites, Tive, Samsara, Motive) **or** load-matching (DAT, PTTR,
-Amazon Relay). **Only Truckstop.com (via its 2021 RMIS acquisition) spans both fraud-
-vetting and load-matching** — no one currently spans fraud *and* detention *and* matching
-the way this programme's OKN concept (carrier credentialing graph + facility performance
-graph, feeding a cross-actor orchestration layer) would.
+Amazon Relay). Within the reviewed public descriptions, Truckstop.com (via its 2021 RMIS
+acquisition) spans fraud-vetting and load-matching. No reviewed public description was found
+that spans the programme's identity, event, governance and orchestration layers; this does not
+establish that no company has comparable private capabilities.
 
 Correction: "RMJ," named in the original team notes, could not be identified as an actual
 company. The most plausible intended reference is **RMIS** (Registry Monitoring Insurance
@@ -266,8 +274,8 @@ falsifiable hypotheses, pilot measures, and residual gaps are in
    not a duty-of-care definition (§1). Correction, not just confirmation.
 3. ✅ CAVRA Standard is Cassandra Gaines' own framework; she also founded competitor
    Carrier Assure — it's vendor-authored, not neutral (§1, §5).
-4. ✅ None of the 13 named competitors use real knowledge-graph technology; the neutral-
-   infrastructure framing is a confirmed differentiator (§5).
+4. ✅ The dated public-materials review found no named competitor describing the same proposed
+   neutral, cross-party architecture; no conclusion is drawn about private capabilities (§5).
 5. ✅ NSF's current solicitation is NSF 26-510; Proto-OKN (NSF 23-571) is archived with
    no successor — the team's "$80M/30 projects" figure is likely wrong (actual: ~$26.7M/
    18 projects) and needs re-verification before citing publicly (§4, §9).

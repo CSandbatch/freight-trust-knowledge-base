@@ -41,3 +41,15 @@ The framework distinguishes cluster-wise error analysis, global metric estimatio
 ## Consumers
 
 [[e1-benchmark-sampling-and-split-plan]] · [[e1-statistical-analysis-and-preregistration-plan]] · [[experiment-e1-entity-resolution-and-identity-assurance]] · [[e1-academic-design-review]]
+
+## Related primary method and model evidence
+
+[[source-fellegi-sunter-1969-record-linkage-theory]] ·
+[[source-li-2021-ditto-deep-entity-matching]] ·
+[[source-wang-2022-reality-ideality-entity-matching]] ·
+[[source-peeters-2025-llm-entity-matching]] ·
+[[source-wang-2025-comem-llm-entity-matching]] ·
+[[source-de-meer-pardo-2025-gralmatch]] ·
+[[source-wadhwa-2024-explanation-distillation-entity-matching]] ·
+[[source-kamsteeg-2025-entity-matching-calibration]] ·
+[[source-openrouter-routing-privacy-and-metadata]]

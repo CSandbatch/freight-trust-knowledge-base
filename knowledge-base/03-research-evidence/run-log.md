@@ -12,8 +12,11 @@ tags:
 ---
 # Research Run Log
 
-Operational ledger for delegated work. Keep one row per task attempt; do not delete
-failed or superseded attempts.
+Historical operational ledger for work recorded before the schema 1.1 atomic-record
+convention. Preserve these rows and do not duplicate their IDs. New tasks and attempts
+use one file per object under `06-team-memory/tasks/` and `06-team-memory/runs/`, indexed
+from [[06-team-memory/memory-moc]]; do not append new attempts here. Failed and superseded
+attempts remain durable atomic records.
 
 | Run/task ID | Parent | Owner | Input/version | Queries/tools | Sources added/rejected | Gate verdict | Retry/reason | Status | Timestamp |
 |---|---|---|---|---|---|---|---|---|---|

@@ -164,14 +164,15 @@ could not be fetched, and must not be cleaned away as TODOs.
 
 ## Identifier namespaces
 
-The vault has three overlapping `G` namespaces, which [[drift-control]] tracks as a known
-defect (DRIFT-003). Until it is resolved, always qualify on first use in a note.
+Research goals and protocol quality gates retain legacy `G` prefixes. Programme decision gates
+use the distinct `DG-*` namespace defined by [[integrated-e1-e5-research-programme]]. Qualify
+legacy `G#` references on first use.
 
 | Prefix | Space | Defined in |
 |---|---|---|
 | `G1`–`G14` | Research goals | [[goals]] |
 | `G0`–`G5` (quality gates) | Protocol gates: protocol lock, data lock, baseline lock, blind eval, review, publication | [[experiment-protocol-standard]] |
-| `G0`–`G5` (decision gates) | Programme gates: protocol freeze, identity, event, federation, participation, application value | [[datasets-and-experiments-moc]] |
+| `DG-P0`, `DG-E1`–`DG-E5` | Programme gates: common lock and experiment-specific evidence decisions | [[integrated-e1-e5-research-programme]] |
 | `E1`–`E5` | Experiments | the `experiment-*` notes |
 | `C0`–`C5` | Conditions within one experiment | each experiment note |
 | `H1`–`H5` | Hypotheses within one experiment | each experiment note |

@@ -5,6 +5,7 @@ status: planned
 phase: phase-i
 owner: security-and-governance-lead
 schema_version: 1.0.0
+updated: 2026-08-20
 primary_outcome: policy-enforcement-conformance
 tags:
 - type/experiment
@@ -18,8 +19,9 @@ Protocol standard: [[experiment-protocol-standard]].
 
 ## Thesis
 
-A governed federation can enforce partner-, field-, and purpose-specific access rules and
-produce a tamper-evident audit trail without pooling raw commercial data. The experiment
+A governed, authenticated federation can enforce partner-, field-, and purpose-specific access
+rules and produce a tamper-evident audit record for the tested path while keeping designated raw
+commercial data at its source. The experiment
 tests whether the policy specification, implementation, and audit behavior conform to the
 intended governance rules; it does not claim that passing tests proves the policies are
 complete or socially acceptable.
@@ -48,9 +50,10 @@ make a credible controlled-federation promise.
 
 - **Policy conformance testing** turns governance principles into executable, reviewable
   cases and tests prohibited workflows alongside legitimate ones.
-- **Hash-chained audit logging** connects accountability to a technical artifact. It proves
-  what the system decided and whether the record was altered; it does not prove the source
-  event was true.
+- **Hash-chained audit logging** connects accountability to a technical artifact. The
+  instrumented PEP/PDP path records tested decisions and can detect specified post-hoc
+  alterations only under the declared capture, anchoring, key, time and reconciliation
+  assumptions; it does not prove completeness, authenticity or source truth by itself.
 - **Correction propagation** is the operational form of contestability.
 - **Adversarial testing** covers misuse by authorized actors, stale attributes, purpose
   substitution, replay, or inference from errors.
@@ -77,16 +80,15 @@ false allow blocks advancement regardless of aggregate pass rate.
 
 ### Provenance of each input
 
-E3 is the one experiment whose entire toolchain is already built, free, and maintained by
-a government agency or a standards body. That is unusual, and it changes where the risk
-sits. The open question here is whether we can specify freight policy correctly, not
-whether we can build an enforcement engine — a different and more honest question to be
-answering.
+E3 can use current public standards, NIST guidance and prototype software, but its freight
+policy corpus, adapters, enforcement point, authentication, and audit reconciliation remain
+project work. The open questions include whether policy can be specified correctly and whether
+the assembled authenticated enforcement path behaves as intended.
 
 | Input | Origin and publisher | Access mechanism | License / terms | Verification status | What it can support | What it cannot support |
 |---|---|---|---|---|---|---|
-| **NIST Policy Machine** (`usnistgov/policy-machine-core`, `usnistgov/policy-machine-pdp`) | NIST — the reference implementation of Next Generation Access Control (NGAC), an ANSI/INCITS standard. Includes a general-purpose Policy Decision Point and Event Processing Point exposed via gRPC | Free, open-source download | Open source under the usnistgov GitHub organisation's standard NIST terms | **Primary.** Official NIST-maintained code and documentation | The actual enforcement engine, configured with freight-specific partner-type, field-category, and purpose attributes. Not a methodological reference — the running component | It does not supply the policy. Everything that makes the policy *right* for freight is project work |
-| **OASIS XACML 3.0 conformance test suite** | Originally developed by AT&T, submitted to OASIS; also embedded in the open-source AuthzForce Core project | Free, public; retrievable from the AuthzForce repository | Open — OASIS committee material plus Apache-licensed reuse | **Primary.** OASIS-originated, formally structured | The `(policy, request, expected decision)` triple format — exactly the shape Aim 3's test suite needs, with an existing convention for expressing it | Freight content. Every freight-specific case must be authored |
+| [[source-nist-policy-machine]] | NIST Policy Machine core/PDP software | Free source download | See repository license | **Official software; configuration-dependent.** Reverified 2026-08-18 | An NGAC/PML implementation lane after version pinning and secure configuration | Freight policy authority, XACML execution, complete request logging, or secure defaults |
+| [[source-oasis-xacml-3-0]] | OASIS XACML 3.0 standard and committee tests | Public standard/test artifacts | OASIS terms; implementation licenses separate | **Primary standard.** Reverified 2026-08-18 | XACML-native decisions, requests, obligations, and a separate conformance lane | NGAC/PML conformance, OASIS certification, or freight policy correctness |
 | [[dataset-nist-policy-machine-xacml-cases]] | To be built by this project, in the above format | Authored from Section 5's own examples and the policy catalogue | Project-defined | **To-build** | The conformance, adversarial, and correction case sets | Proof that the policy is complete or legitimate — only that the implementation conforms to what was written |
 | Derived audit records | Produced by the prototype itself | Generated during test execution | Project-defined | **To-build** | Audit-capture and integrity evidence | Truth about the underlying event. Hash chaining detects alteration; it says nothing about whether the original assertion was accurate |
 
@@ -96,7 +98,7 @@ answering.
 |---|---|---|
 | **NIST SP 800-192**, *Verification and Test Methods for Access Control Policies/Models* | Official NIST guidance specifically on verifying and testing ABAC systems | The test-design reference. Its core argument is E3's premise: policy models can be inconsistent or incomplete, and implementations can embed constraints not visible in the policy specification. That is why the protocol treats oracle separation, mutation testing, and independent review as requirements, not as optional rigor |
 | **NIST SP 800-162**, *Guide to Attribute Based Access Control* | The definitional ABAC guidance | The attribute-family vocabulary: requester, organization, resource, purpose, action, context, decision |
-| **NIST SP 800-178** | A direct comparison of the two leading ABAC standards, XACML and NGAC | Informs the Project Description's "policy model (candidates)" evaluation, which is deliberately *not* pre-selected. E3 uses NGAC's reference implementation as the engine and XACML's conformance format as the test convention — a combination the comparison document gives us the basis to defend |
+| **NIST SP 800-178** | A comparison of ABAC standards including XACML and NGAC | Requires separate XACML and NGAC/PML execution lanes or an explicitly tested translation; a test convention from one is not conformance for the other |
 | **NIST AI RMF** | Trustworthiness framing used across all five experiments | The insistence in [[experiment-protocol-standard]] that validity, robustness, reliability, and context-specific risk are distinct concerns — hence E3's refusal to let a 100% structural pass rate stand in for governance legitimacy |
 
 **NIST ACPT / ACTS** (combinatorial access-control policy test generation) was found only
@@ -118,13 +120,11 @@ Correction propagation is the part of E3 with the least technical precedent and 
 institutional precedent. The scan looked for both and found the following, none of which
 supplies an importable number:
 
-- **FCRA dispute-investigation window** (15 U.S.C. §1681i). Credit bureaus must
-  investigate a consumer dispute within a defined window, commonly cited as 30 days, or
-  remove the disputed item. This is the strongest available precedent for how an adjacent
-  *regulated* industry defines and enforces a correction-latency obligation. It is used as
-  framing for why a latency ceiling should exist at all. The exact "30 days" figure is
-  **secondary and not independently verified against the statutory text** in this
-  programme's evidence base, and must be confirmed before appearing as a hard citation.
+- **FCRA reinvestigation provision** (15 U.S.C. §1681i). This verified statute applies to
+  consumer reporting agencies and consumer disputes, including a generally 30-day
+  reinvestigation period with statutory qualifications. It is adjacent-domain evidence for
+  specifying authority, notice, correction, and redress—not a freight obligation or an
+  importable latency target.
 - **Meta Oversight Board case reporting.** Published individual case outcomes, including
   appeal volumes and overturn rates — one documented case had 215 user appeals with a 98%
   success rate — across roughly 75 decisions from 2021 through January 2024. Useful purely
@@ -158,9 +158,10 @@ supplies an importable number:
 
 ### To the proposal
 
-- It is the aim where Phase I can promise a concrete, verifiable result with no external
-  dependency at all: the engine is NIST's, the test format is OASIS's, both are free, and
-  no partner data is required. The Month 9 milestone is achievable, not contingent.
+- Its structural lane has no external-data dependency, but it still depends on an authority-
+  reviewed freight policy oracle, authenticated identity/JWKS, a pinned engine/adapter/runtime,
+  and independent request-ledger reconciliation. NIST Policy Machine and a separate XACML lane
+  are implementation candidates, not interchangeable proof or OASIS certification.
 - It converts the proposal's privacy and commercial-boundary claims from assurances into
   tests. Section 9's data-minimization commitment — grant only the minimum necessary
   fields for a stated purpose, with a full audit trail of what was requested, by whom, and
@@ -181,7 +182,7 @@ for access-control work in a vertical domain.
 
 ### To the evidence chain
 
-E3 licenses claims that permitted and disallowed access combinations can be expressed
+If its preregistered gates pass, E3 supports measured claims that permitted and disallowed access combinations can be expressed
 unambiguously, that an engine returns the expected decision for tested cases, that
 decisions are auditable, and that a correction can propagate without rewriting history. It
 does **not** license any claim that the policies are complete, socially acceptable, or
@@ -189,9 +190,9 @@ legally sufficient — the experiment says so in its own thesis paragraph.
 
 ### To risk retirement
 
-It retires the "is this just a graph with extra words" objection in the only way that
-counts — by demonstrating a decision the graph would have allowed and the policy layer
-denies, with an audit record either way. It also front-loads the discovery of policy gaps,
+E3 is designed to test the "is this just a graph with extra words" objection by comparing a
+decision the graph-only control would allow with one the frozen policy layer denies and
+reconciling the audit record. Only a passing result can retire that bounded objection. It also front-loads the discovery of policy gaps,
 which are far cheaper to find in a conformance suite than in a partner pilot.
 
 ### What E3 deliberately does not add
@@ -215,18 +216,18 @@ if E3 has not demonstrated the control mechanism, E4's offers are not credible.
 | Alternative | Why rejected |
 |---|---|
 | Build a bespoke policy engine | NIST maintains a reference implementation of an ANSI/INCITS standard, free. Building our own would spend Phase I budget re-deriving solved engineering and would move the risk to the wrong place — the hard part is specifying freight policy, not evaluating a decision request |
-| Pre-select XACML or NGAC in the proposal | SP 800-178 exists precisely because the choice is non-obvious. The Project Description commits to evaluating candidate policy models rather than assuming one, and E3 honours that by using NGAC's engine with XACML's test convention while keeping the model choice an evaluated outcome |
+| Treat NGAC and XACML as interchangeable | SP 800-178 makes their semantic differences explicit. Phase I selects one pinned native lane; a second native lane or declared translation is an optional later comparison whose fixtures, native results, and claims remain separate. A XACML fixture is never run directly against the Policy Machine and called conformant |
 | Rely on role-based access control | Not rejected — demoted to C1 and tested. If role-only access turns out to be sufficient for the freight cases, that is a finding worth having |
 | Use federated-learning frameworks (Flower, FedML) as the federation demonstration | They solve cross-party *computation*, not gated access. Aim 3's core hypothesis — access restricted to permitted combinations, audited, correctable — is fully testable with the Policy Machine and a conformance suite alone. Recorded as an optional stretch component if Phase I also wants to demonstrate computation without pooling |
-| Import FCRA's 30-day window as the correction-latency target | The figure is secondary and unverified in this programme's evidence base, and freight's operational tempo is not credit reporting's. Used as framing precedent for defining a ceiling; the number stays a Phase I output |
+| Import FCRA's reinvestigation period as the correction-latency target | The statute applies to consumer reporting agencies and consumer disputes, not freight federation. It informs redress structure only; a freight rule must be authorized and preregistered independently |
 | Treat a passing conformance suite as governance validation | The most dangerous available shortcut. Explicitly forbidden in the decision rules |
 | Use LEAF as the benchmark structure | LEAF's three-part shape (datasets / evaluation framework / reference implementations) is a good template for packaging a benchmark, but LEAF evaluates ML training under federation, not policy enforcement. Structure borrowed, content irrelevant |
 
 ### Cost, dependency, and sequencing
 
-E3 is the cheapest of the five to start and the only one with zero external dependencies:
-no partner, no purchase, no data agreement, no adjudication panel. Its dependency is
-internal — the work plan schedules it Months 6–9, after Aim 1 and Aim 2 components are
+E3's synthetic structural lane needs no partner dataset, purchase, or data agreement. It still
+has runtime, authentication, policy-authority, reviewer, and software-version dependencies.
+Its programme dependency is internal — the work plan schedules it Months 6–9, after Aim 1 and Aim 2 components are
 stable enough to integrate, because the policy subjects are E1's entities and the
 protected resources include E2's event summaries. Its real cost is the writing: the
 plain-language policy catalogue has to exist before anything is encoded, and that is
@@ -244,11 +245,11 @@ legal and commercial judgment, not engineering.
 
 | ID | Hypothesis | Null / failure interpretation |
 |---|---|---|
-| H1 | The engine conforms to the approved policy test suite for all high-risk cases. | Policy or implementation gaps remain. |
+| H1 | Each pinned engine-native lane conforms to its approved policy test suite for all high-risk cases. | Policy, adapter or implementation gaps remain in that lane. |
 | H2 | Disallowed requests are denied and auditable; permitted requests are not over-denied. | Access is unsafe or unusable. |
 | H3 | Purpose limitation prevents a valid request in one context from being reused in another. | Context is not carried through enforcement. |
 | H4 | Corrections become visible to authorized consumers while the prior record remains auditable. | Correction silently overwrites or fails to propagate. |
-| H5 | Raw-data federation reduces disclosure compared with central pooling at acceptable utility. | Metadata or outputs still create unacceptable leakage. |
+| H5 | A specified derived-output release exposes less measured information than a centralized-minimum-data release while retaining preregistered decision utility. | The release offers no measured privacy benefit or loses required utility. |
 
 ## Experimental conditions
 
@@ -258,8 +259,8 @@ legal and commercial judgment, not engineering.
 | C1 | Role-based access only: partner role controls access, without purpose or field sensitivity. |
 | C2 | Attribute/purpose-based policy using partner, field class, purpose, time, and consent attributes. |
 | C3 | C2 plus correction propagation and challenge workflow. |
-| C4 | C2/C3 under adversarial requests: stale consent, role confusion, purpose substitution, replay, and privilege escalation. |
-| C5 | Federated derived-output release with privacy-risk and utility evaluation. |
+| C4 | C2/C3 under authentication and authorization attacks: invalid/expired JWT, wrong issuer or audience, stale consent, role confusion, purpose substitution, replay, privilege escalation, and sandbox/bypass attempts. |
+| C5 | Compare a specified federated derived-output release with centralized-minimum-data and no-release controls under one declared attacker, risk, and utility model. |
 
 ## Unit of analysis and estimand
 
@@ -292,13 +293,22 @@ in the policy specification. Use it as the test-design reference: [NIST SP 800-1
 
 1. Write the governance policy in plain language before encoding it.
 2. Translate each rule into positive, negative, boundary, and conflict cases.
-3. Record policy version, attributes, request, expected decision, and audit expectation.
-4. Run C0-C2 against the complete suite; do not tune against hidden cases.
-5. Run C3 correction cases and measure propagation to each authorized view.
-6. Run C4 adversarial and malformed requests, including missing and stale attributes.
-7. Verify append-only or hash-chain integrity by attempting alteration and replay.
-8. Run C5 output-release privacy tests and document any utility loss.
-9. Have an independent reviewer inspect policy gaps and false allows.
+3. Record authority, policy version, effective scope, attributes, request, engine-native expected
+   decision, project decision mapping, enforcement-point behavior, and audit expectation.
+4. Pin each engine and adapter. For the Policy Machine, reject `none` authentication and
+   sandbox/admin bypass in evaluation; require a signed JWT with an approved algorithm, `exp`,
+   issuer, audience, token type and subject-to-project-attribute binding. Test missing/expired
+   claims, unknown `kid`, JWKS rotation and unapproved claim/URL handling. Run XACML fixtures only
+   on the XACML lane.
+5. Run C0-C2 against the risk-based suite; do not tune against hidden cases.
+6. Run C3 correction cases and measure propagation to each authorized view.
+7. Run C4 adversarial and malformed requests, including missing and stale attributes.
+8. Capture requests at the policy-enforcement point and reconcile decisions, errors, and
+   timeouts against an independently generated request ledger.
+9. Verify the declared hash-chain property by attempting alteration, truncation, rollback,
+   replay, and chain rebuilding, with external anchoring tested separately if claimed.
+10. Run C5 output-release privacy tests and document utility against both controls.
+11. Have an independent reviewer inspect policy gaps and false allows.
 
 ## Variables
 
@@ -313,7 +323,8 @@ jurisdiction/contract constraints, policy version, and correction state.
 replay resistance, policy explainability, privacy leakage, and utility.
 
 **Security guardrails:** no raw data in test outputs; no test fixture may use live secrets;
-all failures must preserve request context sufficient for remediation.
+all failures must preserve minimized request context sufficient for remediation. An unauthenticated
+or sandbox/bypass configuration is a failed evaluation setup, not an experimental condition.
 
 ## Analysis plan
 
@@ -326,7 +337,8 @@ all failures must preserve request context sufficient for remediation.
 
 ## Initial decision rules
 
-- 100% pass is required for the frozen high-risk negative test suite before partner pilot.
+- The acceptance rule for each risk class must be authorized and preregistered before the
+  hidden suite is run; no post-result threshold is permitted.
 - Any unaudited access, false allow, or untraceable correction blocks advancement.
 - 100% structural conformance does not establish that the policy is complete; independent
   governance review remains required.
@@ -356,21 +368,30 @@ Every policy must be expressible using typed attributes, not informal prose alon
 | Context | consent/basis, time, jurisdiction, data age, incident state |
 | Decision | permit, deny, permit-with-redaction, require-review, abstain |
 
+The last three are project-domain outcomes, not native decisions shared by both engines.
+XACML returns Permit, Deny, Indeterminate, or NotApplicable: `permit-with-redaction` requires
+a Permit obligation that the PEP demonstrably enforces, while Indeterminate and NotApplicable
+follow a preregistered fail-closed or review mapping. NGAC/PML results use their own separately
+tested adapter. Preserve every engine-native result alongside the mapped domain outcome.
+
 The policy catalogue must state both allowed and forbidden combinations. “Default deny” is
 not enough: the test suite must prove that a permitted workflow remains usable and that a
 request cannot gain access by changing only its stated purpose.
 
-### Complete test matrix
+### Risk-based test matrix
 
-Generate cases from the cross-product of requester, resource, purpose, action, consent state,
-data age, and correction state. Add boundary cases for missing attributes, contradictory
+Exhaust the combinations classified as high severity by the approved policy authority and use
+risk-based covering arrays for the remainder; report all uncovered combinations. Add boundary
+cases for missing attributes, contradictory
 attributes, stale consent, revoked partnership, policy-version mismatch, delegated access,
 and emergency override. Mark each case by severity and expected human escalation.
 
 ### Oracle separation
 
-The policy author, test-case author, and implementation operator should be separated. A
-reviewer verifies the expected decision from the plain-language rule before the engine runs.
+The policy author, test-case author, and implementation operator should be separated. Each
+expected decision records policy owner, authority or contract citation, effective date,
+jurisdiction, version, reviewer, and uncertainty. A reviewer verifies the expected decision
+from the plain-language rule before the engine runs.
 Otherwise the implementation and test oracle can share the same mistake. Maintain a “policy
 uncertainty” set for rules that require legal, commercial, or participant judgment.
 
@@ -383,11 +404,23 @@ outside the permitted purpose and attempts by a partner to infer denied data fro
 
 ### Audit specification
 
+The policy-enforcement point must record each attempted request and response, including
+authentication failures, malformed requests, PDP errors, and timeouts, then reconcile that log
+to an independent request ledger. Do not infer complete capture from Policy Machine EPP events:
+the documented implementation emits them for Admin and Resource operations, not Query operations.
 Each access decision must record requester, organization, resource class, purpose, action,
 decision, policy version, attributes used, timestamp, correlation ID, and hash pointer. The
 audit log must distinguish a denied request, a permitted request, a redacted response, an
 abstention, and a system error. Test completeness and semantic correctness alike: a perfectly
-complete log of wrong decisions is still a failure.
+complete log of wrong decisions is still a failure. Hash links detect specified alterations
+under the declared trust and anchoring model; they do not authenticate the requester, prove
+source truth, prevent truncation/rebuilding by a controller, or provide confidentiality.
+
+Canonicalize each entry as UTF-8 RFC 8785 JSON before SHA-256 hashing. Record sequence number,
+`prev_hash`, correlation ID, event type, policy/runtime versions and a defined genesis entry;
+store a terminal checkpoint independently. The PEP records an attempt before the PDP call and an
+outcome afterward so authentication failures, malformed requests, PDP errors and timeouts remain
+reconcilable.
 
 ### Correction and lineage test
 
@@ -414,6 +447,39 @@ test suite that passes the original policy but misses a material mutation is inc
 Any false allow for a prohibited high-risk combination, unaudited decision, or untraceable
 correction blocks pilot use. A passing suite authorizes only the tested policy version and
 attribute vocabulary; it is not a certification of the organization’s broader governance.
+
+## Contract with the experiment programme
+
+- **Inputs:** E1 actor identifiers and identity confidence; E2 resource, sensitivity, provenance,
+  and correction-lineage classes; an authority-reviewed policy catalogue; version-pinned engines,
+  adapters, authentication configuration, and independent request ledger.
+- **Conditions:** C0-C5 as defined above. Phase I build acceptance requires one declared pinned
+  native engine lane. A comparison may add the other lane later, but NGAC/PML and XACML fixtures
+  remain separate; C5 uses a declared centralized-minimum/no-release comparison.
+- **Outputs:** native and mapped decisions, PEP-enforced obligations/redactions, reconciled audit
+  evidence, correction-lineage results, coverage, mutation results, and privacy/utility estimates.
+- **Gates:** authorized oracle; valid authentication; sandbox/bypass disabled; engine/adapter pin;
+  PEP capture reconciled to the request ledger; risk-based coverage disclosed; acceptance and
+  privacy rules preregistered; independent governance review.
+- **Consumers:** E4 consumes only approved burden/equity summaries; E5 consumes authorized,
+  purpose-limited derived state; no consumer receives raw E1/E2 inputs by implication.
+
+## Build-start specification
+
+Phase I starts with exactly one declared pinned engine-native lane. If both are later built, keep NGAC/PML and XACML policy,
+request, response and expected-result fixtures separate. Use a neutral domain-decision schema and
+preserve the native decision before explicit mapping. The first package includes an independent
+oracle, JWT/JWKS fixture issuer, PEP harness, append-only attempt ledger, deterministic hash-chain
+format, correction cases and mutation/adversarial suites under
+[[e1-e5-build-readiness-and-run-contract]].
+
+Smoke acceptance requires a human-approved synthetic oracle, exact engine/adapter/runtime hashes,
+authentication and sandbox protections, enforcement of every obligation defined by the selected
+native lane, reconciliation of every attempt, alteration/truncation/replay tests, a caught single-rule mutation, preserved
+superseded correction history and a complete run packet. `C5` remains an optional separately
+gated privacy experiment; policy conformance does not imply privacy. Adapter-parity testing and
+the XACML-specific PEP obligation test are required only when both lanes, or XACML respectively,
+enter the declared build scope.
 
 ## Required outputs
 

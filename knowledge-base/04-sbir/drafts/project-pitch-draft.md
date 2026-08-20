@@ -5,7 +5,7 @@ owner: PI + grant lead
 authority: NSF 26-510
 schema_version: 1.0.0
 deliverable: NSF Project Pitch
-updated: 2026-08-01
+updated: 2026-08-18
 tags:
 - type/draft
 - domain/freight
@@ -42,11 +42,11 @@ The innovation is this evaluated decision substrate, not first-of-kind carrier s
 
 Phase I will test four linked technical hypotheses against defined baselines. For Aim 1, the baseline is the current manual/rules workflow plus deterministic field matching; FMCSA URSA/Motus and NMFTA SCAC Verified are treated as prior art/comparators where their publicly documented scope permits, not as straw men.
 
-First, can the system assign fragmented carrier observations to the correct legal person under missing, corrupted, conflicting, or fraudulently claimed identifiers with calibrated uncertainty, without falsely merging affiliated, successor, or operationally continuous but legally distinct entities? The gold corpus will use canonical legal-person clusters plus separate FMCSA identifier/registrant-continuity and typed relationship labels. Two independent reviewers will label hard cases, a third will adjudicate disagreements, and UNRESOLVED is valid. All methods will be tested under anchor-visible control, anchor-masked, anchor-missing, anchor-corrupted, claimed-vs-assigned conflict, cross-registration, and time-forward regimes. Success is higher legal-person precision/recall than deterministic matching at a matched false-positive ceiling, with calibration, abstention, cluster consistency, and small-carrier error slices reported separately.
+First, can the system assign fragmented carrier observations to the correct legal person under missing, corrupted, conflicting, or fraudulently claimed identifiers with calibrated uncertainty, without falsely merging affiliated, successor, or operationally continuous but legally distinct entities? The adjudicated reference corpus will use canonical legal-person clusters plus separate FMCSA identifier/registrant-continuity and typed relationship labels. Two independent reviewers will label hard cases, a third will adjudicate disagreements, and UNRESOLVED is valid. All methods will be tested under anchor-visible control, anchor-masked, anchor-missing, anchor-corrupted, claimed-vs-assigned conflict, cross-registration, and time-forward regimes. Success is hierarchical: the selected method's design-weighted automatic-assignment precision lower bound must first meet a preregistered safety floor; only then may its paired yield gain over transparent deterministic rules exceed a preregistered minimum at the same review budget. LINK_EXISTING and CREATE_NEW harms, calibration, abstention, cluster consistency and subgroup slices are reported separately.
 
-Second, can facility-event claims relevant to detention and disputes—appointment, arrival, gate, dock, departure—carry independently assessable provenance, and can defined tampering or contradiction patterns be detected? Success is measured by provenance completeness and detection/false-alarm performance on constructed cases.
+Second, can facility-event assertions carry independently assessable provenance, and can preregistered injected omissions, sequence anomalies and contradictions be detected while dwell uncertainty is represented honestly? Success is measured against hidden synthetic truth and transparent baselines; it is not malicious-tamper attribution or real-facility validation.
 
-Third, can the graph enforce purpose- and partner-specific sharing so participants receive only permitted evidence without centralizing raw commercial data? Success is automated conformance: disallowed partner/field/purpose combinations are denied and all decisions are auditable.
+Third, can an authenticated policy-enforcement point apply an approved partner/field/purpose policy without centralizing raw commercial data? Success requires zero frozen high-severity false allows, legitimate critical workflows to pass or route to declared review, and independent reconciliation of every received attempt—including authentication failures and engine errors—with its audit record. This is pinned-policy conformance, not legal compliance.
 
 Fourth, can a challenged record be corrected or annotated with that correction visibly propagating to downstream context, while avoiding a system that improves aggregate detection by imposing disproportionate false-positive or review burden on legitimate small carriers? Success requires a measurable correction path plus subgroup guardrails.
 
@@ -109,4 +109,3 @@ NSF's Project Pitch screening maps to the same three review criteria used at ful
 | Technical Objectives and Challenges | Are the unknowns, hypotheses, measurable objectives, and technical risks clear and falsifiable? | States four testable hypotheses, each with a named risk and a measurable, baseline-relative success criterion. |
 | Market Opportunity | Who is the first buyer, what is the unmet pain, what are the alternatives, and how will the beachhead be validated? | Names a buyer hypothesis tied to a dated legal driver, states the alternatives and why they fall short, and commits to a specific (bracketed) discovery and pilot-letter validation plan. |
 | Company and Team | Can this specific company and team execute the R&D and carry it toward commercialization? | Structures PI, technical, and commercial roles and data access as named commitments — currently placeholders pending real facts, deliberately not fabricated. |
-
