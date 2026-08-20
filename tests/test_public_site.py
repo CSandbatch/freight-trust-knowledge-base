@@ -185,6 +185,14 @@ Fixture thesis for E{index}.
                     encoding="utf-8",
                 )
             build(root, None, out, "https://example.test/freight-trust/", source_date_epoch=0)
+            project = (out / "index.html").read_text(encoding="utf-8")
+            self.assertIn("Freight Trust Infrastructure", project)
+            self.assertIn("Public working white paper / research platform", project)
+            self.assertIn("Freight runs on fragmented trust.", project)
+            self.assertIn("The white paper is backed by the working record.", project)
+            self.assertIn("Build-start-ready. Scientifically unrun.", project)
+            self.assertEqual(project.count('class="programme-index-item '), 5)
+            self.assertTrue((out / "assets" / "freight-terminal-hero.png").is_file())
             programme = (out / "experiments" / "index.html").read_text(encoding="utf-8")
             anchors = [programme.index(f'id="e{index}"') for index in range(1, 6)]
             self.assertEqual(anchors, sorted(anchors))

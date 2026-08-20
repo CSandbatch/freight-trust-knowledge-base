@@ -100,6 +100,7 @@ def expected_output_files(release: dict[str, object], catalog: list[dict[str, ob
         "experiments/index.html", "about/index.html", "robots.txt", "sitemap.xml", "llms.txt", "release.json",
         "data/catalog.json", "data/search.json", "data/graph.json", "data/artifact-registry.json",
         "assets/atlas.css", "assets/atlas.js", "assets/graph.js", "assets/favicon.svg",
+        "assets/freight-terminal-hero.png",
     }
     for item in artifacts if isinstance(artifacts, list) else []:
         if isinstance(item, dict):

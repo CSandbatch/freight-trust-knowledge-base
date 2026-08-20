@@ -14,6 +14,20 @@ tags:
 
 # Changelog
 
+## Project-front-page publication redesign - 2026-08-20
+
+- Reframed the public root as the Freight Trust Infrastructure working white paper and research
+  platform, with the canonical knowledge base retained as its inspectable evidence layer.
+- Added an executive narrative spanning the freight trust problem, federated system thesis,
+  E1-E5 proof programme, six-level evidence ladder, research-platform routes, and current claim
+  boundary.
+- Added a project-level hero image generated for this release without logos or embedded text;
+  the static compiler now treats it as a required, deterministic release asset.
+- Added Project to primary navigation and renamed the public shell from Knowledge Base to
+  Research Platform while preserving direct access to Programme, Library, Graph, and Collections.
+- Added regression coverage for the publication hierarchy, five-experiment portfolio, unrun
+  disclosure, and hero-asset publication.
+
 ## Experiment-first Atlas redesign - 2026-08-20
 
 - Reframed the home page as the Freight Trust Research Programme rather than a folder inventory.

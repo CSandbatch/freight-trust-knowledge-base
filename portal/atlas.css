@@ -180,6 +180,79 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .disclosure { display: grid; grid-template-columns: .7fr 1.3fr; gap: 3rem; border-top: 1px solid var(--line); }
 
 /* Programme presentation */
+.project-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 720px;
+  color: #fff;
+  background-image: linear-gradient(90deg, rgba(8, 18, 16, .94) 0%, rgba(8, 18, 16, .82) 45%, rgba(8, 18, 16, .52) 72%, rgba(8, 18, 16, .18) 100%), url("freight-terminal-hero.png");
+  background-position: center 72%;
+  background-size: cover;
+}
+.project-hero-inner { width: min(100%, 1240px); margin: auto auto 0; padding: 7rem 1.25rem 4rem; }
+.project-hero .eyebrow { color: #b9d8d1; }
+.project-hero h1 { max-width: 900px; margin: 0; font-size: 5.4rem; font-weight: 650; line-height: .98; letter-spacing: 0; }
+.project-thesis { max-width: 720px; margin: 1.5rem 0 0; color: #eef5f2; font-size: 1.22rem; line-height: 1.55; }
+.project-boundary { margin: 1.2rem 0 0; color: #c3d0cc; font-size: .74rem; }
+.button-on-dark { border-color: rgba(255, 255, 255, .6); background: rgba(8, 18, 16, .38); color: #fff; backdrop-filter: blur(5px); }
+.button-on-dark:hover { border-color: #fff; background: rgba(8, 18, 16, .68); }
+.hero-publication-bar { display: grid; grid-template-columns: repeat(4, 1fr); width: min(100%, 1240px); margin: 0 auto; border-top: 1px solid rgba(255, 255, 255, .38); }
+.hero-publication-bar span { padding: .9rem 1.25rem; border-right: 1px solid rgba(255, 255, 255, .24); color: #d5dfdc; font: .69rem var(--mono); text-transform: uppercase; }
+.hero-publication-bar span:last-child { border-right: 0; }
+.hero-publication-bar strong { margin-right: .45rem; color: #fff; }
+
+.whitepaper-section { display: grid; grid-template-columns: 105px minmax(0, 1fr); gap: 2.5rem; padding-top: 6rem; padding-bottom: 6rem; }
+.whitepaper-number { padding-top: .35rem; border-top: 2px solid var(--line-strong); color: var(--muted); font: 700 .75rem var(--mono); }
+.whitepaper-copy { min-width: 0; }
+.whitepaper-copy > h2, .platform-intro h2, .publication-note h2 { max-width: 780px; margin: 0; font-size: 3rem; font-weight: 620; line-height: 1.08; letter-spacing: 0; }
+.section-lead { max-width: 820px; margin: 1.15rem 0 0; color: var(--muted); font-size: 1.05rem; line-height: 1.65; }
+.problem-columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 3rem; border-block: 1px solid var(--line); }
+.problem-columns > div { min-height: 185px; padding: 1.35rem 1.5rem 1.35rem 0; border-right: 1px solid var(--line); }
+.problem-columns > div:not(:first-child) { padding-left: 1.5rem; }
+.problem-columns > div:last-child { border-right: 0; }
+.problem-columns strong { font-size: 1rem; }
+.problem-columns p { margin: .7rem 0 0; color: var(--muted); font-size: .83rem; }
+
+.thesis-band { color: #edf3f0; background: #17211e; }
+.thesis-band .whitepaper-number { border-color: #52615b; color: #a6b2ad; }
+.thesis-band .eyebrow, .thesis-band .section-lead { color: #aebcb7; }
+.trust-stack { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; margin-top: 3rem; padding: 1px; background: #52615b; }
+.trust-stack > div { position: relative; display: flex; flex-direction: column; min-height: 190px; padding: 1.2rem; background: #1f2b27; }
+.trust-stack > div:not(:last-child)::after { position: absolute; z-index: 2; top: calc(50% - 13px); right: -13px; display: grid; place-items: center; width: 26px; height: 26px; border: 1px solid #52615b; background: #17211e; color: #9fcfc5; content: ">"; font: 700 .75rem var(--mono); }
+.trust-stack span { color: #66c8b4; font: 700 .72rem var(--mono); }
+.trust-stack strong { margin-top: auto; font-size: 1rem; }
+.trust-stack small { margin-top: .35rem; color: #aebcb7; font-size: .7rem; }
+.text-actions { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem; }
+.text-actions a { color: #9ed9cd; font-size: .78rem; font-weight: 650; }
+
+.portfolio-section .programme-index { margin-top: 3rem; }
+.section-action { margin-top: 1.5rem; }
+.evidence-ladder { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin: 3rem 0 0; padding: 1px; background: var(--line); list-style: none; }
+.evidence-ladder li { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: .75rem; min-height: 112px; padding: 1rem; background: var(--surface); }
+.evidence-ladder li > span { color: var(--accent); font: 700 1.3rem var(--mono); }
+.evidence-ladder strong, .evidence-ladder small { display: block; }
+.evidence-ladder strong { font-size: .86rem; }
+.evidence-ladder small { margin-top: .3rem; color: var(--muted); font-size: .68rem; }
+
+.platform-band { border-block: 1px solid var(--line); background: var(--surface-2); }
+.platform-intro { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(360px, .8fr); gap: 4rem; padding-top: 5rem; padding-bottom: 2rem; }
+.platform-intro > div > p:not(.eyebrow) { max-width: 720px; color: var(--muted); }
+.platform-intro dl { display: grid; grid-template-columns: repeat(3, 1fr); align-self: end; gap: 1px; margin: 0; background: var(--line); }
+.platform-intro dl div { padding: 1rem; background: var(--surface); }
+.platform-intro dt { font-size: 1.45rem; font-weight: 700; }
+.platform-intro dd { margin: .2rem 0 0; color: var(--muted); font-size: .64rem; text-transform: uppercase; }
+.platform-paths { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; padding-top: 1rem; padding-bottom: 5rem; }
+.platform-paths a { display: flex; flex-direction: column; min-height: 175px; padding: 1rem; border-top: 3px solid var(--accent); background: var(--surface); color: var(--text); text-decoration: none; }
+.platform-paths a:hover { background: var(--accent-soft); }
+.platform-paths span { color: var(--accent); font-size: .65rem; font-weight: 700; text-transform: uppercase; }
+.platform-paths strong { margin-top: auto; font-size: .95rem; }
+.platform-paths small { margin-top: .35rem; color: var(--muted); font-size: .68rem; }
+.publication-note { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 5rem; padding-top: 5rem; padding-bottom: 5rem; }
+.publication-note p { margin-top: 0; color: var(--muted); }
+.publication-note a { font-weight: 650; }
+
 .programme-hero { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(300px, .55fr); align-items: end; gap: 4rem; min-height: 610px; }
 .programme-status { padding: 1.25rem 0 1.25rem 1.25rem; border-left: 4px solid var(--accent); }
 .programme-status > strong { display: block; margin-bottom: .5rem; font-size: 1.65rem; line-height: 1.15; }
@@ -441,6 +514,9 @@ input, select { width: 100%; min-height: 34px; padding: .35rem .45rem; border: 1
 .command-results small { display: block; color: var(--muted); font-size: .68rem; }
 
 @media (max-width: 1080px) {
+  .project-hero h1 { font-size: 4.5rem; }
+  .platform-intro { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  .platform-paths { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hero h1 { font-size: 3.8rem; }
   .pathway-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -452,6 +528,21 @@ input, select { width: 100%; min-height: 34px; padding: .35rem .45rem; border: 1
 }
 
 @media (max-width: 820px) {
+  .project-hero { min-height: 650px; background-position: 58% 72%; }
+  .project-hero-inner { padding-top: 5rem; }
+  .project-hero h1 { font-size: 3.7rem; }
+  .hero-publication-bar { grid-template-columns: 1fr 1fr; }
+  .hero-publication-bar span:nth-child(2) { border-right: 0; }
+  .hero-publication-bar span:nth-child(-n+2) { border-bottom: 1px solid rgba(255, 255, 255, .24); }
+  .whitepaper-section { grid-template-columns: 65px minmax(0, 1fr); gap: 1.5rem; padding-top: 4.5rem; padding-bottom: 4.5rem; }
+  .whitepaper-copy > h2, .platform-intro h2, .publication-note h2 { font-size: 2.4rem; }
+  .problem-columns { grid-template-columns: minmax(0, 1fr); }
+  .problem-columns > div, .problem-columns > div:not(:first-child) { min-height: 0; padding: 1.25rem 0; border-right: 0; border-bottom: 1px solid var(--line); }
+  .problem-columns > div:last-child { border-bottom: 0; }
+  .trust-stack { grid-template-columns: 1fr 1fr; }
+  .trust-stack > div:nth-child(2)::after { display: none; }
+  .evidence-ladder { grid-template-columns: 1fr 1fr; }
+  .publication-note { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
   .site-header-inner { width: 100%; min-width: 0; max-width: 100%; flex-wrap: wrap; gap: .5rem; padding: .45rem .75rem; }
   .primary-nav { order: 3; width: 100%; min-width: 0; max-width: 100%; margin: 0; padding-top: .3rem; border-top: 1px solid var(--line); overflow-x: auto; }
   .header-actions { flex: 0 0 auto; margin-left: auto; }
@@ -486,7 +577,25 @@ input, select { width: 100%; min-height: 34px; padding: .35rem .45rem; border: 1
 }
 
 @media (max-width: 560px) {
+  .project-hero { min-height: 620px; background-image: linear-gradient(rgba(8, 18, 16, .7), rgba(8, 18, 16, .82)), url("freight-terminal-hero.png"); background-position: 64% 72%; }
+  .project-hero-inner { padding: 4rem .85rem 2.5rem; }
+  .project-hero h1 { font-size: 2.75rem; }
+  .project-thesis { font-size: 1rem; }
+  .hero-publication-bar span { padding: .75rem .85rem; font-size: .59rem; }
+  .whitepaper-section { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; padding-top: 3.5rem; padding-bottom: 3.5rem; }
+  .whitepaper-number { width: 42px; }
+  .whitepaper-copy > h2, .platform-intro h2, .publication-note h2 { font-size: 2rem; }
+  .section-lead { font-size: .95rem; }
+  .trust-stack, .evidence-ladder, .platform-paths { grid-template-columns: minmax(0, 1fr); }
+  .trust-stack > div { min-height: 130px; }
+  .trust-stack > div::after { display: none !important; }
+  .platform-intro { padding-top: 3.5rem; }
+  .platform-intro dl { grid-template-columns: 1fr; }
+  .platform-paths { padding-bottom: 3.5rem; }
+  .platform-paths a { min-height: 135px; }
   .wordmark small { display: none; }
+  .nav-link { padding: .32rem .36rem; font-size: .68rem; }
+  .primary-nav .nav-link:last-child { display: none; }
   .search-trigger span:not(:first-child), .search-trigger kbd { display: none; }
   .search-trigger { width: 34px; justify-content: center; padding: 0; }
   .hero, .section-shell, .page-intro, .collection-grid, .explore-layout, .reader-layout { padding-inline: .85rem; }
