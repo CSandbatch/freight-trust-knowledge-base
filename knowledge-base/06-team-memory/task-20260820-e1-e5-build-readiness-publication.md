@@ -25,7 +25,7 @@ tags:
 | Build contract integration | research orchestrator | audit findings and programme dependency graph | shared run contract plus E1-E5 build slices | source and protocol audit | each slice names artifacts, fixtures, gates, and prohibited claims | complete |
 | Tooling boundary | research orchestrator | repository runtime policy and official MCP documentation | MCP and runtime-tool recommendation | build contract integration | no MCP path bypasses custody, authorization, or immutable run capture | complete |
 | Independent review | red-team reviewer | integrated documentation diff | severity-ranked findings and repairs | build contract integration | no open critical or major documentation defect | complete |
-| Publication | research orchestrator | reviewed Git index | commit, push, Pages run, live verification | independent review | all repository gates and the live URL pass | pending |
+| Publication | research orchestrator | reviewed Git index | commit, push, Pages run, live verification | independent review | all repository gates and the live URL pass | complete |
 
 ## Scope boundary
 

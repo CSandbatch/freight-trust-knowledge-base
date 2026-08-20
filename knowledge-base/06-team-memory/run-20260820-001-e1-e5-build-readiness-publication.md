@@ -4,7 +4,7 @@ status: current
 id: run-20260820-001
 actor: research-orchestrator-with-source-and-red-team-review-lanes
 started: 2026-08-20
-outcome: in-progress
+outcome: completed
 owner: research-orchestrator
 schema_version: 1.1.0
 updated: '2026-08-20'
@@ -43,8 +43,11 @@ Retrieval dates, conflicts, negative results, and proposition limits remain in t
 ## Verification and publication
 
 Independent hostile review completed after two repair passes with no open Critical or Major
-finding. Staged repository gates, commit, push, Pages workflow, and live URL verification remain
-pending. This record must not be marked completed until all of those checks pass.
+finding. Local and GitHub validation passed: 222 Markdown notes and 18 atomic IDs validated, all
+six unit tests passed, and the deterministic build emitted 238 source artifacts with 2,030
+resolved wikilinks. Commit `0c05769` was pushed through PR 6 and merged to `master` as `2675624`.
+GitHub validation run `32419591283` and Pages run `32419591247` completed successfully. The home,
+run-contract, and MCP/tooling URLs each returned HTTP 200 with the expected published titles.
 
 ## Claim boundary
 
