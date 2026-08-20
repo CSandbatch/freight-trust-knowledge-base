@@ -14,6 +14,18 @@ tags:
 
 # Changelog
 
+## Full experiment white papers - 2026-08-20
+
+- Rebuilt each E1-E5 route as a complete experiment publication rather than a summary stub.
+  Every paper now states the decision it informs, unit and scope, positive and null
+  interpretations, threats to validity, safeguards, reproducibility packet, execution gates,
+  programme interface, and strict claim boundary.
+- Embedded the complete rendered canonical protocol as an authoritative appendix on its
+  experiment page, with its source path, content hash, standalone reader, and exact-source
+  download. The explanatory layer no longer substitutes for the research specification.
+- Added a paper-level table of contents and responsive layouts for the research-logic,
+  assurance, protocol, and source-record sections.
+
 ## Individual experiment publications - 2026-08-20
 
 - Added permanent, independently readable pages at `/experiments/e1/` through
