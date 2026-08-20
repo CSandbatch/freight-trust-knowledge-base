@@ -72,7 +72,7 @@ RDF/OWL schema, until Phase 6 actually requires one.
 ## Review Agent
 
 **Available now:** the four adversarial personas are prompt-driven, not tool-driven —
-already spec'd in [[05-agent-system/03-review-agent|03-review-agent.md]].
+now consolidated in the root `.codex/agents/red-team-reviewer.toml` persona.
 
 **Would help:** the ability to re-run a targeted `WebSearch` mid-review to check whether a
 Synthesis Agent claim is actually supported, rather than only reviewing the prose as

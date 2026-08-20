@@ -3,7 +3,7 @@ type: log
 status: active
 owner: memory-keeper
 schema_version: 1.0.0
-updated: 2026-08-08
+updated: 2026-08-18
 tags:
 - type/log
 - domain/knowledge-engineering
@@ -203,7 +203,7 @@ The resulting package is [[e1-carrier-identity-and-relationship-standard]] `1.0.
 [[e1-state-corporate-source-access-memo]], and [[e1-definition-conformance-report]]. The hostile review found eight Critical and eleven Major defects
 in the prior loose formulation; RC1 closes those design findings in the synthetic suite.
 
-**Not yet approved/frozen:** PI scientific sign-off, freight/FMCSA-domain walk-through of all 60
+**Not yet approved/frozen:** PI scientific sign-off, freight/FMCSA-domain walk-through of all 70
 cases, counsel/domain review of reincarnation/affiliation language and sensitive evidence, first
 state/jurisdiction source-access memo, adjudicator COI/training/pilot double-label run. No model or
 benchmark builder may silently change the target while these gates are being completed.
@@ -212,6 +212,28 @@ benchmark builder may silently change the target while these gates are being com
 for carrier screening and identity verification. E1 novelty is therefore framed around an
 evaluated, provenance-bearing, time-aware, contestable identity/relationship benchmark and
 resolution workflow — not “first automated chameleon detector.”
+
+---
+
+### `DEC-012` — Executable agent control moves outside the public vault
+
+**Date:** 2026-08-18 · **Status:** recorded · **Owner:** user
+
+Root `AGENTS.md` is the repository-wide orchestration contract. Project-scoped callable
+personas live in `.codex/agents/*.toml`, the native Codex project-agent location. The
+former Markdown persona definitions under `05-agent-system/` and
+`05-agent-system/runtime/agents/` are retired rather than maintained as a second runtime.
+
+*Rationale:* executable agent policy is repository infrastructure, while every tracked
+file beneath `knowledge-base/` is deliberately published as research corpus. Separating
+the two prevents persona prompts from appearing as knowledge claims and gives the primary
+agent one routing authority. Domain workflow history, source policy, artifact contracts,
+and portable Git/retrieval contracts remain in the vault because they explain how the
+research was produced.
+
+*Consequences:* the primary agent builds a bounded dependency graph, delegates suitable
+independent work, integrates results, and owns final verification. Personas are narrow,
+project-scoped, and may not become competing orchestrators.
 
 ## Related
 

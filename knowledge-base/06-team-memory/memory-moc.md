@@ -4,7 +4,7 @@ area: team-memory
 status: active
 owner: memory-keeper
 schema_version: 1.1.0
-updated: '2026-08-12'
+updated: '2026-08-20'
 tags:
 - type/moc
 - domain/knowledge-engineering
@@ -21,6 +21,19 @@ It complements durable evidence in `03-research-evidence/`, procedures in
 
 ## Memory objects
 
+- [[run-20260820-001-e1-e5-build-readiness-publication]] - publication run for the
+  build-start contracts, MCP/tooling recommendation, repository gates, and live site.
+- [[task-20260820-e1-e5-build-readiness-publication]] - bounded task packet for bringing
+  all five experiments to documented build-start readiness and publishing the result.
+
+- [[run-20260818-001-e1-e5-rabbit-alignment]] - completed source-research and programme-
+  alignment run; records scope, artifacts, claim limits, and unresolved execution gates.
+
+- [[task-20260818-e1-e5-rabbit-program-alignment]] — completed Rabbit research and
+  cross-experiment alignment task, anchored on E1; unresolved execution locks moved to GAP-019.
+
+- [[mem-ft-000001-e1-carrier-identity-design-transcript]] — candidate design-history
+  provenance for the E1 carrier-identity definition work.
 - [[templates/agent-run-template]] — reproducible execution record.
 - [[templates/handoff-template]] — transfer of an incomplete or reviewed work item.
 - [[templates/meeting-template]] — meeting record with decisions and actions.

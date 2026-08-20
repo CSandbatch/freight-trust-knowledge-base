@@ -13,8 +13,9 @@ tags:
 **Team release:** `v0.9.2` · frozen 2026-08-08 for internal distribution. See [[README]], [[team-status-and-actions]], [[vault-inventory]], and [[CHANGELOG]].
 
 **Operational memory:** [[06-team-memory/memory-moc]] holds tasks, agent runs, handoffs,
-meetings, and reviewed shared memory. Start a new work item through
-[[05-agent-system/guiding-routes]].
+meetings, and reviewed shared memory. Root `AGENTS.md` orchestrates work through the
+project personas in `.codex/agents/`; [[05-agent-system/guiding-routes]] retains the
+domain-specific vault routes and evidence gates.
 
 This is the canonical navigation layer for the Freight Trust research programme: client brief, research evidence, datasets and experiments, the agent operating system, SBIR preparation, and reusable visualizations, in one Obsidian vault.
 
@@ -32,8 +33,10 @@ This is the canonical navigation layer for the Freight Trust research programme:
 | View only approved public materials | [[public/overview]] |
 | Prepare an NSF application | [[04-sbir/nsf-sbir-sttr-process-and-readiness-guide]] → [[04-sbir/sbir-moc]] |
 | Verify a research claim | [[03-research-evidence/research-evidence-moc]] → [[03-research-evidence/evidence]] |
-| Run the Terra/Luna/Rabbit workflow | [[05-agent-system/agent-system-moc]] |
+| Understand the Terra/Luna/Rabbit research workflow | [[05-agent-system/agent-system-moc]] |
 | Design or review the benchmark and Phase I experiments | [[03-research-evidence/datasets-and-experiments-moc]] |
+| Understand E1 end to end | [[03-research-evidence/e1-experiment-brief-and-readiness-map]] → [[03-research-evidence/experiment-e1-entity-resolution-and-identity-assurance]] |
+| See how E1–E5 fit together | [[03-research-evidence/integrated-e1-e5-research-programme]] |
 | Reuse a diagram | [[07-visuals/visual-index]] |
 | Understand how the vault itself is built and kept true | [[09-meta/meta-moc]] |
 | Look up a term of art | [[09-meta/glossary]] |
@@ -70,7 +73,7 @@ flowchart TD
 - [[02-programme-strategy/research-programme]] — complete research programme and logic.
 - [[03-research-evidence/evidence]] — source-backed evidence register and confidence record.
 - [[04-sbir/nsf-sbir-sttr-process-and-readiness-guide]] — application route, draft Pitch, and checklist.
-- [[05-agent-system/framework]] — Terra orchestration, Luna synthesis, and Rabbit discovery control plane.
+- [[05-agent-system/framework]] — domain research workflow used by the root orchestrator and persona factory.
 - [[09-meta/meta-moc]] — the control layer: schema, taxonomy, methodology, agents, loops, and registers.
 - [[09-meta/client-common-action]] — who this work is for, and what about them is still unknown.
 
@@ -80,7 +83,7 @@ flowchart TD
 |---|---|---|
 | Client narrative | Consolidated | Confirm priority audience and first pilot workflow. |
 | Evidence | Sourced baseline assembled | Add primary interviews and permissioned benchmark data. |
-| Datasets and experiments | E1 identity-definition RC1 source-grounded and hostile-reviewed; benchmark not yet built | PI/domain/counsel freeze, train adjudicators, pilot double-labeling, then construct E1 corpus and run baselines. |
+| Datasets and experiments | E1–E5 source-refreshed and aligned under a versioned interface/claim contract; all remain unrun. E1 is the most mature protocol; E2/E3 received major semantic/security corrections; E4/E5 are conditional later lanes | Close [[09-meta/gaps/gap-019-e1-e5-programme-readiness]], beginning with E1 human freeze, reviewer pilot, benchmark and C1/C2 implementations. |
 | SBIR | Full draft package: Pitch, project description, budget, DMP, commercialization plan, risk register (all placeholder-gated) | Confirm legal form, SBIR/STTR route, PI effort/employment eligibility, and remaining personnel rates to resolve placeholders. |
 | Agents | Framework, roles, and skill contract documented | Use the task-packet loop for each new research pass. |
 | Vault machinery | Schema 1.0.0, seven-layer tag taxonomy, methodology, five agent layers and four loops defined | Team-release migration completed 2026-08-08; run the release audit before each subsequent distribution. |

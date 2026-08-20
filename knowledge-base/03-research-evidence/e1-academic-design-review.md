@@ -2,7 +2,7 @@
 type: evidence
 status: active
 schema_version: 1.0.0
-updated: 2026-08-08
+updated: 2026-08-18
 confidence_default: mixed
 tags:
 - type/evidence
@@ -15,6 +15,14 @@ tags:
 - programme/e1
 ---
 # E1 Academic Design Review — iterative methods review
+
+> [!note] 2026-08-18 method-extension boundary
+> This review hardened the pre-LLM C1/C2/C3 design. [[dec-013-llm-e1-challenger]] later added
+> a prospective constrained LLM resolver. The earlier “zero open Critical/Major” verdict must
+> not be read as empirical or conformance approval of a model, provider, prompt, data-egress
+> path, calibration layer, or cluster reconciler that did not yet exist. The new extension is
+> governed by [[method-llm-assisted-entity-resolution]] and
+> [[09-meta/gaps/gap-018-e1-llm-readiness]].
 
 ## Scope and standard of review
 

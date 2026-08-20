@@ -3,7 +3,7 @@ type: log
 status: current
 owner: research-and-knowledge-architecture-lead
 schema_version: 1.0.0
-updated: '2026-08-08'
+updated: '2026-08-18'
 tags:
 - type/log
 - domain/freight
@@ -14,6 +14,14 @@ tags:
 - programme/e1
 ---
 # E1 Academic Design Conformance Report — RC2
+
+> [!warning] Scope of this stored conformance result
+> The 35/35 result predates the 2026-08-18 decision to add
+> [[method-llm-assisted-entity-resolution]]. It remains evidence about the controlling E1
+> sampling, inferential and reporting design, but it is not a passed review of the new LLM
+> implementation. LLM eligibility for `C*` remains blocked by
+> [[09-meta/gaps/gap-018-e1-llm-readiness]] and requires an executable adversarial/conformance
+> rerun before final-test access.
 
 Mechanical conformance check for the post-review E1 protocol. This report tests whether the protocol contains the methodological controls required by [[e1-academic-design-review]]. It does **not** certify empirical validity, legal correctness, reviewer competence, or peer-reviewed acceptance.
 

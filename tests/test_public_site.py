@@ -140,6 +140,22 @@ Private working note text is intentionally still published with a draft badge.
             self.assertTrue(any("raw bytes differ" in issue for issue in issues))
             self.assertIn("unexpected generated output: surprise.txt", issues)
 
+    def test_graph_is_a_traceable_vault_workspace(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root, out = self.fixture(pathlib.Path(temporary))
+            build(root, None, out, "https://example.test/freight-trust/", source_date_epoch=0)
+            graph_page = (out / "graph" / "index.html").read_text(encoding="utf-8")
+            graph_script = (out / "assets" / "graph.js").read_text(encoding="utf-8")
+            self.assertIn('class="vault-workspace"', graph_page)
+            self.assertIn("data-graph-trail", graph_page)
+            self.assertIn("data-graph-zoom-in", graph_page)
+            self.assertIn('data-graph-node="00-home/start-here.md"', graph_page)
+            self.assertIn("is-outgoing", graph_script)
+            self.assertIn("is-incoming", graph_script)
+            self.assertIn("is-trail", graph_script)
+            self.assertIn('addEventListener("wheel"', graph_script)
+            self.assertIn('addEventListener("pointerdown"', graph_script)
+
 
 if __name__ == "__main__":
     unittest.main()

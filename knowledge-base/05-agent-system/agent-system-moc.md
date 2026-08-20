@@ -10,22 +10,29 @@ tags:
 ---
 # Agent System
 
+The executable orchestration policy is repository-root `AGENTS.md`; project-scoped Codex
+personas live in `.codex/agents/`. Those runtime files sit outside `knowledge-base/` so
+they are not published as research corpus. This MOC retains the domain operating model,
+evidence rules, and historical handoff design.
+
 ## Control plane
 
 - [[framework]] — Terra orchestration, Luna synthesis, Rabbit discovery, loops, and stop conditions.
 - [[guiding-routes]] — request-to-role routing, acceptance gates, handoffs, and exit checks.
 - [[roster]] — roles and handoffs.
 - [[mcp-capabilities]] — tool and connector boundaries.
+- [[experiment-mcp-and-tooling-setup]] — least-privilege MCP profile and runtime tool candidates
+  for E1-E5 implementation.
 - [[tools-and-skills]] — current tool/skill roster.
 - [[runtime/runtime-moc]] — portable runtime specifications and Git/PR agent contract.
 
-## Role notes
+## Runtime personas
 
-- [[01-rabbit-agent]] — wide-net discovery.
-- [[02-synthesis-agent]] — evidence synthesis.
-- [[03-review-agent]] — challenge and quality control.
-- [[04-publishing-agent]] — human-readable output.
-- [[05-visualization-agent]] — diagrams and visual brief support.
+The root persona factory consolidates the former role notes into narrow custom agents:
+`source_scout`, `dataset_registrar`, `evidence_synthesizer`, `graph_engineer`,
+`kb_schema_steward`, `kb_linker`, `glossary_builder`, `drift_controller`,
+`red_team_reviewer`, `memory_keeper`, `publisher`, `visualization_engineer`, and
+`ai_tell_editor`. The root orchestrator owns routing, integration, and completion gates.
 
 ## Reusable research skill
 

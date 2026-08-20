@@ -5,7 +5,7 @@ status: planned
 phase: phase-i
 owner: technical-lead-plus-domain-adjudication-panel
 schema_version: 1.0.0
-updated: 2026-08-08
+updated: 2026-08-20
 primary_outcome: identity-resolution-quality-at-fixed-false-positive-ceiling
 tags:
 - type/experiment
@@ -19,10 +19,13 @@ Protocol standard: [[experiment-protocol-standard]].
 
 ## Thesis
 
-A provenance-preserving, layered identity-resolution workflow that combines authoritative
-records, temporal information, and typed graph relationships will assign observations to the
-correct **legal-person identity** more accurately and with less review time than the
-current/manual workflow, while abstaining when the evidence is insufficient.
+The primary E1 question is whether one prospectively selected non-manual resolver (`C*`) can
+increase legal-person auto-resolution yield over the transparent deterministic baseline C1 while
+meeting a preregistered assignment-precision safety floor and the same human-review budget. The
+incremental value of graph context (C3) and the effect of model assistance on operational-review
+correctness and time (C4 versus C0) are separate secondary questions; a C2 or C6 win does not by
+itself validate the graph mechanism, and the confirmatory C1-versus-`C*` result does not by itself
+establish a manual-workflow time saving.
 
 E1 separately represents FMCSA registrant continuity, identifier assignment/use, corporate
 succession/affiliation, substantial operational continuity, and regulatory dispositions. It does
@@ -44,16 +47,18 @@ unexplainable. E1 tests the first load-bearing link in that chain.
 | The system must not become a new exclusion mechanism | Measures false positives, subgroup performance, burden, and outcomes for small carriers. |
 | The system should support human judgment, not replace it | Treats uncertain cases as reviewable and measures review time rather than optimizing only automated coverage. |
 
-E1 proves or disproves one thing: whether the proposed identity substrate is technically
-credible enough for the rest of the trust layer to rely on. It says nothing about whether
-freight becomes safer or fraud disappears. If E1 fails, E2-E5 may still be useful as
-isolated experiments, but the programme cannot responsibly claim that its shared evidence
-layer has a reliable identity foundation.
+E1 estimates, under the declared population, jurisdiction/source, time, evidence, and review
+conditions, whether the proposed identity substrate is technically credible enough to justify
+further bounded integration work. It says nothing about whether freight becomes safer or fraud
+disappears. If E1 fails, E2-E5 may still be useful as isolated experiments, but the programme
+cannot responsibly claim that its shared evidence layer has a validated identity foundation.
 
 ### How the methods connect to the thesis
 
-- **Deterministic matching** establishes the transparent current-practice floor. If the
-  graph cannot beat it at comparable false-positive risk, graph language is not justified.
+- **Deterministic matching** establishes a transparent constructed rules baseline. It is not
+  represented as current practice unless a real operating workflow is documented and mapped to
+  the frozen rules. If C3 cannot beat C1 at comparable false-positive risk, a graph-specific
+  performance claim is not justified.
 - **Probabilistic resolution** tests whether uncertainty can be represented quantitatively
   instead of disappearing inside brittle yes/no rules. Calibration connects output to review policy.
 - **Graph-assisted resolution** tests the infrastructure claim itself: identity is a network of
@@ -81,20 +86,21 @@ Nothing in its design originates with the experiment file itself.
 | [[review-notes]] R-WN-03 — "Automated-score liability risk" (severity: high) | The requirement for abstention, human review, correction, and appeal before consequential use. This is why C4 exists and why E1 is framed as identity resolution rather than risk scoring. | Open; tracked as G13 |
 | [[review-notes]] R-WN-05 — "Small-carrier equity remains inferential" (severity: medium) | The requirement to segment outcomes by fleet size rather than assert equity. This is why fleet-size band is a predeclared subgroup estimand, not a post-hoc slice. | Open |
 | [[improvement-suggestions]] items 2, 3, 4, 5, 6 | Baseline/intervention/threshold/failure-condition framing (2); benchmark as a named deliverable (3); separation of authoritative identity evidence from inferred risk indicators (4); formal abstention path (5); fleet-size subgroup metrics in the primary design (6). | Adopted |
-| [[dataset-scan-entity-resolution]] (compiled 2026-08-01) | Every concrete data and tooling decision below: which seed source is real, which is paid, which does not exist, and what construction method the field actually uses. | Current |
+| [[dataset-scan-entity-resolution]] (compiled 2026-08-01; FMCSA refresh 2026-08-18) | Concrete seed/access/tooling findings, gated sources, and bounded negative retrieval results. Superseding confirmed source cards control current FMCSA claims. | Current |
 | [[04-sbir/drafts/phase-1-project-description-draft]] Section 3 (Aim 1) | The proposal-side commitments E1 has to satisfy: beat the deterministic baseline at a matched operating point, report calibration and fleet-size error slices, Month 6 milestone, and the stated failure condition. | Draft |
 
 ### Provenance of each input
 
-The entity-resolution scan distinguished three tiers: confirmed and directly usable,
-gated behind money or a signed agreement, and confirmed not to exist. E1 depends only on
-the first tier.
+The entity-resolution scan distinguished three tiers: confirmed and directly accessible,
+gated behind money or a signed agreement, and not identified in the documented search. Public
+download access does not establish redistribution rights or fitness for a benchmark, so E1 still
+requires source-by-source rights and case-closure review.
 
 | Input | Origin and publisher | Access mechanism | License / terms | Verification status | What it can support | What it cannot support |
 |---|---|---|---|---|---|---|
 | [[dataset-fmca-company-census-file]] | FMCSA MCMIS census extract, mirrored on data.transportation.gov | Direct bulk download (CSV/JSON/XML) via Socrata export endpoints; no login, no API key, no access agreement | Metadata license field reads "unknown"; almost certainly public domain as a U.S. government work (17 U.S.C. §105) but **the metadata does not say so** — confirm, do not assume | **High.** Confirmed by direct fetch of the catalog.data.gov page, not a search snippet. Catalog "last updated" 30 July 2026 at scan time | Clean seed entities: legal/DBA name, USDOT number, address, entity type, status; carrier size fields make fleet-size disaggregation structurally feasible | Any labeled fraud or chameleon outcome. It carries no ground truth about identity reuse |
-| [[dataset-fmca-registration-insurance-safety-records]] | FMCSA Licensing & Insurance dataset; MCMIS crash/inspection catalog | catalog.data.gov / data.transportation.gov listings; L&I described in search results as a daily *difference* (delta) feed | Not independently confirmed; presumed same public-domain posture as the census file | **Low-medium.** The L&I catalog page could not be read past its JS shell; the MCMIS catalog page returned HTTP 403 to automated fetch. Both are cited from search-result snippets. Retrieve manually before either becomes load-bearing | Evidence attributes with differing freshness — authority types, insurance on file, safety history — i.e. the source-conflict and staleness material C5 needs. A *daily-diff* feed is closer to a change log than a snapshot, which is what makes registration churn observable | A confirmed field list, cadence, or license. Treat all three as unverified until a direct read succeeds |
-| [[dataset-e1-adjudicated-carrier-identity-cases]] | Does not exist. To be built by this project | Blinded expert review over permitted source records | [[e1-carrier-identity-and-relationship-standard]] + [[e1-adjudication-decision-tree]]; RC1 complete, PI/domain/counsel freeze pending | **To-build.** The scan confirmed absence, not non-discovery | Layered Task A/B/C gold labels, reviewer disagreement, and typed relationships | No real-world prevalence/detection rate. Every numeric target in Aim 1 stays bracketed until the corpus exists |
+| [[dataset-fmca-registration-insurance-safety-records]] | FMCSA Open Data Program; current Motus operating-authority files and other FMCSA registration/safety families | Official FMCSA successor page and DOT Data Portal/Socrata APIs; current operating-authority files include “All With History” baselines and daily-difference variants | Public access confirmed for the named files; catalog metadata reports **Unknown License**, so reuse and redistribution remain unresolved | **Confirmed, scoped.** The legacy `jeyh-5nsj` L&I record is an empty link-only stub, while current Motus successor datasets, selected fields, and daily cadence are directly verified in [[source-fmcsa-licensing-and-insurance-dataset]] and [[source-fmcsa-mcmis-catalog]] | Time-bounded authority, insurance, registration, and selected safety evidence, subject to predicate-specific field and temporal validation | A blanket licence, complete legacy-to-Motus schema mapping, guaranteed delivery time, or legal-person gold truth |
+| [[dataset-e1-adjudicated-carrier-identity-cases]] | No qualifying public corpus was identified in the documented search through 2026-08-18; the reference standard is to be built by this project | Blinded expert review over permitted source records | [[e1-carrier-identity-and-relationship-standard]] + [[e1-adjudication-decision-tree]]; RC1 complete, PI/domain/counsel freeze pending; per-source rights remain required | **To-build.** This is a bounded negative retrieval result, not proof that no such corpus exists | Layered Task A/B/C reference labels, reviewer disagreement, and typed relationships | No real-world prevalence/detection rate. Every numeric target in Aim 1 stays bracketed until the corpus exists |
 
 Sources deliberately excluded, and why:
 
@@ -102,8 +108,8 @@ Sources deliberately excluded, and why:
   (Control #2019-3095) for semi-annual snapshots was marked "Fully Granted" in February
   2021, but the released files are a scanned image and a short PDF of correspondence —
   not bulk data. FMCSA said it "can't go as far back as requested." This is a **hard
-  blocker**: no ready-made historical snapshot series exists for tracking reincorporation
-  over time. A new, narrowly scoped FOIA is a plausible path but cannot be a Phase I
+  blocker**: the documented retrieval did not produce a ready-made historical snapshot series
+  for tracking reincorporation over time. A new, narrowly scoped FOIA is a plausible path but cannot be a Phase I
   dependency, because its timeline is outside the project's control.
 - **OpenCorporates.** Real and directly relevant — company formation dates, officers,
   registered addresses across 140+ jurisdictions — but bulk access requires a paid plan
@@ -130,7 +136,7 @@ floors, one is the claim under test, and one is a human process.
 
 ### Provenance of the benchmark-construction method
 
-No labeled chameleon-carrier dataset is published anywhere the scan reached. Every
+No labeled chameleon-carrier dataset was identified in the documented search. Every
 candidate source either describes a detection methodology without releasing the matched
 pairs, is a single enforcement case requiring manual reconstruction, or could not be
 verified. E1's construction path therefore borrows methodology from outside freight:
@@ -274,6 +280,9 @@ all assume a resolved carrier identity.
 5. Does calibrated abstention reduce accepted-case error across the risk/coverage curve and at the operational review-capacity point?
 6. How do performance, calibration, abstention, review burden, and error mechanisms vary by fleet size, record age, jurisdiction/source environment, graph degree, missingness and F6a/F6b status?
 7. How rapidly does performance degrade under empirically calibrated observation corruption and missingness in the nonrepresentative challenge cohort?
+8. Does the frozen C6-LLM challenger add resolution value over the non-LLM probabilistic method
+   on the same candidates/evidence, and do any gains survive end-to-end retrieval, evidence-support,
+   cluster-consistency, stability, injection, privacy, latency and cost constraints?
 
 ## Hypotheses and estimands
 
@@ -287,6 +296,7 @@ Only H1 is confirmatory unless the preregistration explicitly promotes another h
 | H3 | Secondary | End-to-end C3/C* improves over baselines when blocking misses and compute are included. | Apparent graph gains vanish when retrieval is evaluated honestly. |
 | H4 | Secondary | Calibrated abstention lowers risk as coverage decreases and meets the operational precision floor without excessive deferral. | Confidence is not useful for safe triage. |
 | H5 | Secondary validity | Error/burden differences across prespecified groups are small enough to support the intended scope, or are identifiable with actionable mechanisms. | Scope must be narrowed or method redesigned; underpowered groups are reported as insufficient precision, not “pass.” |
+| H6 | Preregistered secondary challenger analysis | On the frozen common-candidate/evidence view, C6 improves assignment yield at the declared precision/review point over the designated non-LLM probabilistic comparator while both receive identical case evidence and while meeting frozen evidence-support, reconciliation, instability, injection-resistance, privacy/data-egress, latency and cost gates. The graph-augmented L3 view is excluded from H6 and analyzed only as a separate equal-evidence `resolver family × evidence view` factorial diagnostic. | No positive LLM-specific incremental-value claim is supported. The result is retained and cannot retrospectively change C* selection or the H1 conclusion. |
 
 The primary operational unit is a post-cutoff observation-resolution decision: `LINK_EXISTING`, `CREATE_NEW`, or `ABSTAIN`. Gold identity remains the canonical legal-person partition.
 
@@ -298,13 +308,27 @@ The primary operational unit is a post-cutoff observation-resolution decision: `
 | C1 | Primary transparent baseline | Frozen deterministic normalized-field/authoritative-anchor rules with explicit new-entity and abstention behavior. |
 | C2 | Statistical baseline | Frozen Fellegi-Sunter-style or equivalently preregistered probabilistic linkage model with calibrated probabilities. |
 | C3 | Proposed mechanism | Graph-assisted temporal/relationship model using only permitted, source-attributed, pre-cutoff edges. |
-| C* | Confirmatory candidate | Exactly one eligible C2/C3 system chosen on development data using the preregistered selection/tie-break rule. |
+| C* | Confirmatory candidate | Exactly one eligible C2/C3/C6 system chosen on development data using the preregistered selection/tie-break rule; C6 is eligible only if its frozen development promotion gates pass. |
 | C4 | Operational composite | Frozen `C*` + abstention + a **separate operational reviewer panel**; gold adjudicators do not perform runtime review. |
 | C5 | Challenge/stress | Real hard cases plus empirically calibrated missingness/corruption. Nonrepresentative; no population-performance claim. |
+| C6-LLM | Preregistered challenger | Fixed LLM/embedding-assisted resolver evaluated under [[method-llm-assisted-entity-resolution]]. It is evidence-bounded, schema-constrained, reconciled into coherent clusters, and conditionally eligible for C* after frozen development gates. |
+
+No C6 implementation or result exists yet, and no benchmark/test is frozen or opened. C6 may
+enter the first `C*` development selection only if the preregistered reproducibility, privacy,
+evidence-support, injection-resistance, stability, calibration, cost, subgroup, retrieval, and
+cluster-reconciliation gates in [[method-llm-assisted-entity-resolution]] are met before test
+access. If a gate fails or C6 is not selected, it remains secondary and its outputs are
+descriptive; exactly one C2/C3/C6 system reaches the confirmatory holdout as `C*`.
 
 ### Resolver-versus-retrieval ablation
 
 Primary method results are **end to end**, including each condition's frozen candidate-generation/blocking pipeline. A secondary common-candidate-set experiment supplies the same broad candidate union to C1-C3 to isolate scoring/graph effects. Candidate recall is never silently assumed to be 100%.
+
+C6 has both views: a common-candidate reranking analysis that isolates its resolver and a frozen
+end-to-end analysis that includes its own embedding or other candidate generator. Its bounded
+L0-L7 family separates zero/few-shot scoring, retrieval, graph context, evidence-citation,
+nondeterminism, memorization/feature reliance, and prompt-injection questions without turning an
+unbounded prompt search into model selection.
 
 ## Benchmark cohorts
 
@@ -344,6 +368,7 @@ The representative corpus is constructed entity-centrically rather than as a bag
 - [[method-deterministic-entity-matching]]
 - [[method-probabilistic-entity-resolution]]
 - [[method-graph-assisted-entity-resolution]]
+- [[method-llm-assisted-entity-resolution]]
 - [[method-expert-adjudication]]
 - [[e1-benchmark-sampling-and-split-plan]]
 - [[e1-statistical-analysis-and-preregistration-plan]]
@@ -354,7 +379,7 @@ Each production condition has a preregistered candidate generator. Report candid
 
 ### Method-selection discipline
 
-Before final test opening, enumerate eligible C2/C3 variants, preprocessing, hyperparameter spaces, random seeds/budget, development metric, and tie-break. Select one `C*`. Final-test performance of rejected configurations is descriptive only and cannot be used to redefine the winner.
+Before final test opening, enumerate eligible C2/C3 variants and the conditionally eligible C6 configuration, preprocessing, hyperparameter spaces, random seeds/budget, development metric, promotion gates, and tie-break. Select exactly one `C*` from the gate-qualified systems. Final-test performance of rejected/nonselected configurations is descriptive only and cannot be used to redefine the winner.
 
 ## Protocol
 
@@ -366,12 +391,17 @@ Before final test opening, enumerate eligible C2/C3 variants, preprocessing, hyp
 6. **Train/develop:** fit preprocessing, C2/C3, graph features/embeddings and calibration on train/dev only.
 7. **Select C*:** choose exactly one non-manual confirmatory candidate under the preregistered development rule.
 8. **Data/code lock:** hash manifests, code, environment, model configs, split files and replicate-weight/bootstrap procedure.
-9. **One-shot test:** run C1 and C* on the frozen test set once; preserve raw predictions before metrics are computed.
+9. **One-shot test:** execute one immutable holdout batch whose manifest names every permitted
+   configuration before access. C1 and `C*` are the only confirmatory systems. Any preregistered
+   nonselected system included in that same batch is secondary/descriptive and permanently
+   consumes its holdout evaluation; no later holdout run, prompt search, or reranking may revise
+   C* selection. Preserve all raw predictions before metrics are computed.
 10. **Primary analysis:** apply design weights and hierarchical H1a→H1b gate.
 11. **Secondary analyses:** cluster metrics, common-candidate ablation, calibration, risk/coverage, Task B/C, subgroups and Cohort H.
 12. **Operational C4:** separate reviewers evaluate randomized manual versus assisted cases against independent frozen gold.
 13. **Error audit:** classify false merges/splits, blocking misses, source conflict, missingness, graph contamination and reviewer uncertainty.
 14. **Independent review:** methods reviewer checks protocol deviations, leakage logs, denominators, weights and claim language before release.
+15. **C6 challenger:** before test access, run the frozen development promotion gates and include C6 in `C*` selection only if they pass. If a frozen nonselected C6 configuration is included in the preregistered immutable holdout batch, its result and L0-L7 diagnostics are secondary/descriptive and cannot authorize a later test-set rerun. Retain raw requests/responses under their data classification.
 
 ## Primary and secondary outcomes
 
@@ -380,6 +410,10 @@ Before final test opening, enumerate eligible C2/C3 variants, preprocessing, hyp
 - design-weighted automatic assignment precision (PPV);
 - design-weighted assignment recall / auto-resolution yield;
 - paired `C* - C1` difference at the same `P*` and review budget.
+
+The joint assignment estimand is accompanied by action-specific `LINK_EXISTING` and `CREATE_NEW`
+precision, recall, confusion counts, and harm categories. Pooling the actions must not hide a high
+false-attachment or false-new-cluster rate.
 
 ### Secondary clustering
 
@@ -414,6 +448,15 @@ Before final test opening, enumerate eligible C2/C3 variants, preprocessing, hyp
 - evidence opened/interaction count where instrumented;
 - compute latency, memory/candidate volume.
 
+### LLM challenger safety and operability
+
+- schema-valid response and evidence-ID support rates;
+- unsupported-assertion, reconciliation-intervention and inconsistent-cluster rates;
+- repeated-inference action/target/evidence flip rates;
+- masked-versus-unmasked diagnostic degradation and prompt-injection success rate;
+- abstention/system-failure cause distribution; and
+- token use, per-decision cost, latency, retries, timeouts and provider failures.
+
 ## Statistical analysis
 
 Controlling document: [[e1-statistical-analysis-and-preregistration-plan]].
@@ -435,6 +478,14 @@ After the development-only pilot, simulation under the actual stratified/entity-
 
 Gold labeling continues under [[e1-adjudicator-governance-and-training]]. Gold adjudicators do not serve as C4 operational reviewers.
 
+Before recruiting reviewers or recording/analyzing their time, correctness, explanations, or
+other behavior, obtain a documented determination under the responsible institution or sponsor's
+human-subjects process. Investigators do not self-authorize an exemption. Ordinary paid labeling
+that produces case labels only must remain operationally and analytically separate from the C4
+research panel unless that determination permits the combined design.
+The governing source boundary is recorded in
+[[source-nsf-common-rule-human-subjects-consent]].
+
 For C0 versus C4, operational reviewers are randomized across manual/assisted cases in a blocked crossover over **different cases**; no reviewer sees the same case twice. Both arms receive equivalent underlying evidence, with model ranking/explanation only in the assisted arm. Accuracy is measured against frozen independent gold; time/correctness analyses account for reviewer and case effects.
 
 ## Initial decision rules
@@ -454,7 +505,7 @@ Numbers remain pilot-dependent but the structure is now fixed:
 | Threat | Mitigation |
 |---|---|
 | Benchmark convenience/hard-case bias | Probability-based entity-centric Cohort R; Cohort H separated. |
-| Incomplete gold clusters | Model-independent retrieval + cluster-closure status; incomplete clusters excluded from confirmatory metrics. |
+| Incomplete gold clusters | Model-independent retrieval + cluster-closure status; report design-weighted closure failure and reasons, define the closure-eligible estimand, and run preregistered bounds/sensitivity analysis so exclusion does not silently redefine the target population. |
 | Blocking false negatives | Candidate recall/pair completeness and end-to-end metrics. |
 | Pairwise metric distortion | B-cubed/cluster/merge-split metrics plus operational observation assignment. |
 | Gold-reviewer error | Independent duplicate review, adjudication, agreement reporting, sensitivity analyses. |
@@ -466,6 +517,11 @@ Numbers remain pilot-dependent but the structure is now fixed:
 | Jurisdiction/source heterogeneity | Sampled source adapters + optional Cohort J; scope limited if external holdout unavailable. |
 | Synthetic corruption unreality | Empirically calibrated observation-noise perturbations; genuine business events treated as real temporal cases. |
 | Human workflow carryover | Separate operational panel; each reviewer sees each case once. |
+| LLM public-record memorization / future knowledge | No external tools; L6 masking/randomization and chronology diagnostics; residual pretraining contamination disclosed. |
+| Prompt injection in source fields | Treat source text as untrusted data; strict delimiters/schema; no tools; L7 challenge cases and fail-closed abstention. |
+| LLM hallucinated or unsupported evidence | Evidence-ID output contract; unknown IDs/unsupported assertions fail validation and are counted. |
+| Hosted-model privacy/data egress | Field-level approval and minimized evidence view; restricted evidence remains controlled or uses an approved self-hosted model. |
+| Model/provider drift and nondeterminism | Exact route/configuration manifest, no dynamic router/fallback, repeated-inference stability test, new version on any change. |
 
 ## Required outputs
 
@@ -479,6 +535,7 @@ Numbers remain pilot-dependent but the structure is now fixed:
 8. Operational manual-versus-assisted workflow report using a reviewer panel separate from gold adjudicators.
 9. Reproducibility archive and deviations log under [[e1-reporting-and-reproducibility-checklist]].
 10. Go/no-go recommendation that explicitly states the population/jurisdiction/source scope supported by the evidence.
+11. C6 configuration/model card, prompt and provider manifests, common-candidate and end-to-end raw outputs, L0-L7 diagnostic report, privacy approval, contamination/injection/stability audit, promotion-gate decision, and selected-versus-secondary claim label.
 
 ## References
 
@@ -493,4 +550,3 @@ Numbers remain pilot-dependent but the structure is now fixed:
 - [[source-traub-2024-selective-classification-evaluation]]
 - [[source-van-calster-2016-calibration-hierarchy]]
 - [[source-dasylva-2016-clerical-review-quality]]
-

@@ -2,7 +2,7 @@
 type: log
 status: active
 schema_version: 1.0.0
-updated: '2026-08-08'
+updated: '2026-08-18'
 tags:
 - type/log
 - domain/freight
@@ -12,8 +12,11 @@ tags:
 ---
 # Research Run Log
 
-Operational ledger for delegated work. Keep one row per task attempt; do not delete
-failed or superseded attempts.
+Historical operational ledger for work recorded before the schema 1.1 atomic-record
+convention. Preserve these rows and do not duplicate their IDs. New tasks and attempts
+use one file per object under `06-team-memory/tasks/` and `06-team-memory/runs/`, indexed
+from [[06-team-memory/memory-moc]]; do not append new attempts here. Failed and superseded
+attempts remain durable atomic records.
 
 | Run/task ID | Parent | Owner | Input/version | Queries/tools | Sources added/rejected | Gate verdict | Retry/reason | Status | Timestamp |
 |---|---|---|---|---|---|---|---|---|---|
@@ -75,8 +78,10 @@ tracked as `DRIFT-024`.
 **Control layer built.** New `09-meta/` folder: [[kb-schema]] 1.0.0, [[tag-taxonomy]]
 (seven layers), [[methodology]], [[agents-and-loops]] (five agent layers, four loops),
 [[drift-control]], [[gap-register]], [[decision-log]], [[glossary]], [[dataset-index]],
-[[client-common-action]], [[meta-moc]]. Eight executable agent definitions written to
-`.claude/agents/`.
+[[client-common-action]], [[meta-moc]]. Eight executable agent definitions were written to
+`.claude/agents/` at the time. On 2026-08-18, the active Codex definitions moved to root
+`.codex/agents/` under the root `AGENTS.md` orchestrator; this paragraph remains a record
+of the original run.
 
 **Client recorded.** Common Action (common-action.org), retrieved 2026-08-06. Knowledge
 infrastructure for climate action; Supply Chain is one of four stated focus areas. Entity

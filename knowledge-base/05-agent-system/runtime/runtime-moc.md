@@ -4,15 +4,15 @@ area: agent-runtime
 status: active
 owner: programme-orchestrator
 schema_version: 1.1.0
-updated: '2026-08-12'
+updated: '2026-08-18'
 tags: [type/moc, domain/knowledge-engineering, domain/freight, lifecycle/active, audience/internal]
 ---
 # Portable Agent Runtime
 
-Tracked, platform-neutral operating specifications for Freight Trust agents. Adapters may
-materialize these instructions into Claude, Codex, Cursor, or a remote MCP gateway, but
-the files here are canonical. Local credentials, connector configuration, and generated
-adapter files are not versioned.
+Tracked, platform-neutral operating contracts for Freight Trust agents. The executable
+Codex orchestration policy and persona factory are repository infrastructure in root
+`AGENTS.md` and `.codex/agents/`, outside the public vault. Local credentials and
+connector configuration are never versioned.
 
 ## Runtime contracts
 
@@ -22,6 +22,6 @@ adapter files are not versioned.
 
 ## Roles
 
-- [[agents/source-scout]] · [[agents/dataset-registrar]] · [[agents/evidence-registrar]]
-- [[agents/kb-schema-steward]] · [[agents/kb-linker]] · [[agents/drift-controller]]
-- [[agents/red-team-reviewer]] · [[agents/memory-keeper]] · [[agents/publishing-agent]]
+The current project-scoped roles are the TOML definitions in root `.codex/agents/`.
+`AGENTS.md` contains the routing table and bounded-loop policy. These runtime definitions
+are intentionally excluded from the public corpus boundary.

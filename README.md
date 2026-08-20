@@ -12,8 +12,8 @@ Open `knowledge-base/` as an Obsidian vault, then begin with
 
 - Treat `knowledge-base/` as the sole tracked source of truth.
 - Follow the metadata, source, link, and archive controls in `knowledge-base/09-meta/`.
-- Use the agent system's [routing guide](knowledge-base/05-agent-system/guiding-routes.md)
-  before delegating work.
+- Use the root [AGENTS.md](AGENTS.md) as the orchestration contract. Callable project
+  personas live in [`.codex/agents/`](.codex/agents/), outside the public vault.
 - Keep credentials and local session state out of Git. `.env` and Obsidian workspace files
   are intentionally ignored.
 
@@ -21,10 +21,44 @@ Open `knowledge-base/` as an Obsidian vault, then begin with
 
 `master` is the canonical remote state. Research and maintenance work starts from it,
 uses an `agent/<area>/<run-id>` branch, runs `python scripts/validate_kb.py`, and is
-submitted as a pull request. The portable agent contract and retrieval order live in
-[`knowledge-base/05-agent-system/runtime/`](knowledge-base/05-agent-system/runtime/).
+submitted as a pull request. Portable Git and retrieval contracts remain documented in
+[`knowledge-base/05-agent-system/runtime/`](knowledge-base/05-agent-system/runtime/), while
+the executable persona factory lives at [`.codex/agents/`](.codex/agents/).
 Operational work records are stored as atomic objects in
 [`knowledge-base/06-team-memory/`](knowledge-base/06-team-memory/).
+
+## Local AWS and OpenRouter runtime
+
+Create a repository-local environment and install the deterministic site dependencies:
+
+```powershell
+python -m venv .venv  # bootstrap exception; use the venv interpreter afterward
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+Copy-Item .env.example .env  # only when .env does not already exist
+```
+
+After `.venv` exists, use `.\.venv\Scripts\python.exe` for every repository Python
+command. The root `AGENTS.md` makes this mandatory for the orchestrator and all personas.
+
+Populate `.env` with either an AWS profile or an SDK credential pair, an AWS region, a
+dedicated `OPENROUTER_API_KEY`, and an explicit `OPENROUTER_MODEL`. Do not store AWS
+console usernames, passwords, or sign-in URLs in application environment files. For
+deployed AWS workloads, prefer an attached IAM role or workload identity over static keys.
+
+Run the secret-safe configuration audit from the local interpreter. Add `--live` to make
+read-only AWS STS and OpenRouter key-metadata requests:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\check_runtime.py
+.\.venv\Scripts\python.exe scripts\check_runtime.py --live
+```
+
+The checker never prints credential values, account IDs, ARNs, or OpenRouter key metadata.
+
+The public vault now carries the experiment implementation boundary and proposed MCP profile:
+[`E1-E5 Build Readiness and Run Contract`](knowledge-base/03-research-evidence/e1-e5-build-readiness-and-run-contract.md)
+and [`Experiment MCP and Tooling Setup`](knowledge-base/05-agent-system/experiment-mcp-and-tooling-setup.md).
 
 ## Public browser and agent access
 

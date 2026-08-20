@@ -4,7 +4,7 @@ status: active
 owner: glossary-builder
 version: 1.1.0
 schema_version: 1.0.0
-updated: 2026-08-07
+updated: 2026-08-18
 tags:
 - type/taxonomy
 - domain/knowledge-engineering
@@ -132,14 +132,41 @@ no synthetic pipeline can manufacture the pattern and no labeled dataset exists.
 
 **Definition.** Deciding whether two or more records refer to the same real-world entity.
 **Source.** Standard term of art in the record-linkage literature; the vault's operative
-references are Papadakis et al. on blocking and nearest-neighbour search
-(arXiv:2202.12521) and the Fellegi–Sunter probabilistic linkage tradition named in the
-Project Description. `peer_reviewed`.
+references include [[source-fellegi-sunter-1969-record-linkage-theory]], Papadakis et al.
+on blocking and nearest-neighbour search (arXiv:2202.12521),
+[[source-binette-2024-entity-centric-er-evaluation]], and the learned-method cards.
+`peer_reviewed`.
 **Aliases.** Record linkage, deduplication, entity matching.
 **Not to be confused with.** Risk scoring. E1 resolves identity claims and explains the
 evidence; it does not rate a carrier.
 **Used in.** [[experiment-e1-entity-resolution-and-identity-assurance]], the `method-*`
 cards
+
+### LLM-assisted entity resolution
+
+**Definition.** A bounded entity-resolution pipeline in which a frozen language model scores,
+ranks, or selects among candidates using a machine-serialized evidence packet, after which an
+external calibration/abstention rule and deterministic cluster reconciler produce the system
+action.
+**Source.** [[source-peeters-2025-llm-entity-matching]] and
+[[source-wang-2025-comem-llm-entity-matching]] establish modern LLM matching and candidate-
+selection formulations; [[source-de-meer-pardo-2025-gralmatch]] motivates explicit group/cluster
+consistency controls. `peer_reviewed`/`preprint`, with limits stated on each source card.
+**Not to be confused with.** An LLM independently researching a company, creating gold labels,
+or declaring legal identity. E1's C6 receives only permitted pre-cutoff evidence, must cite input
+evidence IDs, may abstain, and cannot directly merge canonical graph nodes.
+**Used in.** [[method-llm-assisted-entity-resolution]],
+[[experiment-e1-entity-resolution-and-identity-assurance]] C6, [[dec-013-llm-e1-challenger]]
+
+### Common-candidate-set evaluation
+
+**Definition.** A resolver comparison in which competing matchers receive the same frozen union
+of candidate entities, separating scoring/reasoning quality from candidate-generation recall.
+**Source.** E1 adaptation of the standard retrieval-versus-matching separation documented in
+the blocking literature and reinforced by [[source-wang-2025-comem-llm-entity-matching]].
+**Not to be confused with.** End-to-end performance. A common candidate set can reveal resolver
+value but cannot show what the production pipeline will miss during retrieval.
+**Used in.** C1-C3/C6 ablations in [[experiment-e1-entity-resolution-and-identity-assurance]]
 
 ### Blocking
 
@@ -158,12 +185,17 @@ only end-to-end recall hides that failure.
 accuracy — among cases assigned 80% confidence, about 80% are correct.
 **Source.** Standard in the uncertainty-quantification literature. The Project Description
 names Bayesian calibration and conformal-prediction-style abstention sets as *candidate*
-methods to be evaluated. `peer_reviewed`. Evaluated via reliability diagrams, expected
-calibration error, Brier score, and coverage-risk curves.
+methods to be evaluated. `peer_reviewed`. Evaluated through calibration intercept/in-the-large,
+calibration slope, smoothed reliability curves, Brier score, log loss where defined, and
+risk-coverage curves; expected calibration error is only a secondary bin-dependent summary.
 **Not to be confused with.** Accuracy. A model can be accurate and badly calibrated, or
 well calibrated and weak. Calibration connects a score to a review policy; without it,
 abstention has no threshold to work from.
 **Used in.** [[experiment-e1-entity-resolution-and-identity-assurance]]
+
+For C6, generated statements such as “95% confident” are not calibrated probabilities.
+[[source-kamsteeg-2025-entity-matching-calibration]] studies calibration of a RoBERTa matcher;
+it does not validate verbal confidence from hosted generative models.
 
 ### Abstention
 
@@ -256,8 +288,7 @@ carried on the return leg; deadhead is the distance/cost metric for running that
 empty. Securing a backhaul is what avoids deadheading a given leg; the two terms describe
 opposite outcomes of the same trip segment, not the same thing.
 **Used in.** [[preliminary-freight-trust-brief]], [[research-programme]],
-[[experiment-e5-orchestration-value]], [[method-synthetic-orchestration-simulation]],
-[[05-visualization-agent]]
+[[experiment-e5-orchestration-value]], [[method-synthetic-orchestration-simulation]]
 
 ### Deadhead
 
@@ -276,7 +307,7 @@ consistent with how this vault already treats ATRI-sourced operational figures (
 deadhead is time/distance spent moving without a load; dwell is time spent stationary at a
 facility. E5 tracks them as separate outcomes: empty/deadhead miles as a primary outcome,
 dwell as a secondary one.
-**Used in.** [[experiment-e5-orchestration-value]], [[01-rabbit-agent]]
+**Used in.** [[experiment-e5-orchestration-value]], [[03-research-evidence/evidence]]
 
 ## Governance and federation
 
@@ -294,16 +325,17 @@ permitting overbroad access, silent overwrites, and opaque secondary use.
 ### ABAC / NGAC / XACML
 
 **Definition.** Attribute-Based Access Control decides access from attributes of
-requester, resource, action, and context rather than role alone. **NGAC** (Next Generation
-Access Control) is an ANSI/INCITS standard with a NIST reference implementation, the
-Policy Machine. **XACML** is the OASIS policy language whose conformance-test format uses
-`(policy, request, expected decision)` triples.
-**Source.** NIST SP 800-162 (ABAC guide), SP 800-178 (XACML vs. NGAC comparison), SP
-800-192 (verification and test methods). `primary`.
+requester, resource, requested operation, and sometimes environment rather than role alone.
+**NGAC** (Next Generation Access Control) and **XACML** are distinct policy models. NIST
+publishes a Policy Machine reference implementation for an NGAC lane; OASIS specifies XACML's
+native request and decision semantics. E3 uses project-authored neutral test tuples and explicit
+adapters, not an OASIS certification format.
+**Source.** [[source-nist-access-control-guidance]], [[source-nist-policy-machine]],
+[[source-oasis-xacml-3-0]]. `primary`.
 **Not to be confused with.** RBAC, role-based access control — which E3 tests as condition
 C1 rather than assuming inadequate. The vault does **not** pre-select NGAC or XACML as the
-policy model; it uses NGAC's engine and XACML's test convention while the model choice
-stays an evaluated outcome.
+policy model. Native NGAC/PML and XACML tests remain separate; comparison is valid only after
+the domain-decision mapping is frozen and tested.
 **Used in.** E3, [[dataset-nist-policy-machine-xacml-cases]]
 
 ### Purpose limitation

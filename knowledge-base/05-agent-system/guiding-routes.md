@@ -3,7 +3,7 @@ type: strategy-note
 status: active
 owner: programme-orchestrator
 schema_version: 1.0.0
-updated: '2026-08-12'
+updated: '2026-08-18'
 tags:
 - type/strategy-note
 - domain/knowledge-engineering
@@ -13,9 +13,10 @@ tags:
 ---
 # Guiding Routes for Freight Trust Work
 
-Use this note to choose a work route before changing a vault artifact. It complements
-[[framework]]: the framework defines control boundaries; this guide selects the responsible
-role, required inputs, output location, and acceptance gate.
+Use this note for the domain route before changing a vault artifact. Repository-root
+`AGENTS.md` is the executable orchestration contract; it maps these responsibilities to
+project personas in `.codex/agents/`. This guide records required inputs, output location,
+and acceptance gates for the public research programme.
 
 ## Start route
 
@@ -63,4 +64,4 @@ registers, and record material decisions or unresolved blockers in [[09-meta/dec
 
 ## Related
 
-[[framework]] · [[roster]] · [[tools-and-skills]] · [[09-meta/agents-and-loops]] · [[03-review-agent]]
+[[framework]] · [[roster]] · [[tools-and-skills]] · [[09-meta/agents-and-loops]]

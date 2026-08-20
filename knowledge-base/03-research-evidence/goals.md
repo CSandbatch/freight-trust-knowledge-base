@@ -2,7 +2,7 @@
 type: strategy-note
 status: active
 schema_version: 1.0.0
-updated: '2026-08-08'
+updated: '2026-08-18'
 tags:
 - type/strategy-note
 - domain/freight
@@ -113,20 +113,26 @@ Success: an adjudicated sample of identity and facility-event cases with provena
 against which precision, recall, calibration, abstention, and dispute-resolution metrics
 can be measured.
 Owner: Luna technical and operations subagents.
-Status (2026-08-01): dataset/tooling scan complete, benchmark not yet built. See
+Status (2026-08-18): the E1–E5 source refresh and interface alignment are documented in
+[[integrated-e1-e5-research-programme]]; every benchmark and executable system remains unbuilt.
+E1 now includes deterministic, probabilistic, graph and
+conditionally eligible LLM-assisted candidates under [[dec-013-llm-e1-challenger]], with the LLM
+implementation/privacy/adversarial-test work tracked by [[09-meta/gaps/gap-018-e1-llm-readiness]]. See
 [[dataset-scan-entity-resolution]] (identity/Aim 1 — real seed source confirmed: FMCSA
-Company Census File, no agreement required; no labeled chameleon-carrier dataset exists
-anywhere) and [[dataset-scan-event-provenance-and-federation]] (facility-events/Aim 2 —
-no freight-specific event benchmark exists anywhere, confirmed; buildable via OpenEPCIS
-generator + process-mining anomaly-injection methodology — and Aim 3 policy enforcement —
-resolved to a concrete, no-cost build path via NIST's open-source Policy Machine + OASIS
-XACML conformance-test format). Actual benchmark construction, adjudication protocol, and
-numeric targets remain open Phase I work, not resolved by this scan.
+Company Census File is publicly downloadable, with catalog licence and derived-release rights
+still unresolved; no qualifying layered carrier benchmark was located in the documented search)
+and [[dataset-scan-event-provenance-and-federation]] (no qualifying public freight event benchmark
+was located; E2 has a corrected OpenEPCIS/PDC/Nolle synthetic path; E3 has separate authenticated
+NGAC and XACML-native evaluation options rather than a cross-engine certification shortcut).
+Actual benchmark construction, authority review, adjudication, numeric targets and implementations
+remain open under [[09-meta/gaps/gap-019-e1-e5-programme-readiness]].
 
-## Non-goals (explicitly out of scope for this pass)
+## Research-goal boundaries
 
-- Actually drafting SBIR prose (Publishing Agent's job, blocked on G3).
-- Building any OKN software/ontology artifacts (this is intelligence-gathering, not
-  engineering, at this stage).
-- Contacting stakeholders directly (G6/G9 flag *who* to contact; outreach itself is a
-  team decision, not an agent action).
+- Existing SBIR drafts may consume accepted evidence, but unresolved placeholders and current
+  solicitation requirements remain publishing/grant-owner work.
+- G14 now authorizes benchmark and experimental implementation only after the relevant protocol,
+  authority, rights and privacy gates; it does not authorize production deployment.
+- Stakeholder contact, participant recruitment, partner commitments and legal determinations
+  remain human/institutional actions. Agents may identify the need and prepare instruments but
+  may not represent that outreach or approval occurred.
