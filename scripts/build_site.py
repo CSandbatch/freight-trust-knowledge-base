@@ -764,11 +764,9 @@ def structured_preview(artifact: Artifact) -> str:
 def shell_html(title: str, description: str, page: str, site_url: str, main: str, active: str = "") -> str:
     root_href = page_href(page, "index.html")
     nav = [
-        ("Project", "index.html", "home"),
-        ("Programme", "experiments/index.html", "experiments"),
-        ("Library", "explore/index.html", "explore"),
-        ("Graph", "graph/index.html", "graph"),
-        ("Collections", "collections/index.html", "collections"),
+        ("White Paper", "index.html", "home"),
+        ("Experiments", "experiments/index.html", "experiments"),
+        ("Knowledge Base", "knowledge/index.html", "knowledge"),
         ("About", "about/index.html", "about"),
     ]
     navigation = "".join(f'<a class="nav-link {"is-active" if active == key else ""}" href="{html.escape(page_href(page, href), quote=True)}">{label}</a>' for label, href, key in nav)
@@ -802,7 +800,7 @@ def shell_html(title: str, description: str, page: str, site_url: str, main: str
     <div class="header-actions"><button class="search-trigger" type="button" data-open-search><span aria-hidden="true">⌕</span> <span>Search</span><kbd>⌘K</kbd></button><button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme"><span aria-hidden="true">◐</span></button></div>
   </div></header>
   <main id="main-content">{main}</main>
-  <footer class="site-footer"><div><strong>Freight Trust Research Platform</strong><p>A public working white paper, experiment programme, and source-traceable knowledge base. Status labels describe the source; they are not approval marks.</p></div><div><a href="{html.escape(page_href(page, 'about/index.html'), quote=True)}">About</a><a href="{html.escape(page_href(page, 'data/artifact-registry.json'), quote=True)}">File registry</a><a href="{html.escape(page_href(page, 'data/graph.json'), quote=True)}">Graph data</a><a href="{html.escape(page_href(page, 'release.json'), quote=True)}">Build record</a></div></footer>
+  <footer class="site-footer"><div><strong>Freight Trust Research Platform</strong><p>A front-facing working white paper over a source-traceable second brain. Status labels describe the source; they are not approval marks.</p></div><div><a href="{html.escape(page_href(page, 'knowledge/index.html'), quote=True)}">Knowledge base</a><a href="{html.escape(page_href(page, 'about/index.html'), quote=True)}">About</a><a href="{html.escape(page_href(page, 'data/artifact-registry.json'), quote=True)}">File registry</a><a href="{html.escape(page_href(page, 'release.json'), quote=True)}">Build record</a></div></footer>
   {command}
   <script defer src="{html.escape(js_href, quote=True)}"></script>
 </body></html>'''
@@ -871,7 +869,7 @@ def home_page(page: str, artifacts: list[Artifact], links: list[Link], site_url:
 <section class="thesis-band"><div class="section-shell whitepaper-section"><div class="whitepaper-number">02</div><div class="whitepaper-copy"><p class="eyebrow">The proposed system</p><h2>Keep sources authoritative. Make evidence interoperable.</h2><p class="section-lead">Freight Trust is designed as a neutral, federated layer. Raw records remain with their owners where possible; shared records carry source, time, confidence, permission, correction, and uncertainty.</p><div class="trust-stack" role="img" aria-label="Four-layer Freight Trust system: evidence sources, identity and event graph, policy and correction layer, and bounded applications."><div><span>01</span><strong>Source evidence</strong><small>Official, commercial, participant</small></div><div><span>02</span><strong>Identity + event graph</strong><small>Typed, time-aware, uncertain</small></div><div><span>03</span><strong>Policy + redress</strong><small>Purpose, access, correction</small></div><div><span>04</span><strong>Bounded decisions</strong><small>Onboarding, disputes, planning</small></div></div><div class="text-actions"><a href="{html.escape(programme_href, quote=True)}">Read the integrated programme contract</a><a href="{html.escape(method_href, quote=True)}">Review the research methodology</a></div></div></section></section>
 <section class="section-shell whitepaper-section portfolio-section"><div class="whitepaper-number">03</div><div class="whitepaper-copy"><p class="eyebrow">The research programme</p><h2>Five experiments separate capability from consequence.</h2><p class="section-lead">The programme does not treat a working graph as proof of operational value. Each experiment answers a bounded question, produces its own evidence, and stops at an explicit claim boundary.</p>{programme_index(page, protocols)}<div class="section-action"><a class="button" href="{html.escape(page_href(page, 'experiments/index.html'), quote=True)}">Open all experiment sections</a></div></div></section>
 <section class="section-shell whitepaper-section method-section"><div class="whitepaper-number">04</div><div class="whitepaper-copy"><p class="eyebrow">How claims advance</p><h2>A result earns scope one gate at a time.</h2><p class="section-lead">No level inherits the next. Synthetic effectiveness cannot become operational utility, and policy-engine conformance cannot become legal compliance.</p><ol class="evidence-ladder"><li><span>1</span><div><strong>Protocol specified</strong><small>Falsifiable method and decision rule</small></div></li><li><span>2</span><div><strong>Build feasible</strong><small>Pinned code produces a complete fixture packet</small></div></li><li><span>3</span><div><strong>Benchmark effective</strong><small>Frozen comparison passes on declared data</small></div></li><li><span>4</span><div><strong>Operationally useful</strong><small>A bounded real workflow outcome changes</small></div></li><li><span>5</span><div><strong>Externally supported</strong><small>Evidence survives a genuine holdout</small></div></li><li><span>6</span><div><strong>Safe to advance</strong><small>Independent review accepts the next use</small></div></li></ol></div></section>
-<section class="platform-band"><div class="section-shell platform-intro"><div><p class="eyebrow">Research platform</p><h2>The white paper is backed by the working record.</h2><p>Every protocol, dataset card, source limitation, decision gate, and change record remains inspectable. Use the curated argument above to understand the project; use the Atlas below to audit it.</p></div><dl><div><dt>{len(protocols)}/5</dt><dd>experiment protocols mapped</dd></div><div><dt>{len(artifacts)}</dt><dd>versioned artifacts</dd></div><div><dt>{len(links):,}</dt><dd>resolved evidence links</dd></div></dl></div><div class="section-shell platform-paths"><a href="{html.escape(evidence_href, quote=True)}"><span>Evidence register</span><strong>Inspect the claim record</strong><small>Sources, confidence, limits, and conflicts</small></a><a href="{html.escape(page_href(page, 'graph/index.html'), quote=True)}"><span>Knowledge graph</span><strong>Trace provenance</strong><small>Follow authored links across the programme</small></a><a href="{html.escape(page_href(page, 'explore/index.html'), quote=True)}"><span>Research library</span><strong>Search every artifact</strong><small>Filter by collection, type, status, and tag</small></a><a href="{html.escape(sbir_href, quote=True)}"><span>Translation path</span><strong>Review SBIR readiness</strong><small>Scope, eligibility, evidence, and open decisions</small></a></div></section>
+<section class="platform-band"><div class="section-shell platform-intro"><div><p class="eyebrow">Second brain</p><h2>The white paper is backed by the working record.</h2><p>Every protocol, dataset card, source limitation, decision gate, and change record remains inspectable. Humans can browse it; agents can consume its stable indexes, authored graph, exact raw files, and build provenance.</p><div class="section-action"><a class="button" href="{html.escape(page_href(page, 'knowledge/index.html'), quote=True)}">Open the knowledge base</a></div></div><dl><div><dt>{len(protocols)}/5</dt><dd>experiment protocols mapped</dd></div><div><dt>{len(artifacts)}</dt><dd>versioned artifacts</dd></div><div><dt>{len(links):,}</dt><dd>resolved evidence links</dd></div></dl></div><div class="section-shell platform-paths"><a href="{html.escape(evidence_href, quote=True)}"><span>Evidence register</span><strong>Inspect the claim record</strong><small>Sources, confidence, limits, and conflicts</small></a><a href="{html.escape(page_href(page, 'graph/index.html'), quote=True)}"><span>Knowledge graph</span><strong>Trace provenance</strong><small>Follow authored links across the programme</small></a><a href="{html.escape(page_href(page, 'explore/index.html'), quote=True)}"><span>Research library</span><strong>Search every artifact</strong><small>Filter by collection, type, status, and tag</small></a><a href="{html.escape(sbir_href, quote=True)}"><span>Translation path</span><strong>Review SBIR readiness</strong><small>Scope, eligibility, evidence, and open decisions</small></a></div></section>
 <section class="section-shell publication-note"><div><p class="eyebrow">Current state</p><h2>Build-start-ready. Scientifically unrun.</h2></div><div><p>Protocol and fixture implementation may begin. Benchmark, partner, protected-data, human-subjects, and confirmatory gates remain closed until their named approvals and numeric locks are recorded.</p><a href="{html.escape(programme_href, quote=True)}">See the exact programme boundaries</a></div></section>'''
     return shell_html("Freight Trust Infrastructure", "A working white paper and public research platform for federated freight evidence, governed access, and bounded experimentation.", page, site_url, main, "home")
 
@@ -947,9 +945,43 @@ def experiments_page(page: str, artifacts: list[Artifact], site_url: str) -> str
     return shell_html("Research programme", "Five source-aware Freight Trust experiments with explicit build and run gates.", page, site_url, main, "experiments")
 
 
+def knowledge_page(page: str, artifacts: list[Artifact], links: list[Link], site_url: str) -> str:
+    by_source = {artifact.source: artifact for artifact in artifacts}
+
+    def source_action(source: str, label: str) -> str:
+        artifact = by_source.get(source)
+        if artifact is None:
+            return ""
+        return f'<a href="{html.escape(page_href(page, artifact.url), quote=True)}">{html.escape(label)}</a>'
+
+    agent_contract = source_action("05-agent-system/runtime/agent-contract.md", "Agent contract")
+    retrieval_contract = source_action("05-agent-system/runtime/retrieval-contract.md", "Retrieval contract")
+    mcp_interface = source_action("05-agent-system/runtime/mcp-interface.md", "MCP interface")
+    tooling = source_action("05-agent-system/experiment-mcp-and-tooling-setup.md", "Experiment tooling setup")
+    contract_links = "".join(link for link in (agent_contract, retrieval_contract, mcp_interface, tooling) if link)
+    endpoints = (
+        ("Orientation", "llms.txt", "Start here", "Purpose, interface map, and interpretation rules."),
+        ("Catalog", "data/catalog.json", "Discover records", "Titles, metadata, tags, routes, and searchable corpus fields."),
+        ("Search", "data/search.json", "Retrieve context", "Full-text documents for deterministic local ranking or indexing."),
+        ("Graph", "data/graph.json", "Traverse evidence", "Authored links and backlinks; no inferred relationship transitivity."),
+        ("Registry", "data/artifact-registry.json", "Verify artifacts", "Source paths, exact raw routes, hashes, sizes, and media types."),
+        ("Release", "release.json", "Pin a build", "Inventory hash, source revision, generation time, and artifact manifest."),
+    )
+    endpoint_html = "".join(
+        f'''<a href="{html.escape(page_href(page, route), quote=True)}"><span>{html.escape(kind)}</span><strong>{html.escape(title)}</strong><code>/{html.escape(route)}</code><small>{html.escape(description)}</small></a>'''
+        for kind, route, title, description in endpoints
+    )
+    main = f'''<section class="page-intro knowledge-intro"><p class="eyebrow">Knowledge base / agent workspace</p><h1>The project's second brain.</h1><p>One canonical, version-controlled corpus sits beneath the public white paper. It preserves the programme's sources, protocols, datasets, decisions, gaps, run memory, and provenance for both human review and agent retrieval.</p><div class="knowledge-boundary"><span>Public interface</span><strong>Read, search, traverse, verify</strong><span>Canonical writes</span><strong>Governed repository workflow</strong></div></section>
+<section class="section-shell knowledge-human"><div class="section-heading"><p class="eyebrow">Human workspace</p><h2>Inspect the same record the agents use.</h2><p>The visual tools are views over the vault, not a separate content system. Every reader retains source metadata, raw downloads, authored relationships, and checksums.</p></div><div class="knowledge-tools"><a href="{html.escape(page_href(page, 'explore/index.html'), quote=True)}"><span>Library</span><strong>Search the complete corpus</strong><small>Full text, metadata, status, confidence, and tags</small></a><a href="{html.escape(page_href(page, 'graph/index.html'), quote=True)}"><span>Graph</span><strong>Trace knowledge relationships</strong><small>Follow authored outgoing links and backlinks</small></a><a href="{html.escape(page_href(page, 'collections/index.html'), quote=True)}"><span>Collections</span><strong>Browse the source topology</strong><small>Research, strategy, agents, memory, visuals, and controls</small></a></div></section>
+<section class="agent-interface-band"><div class="section-shell agent-interface-intro"><div><p class="eyebrow">Agent interface</p><h2>Stable inputs, exact artifacts, bounded interpretation.</h2></div><p>Agents should enter through <code>llms.txt</code>, select records from the catalog or search index, traverse only authored graph edges, open the exact reader or raw file, and preserve status, confidence, source class, and verification limits in downstream work.</p></div><div class="section-shell endpoint-grid">{endpoint_html}</div></section>
+<section class="section-shell agent-protocol"><div><p class="eyebrow">Retrieval sequence</p><h2>Orient. Select. Trace. Read. Verify.</h2></div><ol><li><span>01</span><div><strong>Orient</strong><p>Read the machine entry point and pin the release.</p></div></li><li><span>02</span><div><strong>Select</strong><p>Use catalog metadata or the search corpus to identify candidate records.</p></div></li><li><span>03</span><div><strong>Trace</strong><p>Follow explicit graph edges; shared fields and tags are not proof.</p></div></li><li><span>04</span><div><strong>Read</strong><p>Open the full record and its exact raw artifact before synthesis.</p></div></li><li><span>05</span><div><strong>Verify</strong><p>Carry provenance, limitations, conflicts, and confidence into the output.</p></div></li></ol></section>
+<section class="section-shell knowledge-governance"><div><p class="eyebrow">Operating boundary</p><h2>Public reads. Governed writes.</h2><p>The hosted knowledge base is a deterministic, read-only release. Agents proposing changes work against the canonical repository, follow its schema and persona contracts, pass validation, and create a new reviewed release. The public site never becomes an unsupervised memory sink.</p></div><div class="knowledge-contract-links">{contract_links or '<span class="muted">Agent contract records are not present in this build.</span>'}</div></section>'''
+    return shell_html("Knowledge Base", "The source-traceable second brain beneath the Freight Trust white paper, with human tools and stable machine interfaces for agents.", page, site_url, main, "knowledge")
+
+
 def about_page(page: str, artifacts: list[Artifact], links: list[Link], site_url: str) -> str:
     kinds = Counter(artifact.kind for artifact in artifacts)
-    main = f'''<section class="page-intro about-intro"><p class="eyebrow">About</p><h1>Static access to the research vault</h1><p>The site is compiled directly from tracked vault files. It provides file readers, full-text search, a relationship graph, raw downloads, and build provenance without maintaining a second editorial database.</p></section><section class="section-shell prose-panel"><h2>Included files</h2><p>Every versioned file under <code>knowledge-base/</code> is published as a reader or artifact page and as an exact raw download. Ignored workspace state, credentials, and files outside that directory are excluded.</p><dl class="metric-list"><div><dt>{len(artifacts)}</dt><dd>versioned files</dd></div><div><dt>{sum(1 for artifact in artifacts if artifact.is_note)}</dt><dd>Markdown notes</dd></div><div><dt>{len(links):,}</dt><dd>authored links</dd></div><div><dt>{len(kinds)}</dt><dd>file formats</dd></div></dl><h2>Interpretation</h2><p>Publication is not validation. Draft, planned, candidate, archive, confidence, verification, and audience fields come from source metadata. Review citations and provenance before treating a file as a finding.</p><p><a class="button" href="{html.escape(page_href(page, 'release.json'), quote=True)}">View build record</a> <a class="button button-quiet" href="{html.escape(page_href(page, 'llms.txt'), quote=True)}">Machine entry point</a></p></section>'''
+    main = f'''<section class="page-intro about-intro"><p class="eyebrow">About</p><h1>One project, two public layers</h1><p>The White Paper presents the argument and research programme. The Knowledge Base beneath it is compiled directly from tracked vault files for human inspection and agent retrieval, without maintaining a second editorial database.</p></section><section class="section-shell prose-panel"><h2>Included files</h2><p>Every versioned file under <code>knowledge-base/</code> is published as a reader or artifact page and as an exact raw download. Ignored workspace state, credentials, and files outside that directory are excluded.</p><dl class="metric-list"><div><dt>{len(artifacts)}</dt><dd>versioned files</dd></div><div><dt>{sum(1 for artifact in artifacts if artifact.is_note)}</dt><dd>Markdown notes</dd></div><div><dt>{len(links):,}</dt><dd>authored links</dd></div><div><dt>{len(kinds)}</dt><dd>file formats</dd></div></dl><h2>Interpretation</h2><p>Publication is not validation. Draft, planned, candidate, archive, confidence, verification, and audience fields come from source metadata. Review citations and provenance before treating a file as a finding.</p><p><a class="button" href="{html.escape(page_href(page, 'knowledge/index.html'), quote=True)}">Open knowledge base</a> <a class="button button-quiet" href="{html.escape(page_href(page, 'llms.txt'), quote=True)}">Machine entry point</a></p></section>'''
     return shell_html("About the Atlas", "How the Freight Trust Knowledge Atlas is compiled and how to interpret its public working materials.", page, site_url, main, "about")
 
 
@@ -1205,6 +1237,7 @@ def build(root: pathlib.Path = DEFAULT_ROOT, manifest_path: pathlib.Path | None 
         target.write_text(collection_page(route, section, artifacts, site_url), encoding="utf-8")
     for route, page_html in (
         ("experiments/index.html", experiments_page("experiments/index.html", artifacts, site_url)),
+        ("knowledge/index.html", knowledge_page("knowledge/index.html", artifacts, links, site_url)),
         ("about/index.html", about_page("about/index.html", artifacts, links, site_url)),
         ("graph/index.html", graph_page("graph/index.html", artifacts, links, site_url)),
     ):
@@ -1242,21 +1275,24 @@ def build(root: pathlib.Path = DEFAULT_ROOT, manifest_path: pathlib.Path | None 
         **git_state(root),
     }
     write_json(staging / "release.json", release)
-    all_human_routes = ["", "explore/", "graph/", "collections/", "experiments/", "about/"] + [f"collections/{collection_slug(section)}/" for section in sorted({artifact.section for artifact in artifacts})] + [artifact.url for artifact in artifacts]
+    all_human_routes = ["", "experiments/", "knowledge/", "explore/", "graph/", "collections/", "about/"] + [f"collections/{collection_slug(section)}/" for section in sorted({artifact.section for artifact in artifacts})] + [artifact.url for artifact in artifacts]
     sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + "\n".join(f"  <url><loc>{html.escape(canonical_url(site_url, route))}</loc></url>" for route in all_human_routes) + "\n</urlset>\n"
     (staging / "sitemap.xml").write_text(sitemap, encoding="utf-8")
     (staging / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {canonical_url(site_url, 'sitemap.xml')}\n", encoding="utf-8")
-    llms = f'''# Freight Trust Knowledge Atlas
+    llms = f'''# Freight Trust Agent Knowledge Base
 
-Public, static, source-derived working corpus for the Freight Trust programme.
+Canonical public read interface for the version-controlled second brain beneath the Freight Trust white paper and research programme.
 
+- Human knowledge-base gateway: {canonical_url(site_url, 'knowledge/')}
 - Artifact registry: {canonical_url(site_url, 'data/artifact-registry.json')}
 - Search index: {canonical_url(site_url, 'data/search.json')}
 - Relationship graph: {canonical_url(site_url, 'data/graph.json')}
 - Release provenance: {canonical_url(site_url, 'release.json')}
 - Full library: {canonical_url(site_url, 'explore/')}
 
-Interpret all status, confidence, draft, archive, source-class, and verification metadata as part of the record. Publication does not convert a proposal, source record, or draft into a demonstrated result.
+Recommended sequence: pin the release; select candidate records from catalog/search; traverse only authored graph edges; open the full reader and exact raw artifact; verify the hash; preserve status, confidence, source class, conflicts, and retrieval limits in downstream work.
+
+The hosted interface is read-only. Canonical writes occur through the governed repository workflow and require schema validation and a new reviewed release. Publication does not convert a proposal, source record, draft, or synthetic fixture into a demonstrated result.
 '''
     (staging / "llms.txt").write_text(llms, encoding="utf-8")
     if out.exists():

@@ -97,7 +97,7 @@ def expected_output_files(release: dict[str, object], catalog: list[dict[str, ob
     artifacts = release.get("artifacts", [])
     expected = {
         ".nojekyll", "index.html", "explore/index.html", "graph/index.html", "collections/index.html",
-        "experiments/index.html", "about/index.html", "robots.txt", "sitemap.xml", "llms.txt", "release.json",
+        "experiments/index.html", "knowledge/index.html", "about/index.html", "robots.txt", "sitemap.xml", "llms.txt", "release.json",
         "data/catalog.json", "data/search.json", "data/graph.json", "data/artifact-registry.json",
         "assets/atlas.css", "assets/atlas.js", "assets/graph.js", "assets/favicon.svg",
         "assets/freight-terminal-hero.png",

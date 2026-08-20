@@ -193,6 +193,14 @@ Fixture thesis for E{index}.
             self.assertIn("Build-start-ready. Scientifically unrun.", project)
             self.assertEqual(project.count('class="programme-index-item '), 5)
             self.assertTrue((out / "assets" / "freight-terminal-hero.png").is_file())
+            knowledge = (out / "knowledge" / "index.html").read_text(encoding="utf-8")
+            self.assertIn("The project's second brain.", knowledge)
+            self.assertIn("Public reads. Governed writes.", knowledge)
+            for endpoint in ("llms.txt", "data/catalog.json", "data/search.json", "data/graph.json", "data/artifact-registry.json", "release.json"):
+                self.assertIn(endpoint, knowledge)
+            llms = (out / "llms.txt").read_text(encoding="utf-8")
+            self.assertIn("Freight Trust Agent Knowledge Base", llms)
+            self.assertIn("The hosted interface is read-only.", llms)
             programme = (out / "experiments" / "index.html").read_text(encoding="utf-8")
             anchors = [programme.index(f'id="e{index}"') for index in range(1, 6)]
             self.assertEqual(anchors, sorted(anchors))

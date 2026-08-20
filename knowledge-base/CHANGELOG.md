@@ -14,6 +14,19 @@ tags:
 
 # Changelog
 
+## White-paper and second-brain separation - 2026-08-20
+
+- Separated the public information architecture into a front-facing White Paper, the E1-E5
+  Experiments, and a dedicated Knowledge Base beneath both.
+- Added a Knowledge Base gateway for human search, graph traversal, and collection browsing plus
+  stable agent endpoints for orientation, catalog, search, graph, registry, and release data.
+- Documented the agent retrieval sequence as orient, select, trace, read, and verify; graph edges
+  remain authored relationships and do not imply transitivity.
+- Made the hosted second brain explicitly read-only. Canonical writes remain governed repository
+  changes that must pass schema validation and produce a new reviewed release.
+- Expanded `llms.txt` from a link list into an agent entry contract with release pinning,
+  provenance preservation, interpretation limits, and the public/canonical write boundary.
+
 ## Project-front-page publication redesign - 2026-08-20
 
 - Reframed the public root as the Freight Trust Infrastructure working white paper and research

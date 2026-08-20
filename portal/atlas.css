@@ -253,6 +253,46 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .publication-note p { margin-top: 0; color: var(--muted); }
 .publication-note a { font-weight: 650; }
 
+/* Knowledge-base second brain */
+.knowledge-intro { padding-top: 5rem; padding-bottom: 3.5rem; }
+.knowledge-intro h1 { max-width: 900px; font-size: 4.4rem; }
+.knowledge-intro > p:not(.eyebrow) { max-width: 850px; font-size: 1.08rem; line-height: 1.65; }
+.knowledge-boundary { display: grid; grid-template-columns: auto minmax(180px, 1fr) auto minmax(220px, 1fr); gap: 1px; max-width: 920px; margin-top: 2rem; padding: 1px; background: var(--line); }
+.knowledge-boundary > * { display: flex; align-items: center; min-height: 48px; padding: .65rem .8rem; background: var(--surface); }
+.knowledge-boundary span { color: var(--muted); font-size: .65rem; text-transform: uppercase; }
+.knowledge-boundary strong { font-size: .78rem; }
+.knowledge-human { padding-top: 3rem; padding-bottom: 5rem; border-top: 1px solid var(--line); }
+.knowledge-tools { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-top: 2rem; padding: 1px; background: var(--line); }
+.knowledge-tools a { display: flex; flex-direction: column; min-height: 190px; padding: 1.15rem; background: var(--surface); color: var(--text); text-decoration: none; }
+.knowledge-tools a:hover { background: var(--accent-soft); }
+.knowledge-tools span { color: var(--accent); font-size: .66rem; font-weight: 700; text-transform: uppercase; }
+.knowledge-tools strong { margin-top: auto; font-size: 1.05rem; }
+.knowledge-tools small { margin-top: .4rem; color: var(--muted); font-size: .7rem; }
+.agent-interface-band { color: #edf3f0; background: #17211e; }
+.agent-interface-intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, .8fr); gap: 4rem; padding-top: 5rem; padding-bottom: 2.5rem; }
+.agent-interface-intro h2 { max-width: 700px; margin: 0; font-size: 2.8rem; line-height: 1.08; letter-spacing: 0; }
+.agent-interface-intro .eyebrow, .agent-interface-intro > p { color: #aebcb7; }
+.agent-interface-intro > p { margin: 1rem 0 0; }
+.agent-interface-intro code { color: #9ed9cd; }
+.endpoint-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; padding-top: 1px; padding-bottom: 5rem; background: #52615b; }
+.endpoint-grid a { display: flex; flex-direction: column; min-height: 175px; padding: 1rem; background: #1f2b27; color: #edf3f0; text-decoration: none; }
+.endpoint-grid a:hover { background: #293a34; }
+.endpoint-grid span { color: #66c8b4; font-size: .63rem; font-weight: 700; text-transform: uppercase; }
+.endpoint-grid strong { margin-top: .5rem; font-size: .94rem; }
+.endpoint-grid code { margin-top: auto; color: #9ed9cd; font: .66rem var(--mono); }
+.endpoint-grid small { margin-top: .35rem; color: #aebcb7; font-size: .68rem; }
+.agent-protocol { display: grid; grid-template-columns: minmax(260px, .6fr) minmax(0, 1.4fr); gap: 4rem; padding-top: 5rem; padding-bottom: 5rem; }
+.agent-protocol h2, .knowledge-governance h2 { margin: 0; font-size: 2.2rem; line-height: 1.12; letter-spacing: 0; }
+.agent-protocol ol { display: grid; gap: 1px; margin: 0; padding: 1px; background: var(--line); list-style: none; }
+.agent-protocol li { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: .8rem; padding: .75rem; background: var(--surface); }
+.agent-protocol li > span { color: var(--accent); font: 700 .7rem var(--mono); }
+.agent-protocol strong { font-size: .8rem; }
+.agent-protocol p { margin: .18rem 0 0; color: var(--muted); font-size: .72rem; }
+.knowledge-governance { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr); gap: 4rem; padding-top: 4rem; padding-bottom: 4rem; border-top: 1px solid var(--line); }
+.knowledge-governance p { max-width: 760px; color: var(--muted); }
+.knowledge-contract-links { display: grid; align-self: start; gap: 1px; padding: 1px; background: var(--line); }
+.knowledge-contract-links a, .knowledge-contract-links > span { padding: .7rem .8rem; background: var(--surface); font-size: .75rem; font-weight: 650; }
+
 .programme-hero { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(300px, .55fr); align-items: end; gap: 4rem; min-height: 610px; }
 .programme-status { padding: 1.25rem 0 1.25rem 1.25rem; border-left: 4px solid var(--accent); }
 .programme-status > strong { display: block; margin-bottom: .5rem; font-size: 1.65rem; line-height: 1.15; }
@@ -514,6 +554,7 @@ input, select { width: 100%; min-height: 34px; padding: .35rem .45rem; border: 1
 .command-results small { display: block; color: var(--muted); font-size: .68rem; }
 
 @media (max-width: 1080px) {
+  .endpoint-grid { grid-template-columns: 1fr 1fr; }
   .project-hero h1 { font-size: 4.5rem; }
   .platform-intro { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
   .platform-paths { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -528,6 +569,11 @@ input, select { width: 100%; min-height: 34px; padding: .35rem .45rem; border: 1
 }
 
 @media (max-width: 820px) {
+  .knowledge-intro h1 { font-size: 3.5rem; }
+  .knowledge-boundary { grid-template-columns: auto minmax(0, 1fr); }
+  .knowledge-tools { grid-template-columns: minmax(0, 1fr); }
+  .knowledge-tools a { min-height: 135px; }
+  .agent-interface-intro, .agent-protocol, .knowledge-governance { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
   .project-hero { min-height: 650px; background-position: 58% 72%; }
   .project-hero-inner { padding-top: 5rem; }
   .project-hero h1 { font-size: 3.7rem; }
@@ -577,6 +623,15 @@ input, select { width: 100%; min-height: 34px; padding: .35rem .45rem; border: 1
 }
 
 @media (max-width: 560px) {
+  .knowledge-intro { padding-top: 3rem; }
+  .knowledge-intro h1 { font-size: 2.5rem; }
+  .knowledge-boundary, .endpoint-grid { grid-template-columns: minmax(0, 1fr); }
+  .knowledge-boundary span { min-height: 34px; padding-bottom: .2rem; }
+  .knowledge-boundary strong { min-height: 42px; padding-top: .2rem; }
+  .agent-interface-intro { padding-top: 3.5rem; }
+  .agent-interface-intro h2 { font-size: 2.1rem; }
+  .endpoint-grid { padding-bottom: 3.5rem; }
+  .endpoint-grid a { min-height: 145px; }
   .project-hero { min-height: 620px; background-image: linear-gradient(rgba(8, 18, 16, .7), rgba(8, 18, 16, .82)), url("freight-terminal-hero.png"); background-position: 64% 72%; }
   .project-hero-inner { padding: 4rem .85rem 2.5rem; }
   .project-hero h1 { font-size: 2.75rem; }
