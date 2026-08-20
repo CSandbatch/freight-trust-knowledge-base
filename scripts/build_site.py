@@ -66,6 +66,14 @@ EXPERIMENT_PROGRAM = (
         "question": "Can fragmented carrier records be resolved to the correct legal person without collapsing relationships, registration continuity, or regulatory status?",
         "role": "Identity foundation",
         "phase": "Phase I core",
+        "problem": "Carrier identity is assembled from records created for registration, enforcement, insurance, and commerce. Those records can share names, addresses, people, or identifiers without representing the same legal person.",
+        "hypothesis": "A time-aware, entity-centric resolver with explicit abstention can improve safe identity resolution over transparent deterministic and probabilistic baselines without collapsing relationships into identity.",
+        "inputs": "Adjudicated entity cases, approved public development snapshots, source authority metadata, temporal cutoffs, and synthetic conformance fixtures.",
+        "comparison": "Manual workflow map and deterministic rules (C0/C1), a fixed Fellegi-Sunter reference baseline (C2), and separately qualified graph or model challengers.",
+        "measures": "Safety errors first, then resolved-case yield; calibration and abstention; subgroup behavior; duplicated-anchor sensitivity; correction and reproducibility checks.",
+        "produces": "An opaque legal-person reference with separate continuity, relationship, disposition, evidence, uncertainty, abstention, and correction fields.",
+        "depends": "Authority rules, source rights, reviewer protocol, benchmark custody, and a frozen Task A/B/C semantic contract.",
+        "boundary": "E1 does not issue fraud labels, legal determinations, regulatory dispositions, or national-validity claims. A shared identifier or relationship is never automatic identity equivalence.",
         "build": "Ontology, deterministic and probabilistic baselines, candidate reconciliation, and conformance fixtures.",
         "gate": "Semantic freeze, source rights, reviewer determination, benchmark construction, and numeric lock.",
     },
@@ -76,6 +84,14 @@ EXPERIMENT_PROGRAM = (
         "question": "Can incomplete and contradictory event records support an uncertainty-aware timeline without inventing missing events?",
         "role": "Evidence integrity",
         "phase": "Phase I research lane",
+        "problem": "Facility timelines are reconstructed from clocks and systems that omit events, disagree, arrive late, or record different perspectives. Filling those gaps without uncertainty can turn an inference into a false fact.",
+        "hypothesis": "A source-attributed event model can reconstruct bounded dwell intervals and identify declared anomalies while leaving unsupported events unresolved or censored.",
+        "inputs": "GS1 EPCIS-compatible synthetic traces, namespaced freight extensions, hidden observability truth, source observations, controlled omission, contradiction, replay, and backdating operators.",
+        "comparison": "Raw fragmented observations, rules-based reconciliation, provenance-aware reconstruction, and optional reviewer packets under a frozen source-priority policy.",
+        "measures": "Interval and dwell error, unresolved/censored rate, anomaly-family detection, evidence sufficiency, reviewer time, privacy utility, and correction behavior.",
+        "produces": "Observed, inferred, unresolved, or censored event assertions with event/record time, provenance, uncertainty intervals, anomaly family, access purpose, and correction state.",
+        "depends": "A pinned EPCIS profile and generator, isolated hidden truth, clock/error semantics, privacy thresholds, and authorization before any reviewer or partner work.",
+        "boundary": "E2 detects injected logical anomalies and reconstructs synthetic traces. It does not provide cryptographic tamper proof, detention adjudication, malicious-intent findings, or real-facility performance evidence.",
         "build": "EPCIS profile, deterministic trace generator, anomaly operators, and interval reconstruction metrics.",
         "gate": "Threat review, reviewer determination, privacy thresholds, and optional partner authorization.",
     },
@@ -86,6 +102,14 @@ EXPERIMENT_PROGRAM = (
         "question": "Can purpose-limited evidence access be authenticated, enforced, audited, and corrected across organizational boundaries?",
         "role": "Governed access",
         "phase": "Phase I core",
+        "problem": "Cross-organization evidence is not useful merely because it can be exchanged. Identity, purpose, policy, enforcement, audit, correction, and failure handling must agree at the point of access.",
+        "hypothesis": "A pinned, engine-native policy lane can implement an authority-approved freight oracle with authenticated requests, enforced obligations, complete attempt reconciliation, and correction-preserving audit history.",
+        "inputs": "Neutral domain cases, authority citations, native NGAC or XACML policy fixtures, JWT/JWKS identities, adversarial requests, correction cases, and deterministic audit events.",
+        "comparison": "Domain oracle decisions versus each lane's native PDP result and the final PEP-enforced outcome; lanes remain separate and are never pooled as one conformance score.",
+        "measures": "Decision and obligation conformance, authentication rejection behavior, ledger reconciliation, mutation detection, correction lineage, and declared hash-chain integrity tests.",
+        "produces": "Authenticated domain decisions, native engine results, enforced obligations, purpose/expiry, rationale, request-ledger references, and versioned correction/audit records.",
+        "depends": "A named policy authority, pinned engine and adapter, mandatory issuer/audience/expiry validation, deterministic canonical bytes, independent request ledger, and privacy review.",
+        "boundary": "Passing E3 supports conformance only for the frozen oracle, policy, adapter, engine, and tests. It does not establish legal compliance, consent, policy legitimacy, confidentiality, or participant willingness.",
         "build": "One pinned native policy lane, PEP harness, JWT/JWKS fixtures, request ledger, and audit-chain tests.",
         "gate": "Authority-approved oracle, pinned identity configuration, coverage thresholds, and privacy model.",
     },
@@ -96,6 +120,14 @@ EXPERIMENT_PROGRAM = (
         "question": "What participation burden, refusal, comprehension, and spillover effects arise for small carriers under bounded offers?",
         "role": "Adoption and equity",
         "phase": "Conditional feasibility",
+        "problem": "A technically credible trust layer can still fail if participation is confusing, costly, exclusionary, or creates uncompensated work for small carriers and operational partners.",
+        "hypothesis": "Concrete reciprocal offers can be evaluated for comprehension, activation, burden, refusal, correction, and spillover without reducing required disclosure or treating participation as a premise.",
+        "inputs": "Versioned information and consent materials, recruitment frame, cluster/exposure map, burden and refusal instruments, correction workflow, offer implementations, and disclosure controls.",
+        "comparison": "Frozen offer conditions and exposure mappings, with identical institutionally approved information and consent processes across arms; pre-authorization work uses mocks and synthetic rows only.",
+        "measures": "Comprehension, activation and repeat use, time and administrative burden, refusal, correction completion, spillover, subgroup precision, and sparse-cell disclosure risk.",
+        "produces": "Disclosure-controlled participation, burden, comprehension, refusal, correction, and exposure estimates with sampling frame and uncertainty.",
+        "depends": "Institutional or sponsor determination, approved instruments, deliverable offers, private data architecture, partner and recruitment authority, power inputs, and frozen equity gates.",
+        "boundary": "Before authorization, E4 tests only instruments, mocks, code, and synthetic fixtures. A pilot cannot establish industry adoption, and causal language requires adequate assignment, exposure mapping, and precision.",
         "build": "Blank instruments, synthetic assignment and spillover simulations, burden logs, and disclosure controls.",
         "gate": "Institutional determination, approved instruments, private store, partners, budget, and recruitment authorization.",
     },
@@ -106,6 +138,14 @@ EXPERIMENT_PROGRAM = (
         "question": "Does governed cross-actor information improve a bounded planning decision without shifting safety, service, cost, or burden?",
         "role": "Application value",
         "phase": "Phase II default",
+        "problem": "Better shared evidence has value only if it changes a bounded decision without shifting service failures, safety risk, cost, margin loss, or administrative burden to another actor.",
+        "hypothesis": "Governed cross-actor information may improve one frozen planning outcome against local baselines while satisfying hard HOS feasibility and declared service, safety, and actor-level non-inferiority gates.",
+        "inputs": "Versioned synthetic scenarios, declared operating population, HOS state and constraint schemas, Solomon feasibility fixtures, pinned solver/runtime, governed mock evidence, seeds, and stress axes.",
+        "comparison": "Executable local P0/P1 baselines and governed P3/P4 policies with identical information-set rules, common random numbers, deterministic tie-breaks, timeouts, and infeasibility handling.",
+        "measures": "One frozen primary planning outcome, secondary cost or empty-mile outcome, zero accepted-route HOS violations, service non-inferiority, actor deterioration, sensitivity, and Pareto tradeoffs.",
+        "produces": "Scenario and solver manifests, feasibility results, policy comparisons, actor distributions, uncertainty intervals, ablations, sensitivities, and reproducible smoke/run packets.",
+        "depends": "Bounded HOS applicability, independent conformance tests, qualified solver, frozen outcomes and veto thresholds, versioned priors, and accepted upstream evidence for any non-synthetic claim.",
+        "boundary": "Synthetic E5 results establish only behavior in declared scenarios. They do not prove real detention or empty-mile reduction, fairness, deployment safety, or industry-scale value.",
         "build": "Scenario and constraint schemas, HOS state machine, solver adapter, baselines, and feasibility checks.",
         "gate": "Scope authorization, qualified solver, frozen outcomes, and accepted upstream evidence for non-synthetic claims.",
     },
@@ -837,7 +877,7 @@ def programme_index(page: str, protocols: dict[str, Artifact], compact: bool = F
         protocol = protocols.get(config["id"])
         if protocol is None:
             continue
-        href = f"#{config['slug']}" if page == "experiments/index.html" else page_href(page, f"experiments/index.html#{config['slug']}")
+        href = f"#{config['slug']}" if compact and page == "experiments/index.html" else page_href(page, f"experiments/{config['slug']}/index.html")
         state = protocol.status
         items.append(
             f'''<a class="programme-index-item experiment-{config['slug']}" href="{html.escape(href, quote=True)}">
@@ -917,10 +957,46 @@ def experiment_section_html(config: dict[str, str], protocol: Artifact, artifact
         <dl class="experiment-metadata"><div><dt>Status</dt><dd>{html.escape(protocol.status)}</dd></div><div><dt>Phase</dt><dd>{html.escape(phase)}</dd></div><div><dt>Owner</dt><dd>{html.escape(owner)}</dd></div><div><dt>Primary outcome</dt><dd>{html.escape(outcome)}</dd></div></dl>
         <div class="experiment-plan"><div><p class="eyebrow">First build slice</p><p>{html.escape(config['build'])}</p></div><div><p class="eyebrow">Real-run gate</p><p>{html.escape(config['gate'])}</p></div></div>
         <div class="readiness-track" aria-label="Readiness: protocol complete, build start current, dry run pilot and findings not yet reached"><span class="is-complete">Protocol</span><span class="is-current">Build start</span><span>Dry run</span><span>Pilot</span><span>Findings</span></div>
-        <div class="experiment-actions"><a class="button" href="{html.escape(protocol_href, quote=True)}">Read full protocol</a>{contract_action}<a class="button button-quiet" href="{html.escape(graph_href, quote=True)}">Trace evidence</a></div>
+        <div class="experiment-actions"><a class="button" href="{html.escape(page_href(page, f"experiments/{config['slug']}/index.html"), quote=True)}">Open experiment page</a><a class="button button-quiet" href="{html.escape(protocol_href, quote=True)}">Read protocol</a>{contract_action}<a class="button button-quiet" href="{html.escape(graph_href, quote=True)}">Trace evidence</a></div>
         <div class="experiment-support"><p class="eyebrow">Directly linked records</p><ul>{support_html}</ul></div>
       </div>
     </section>'''
+
+
+def experiment_page(config: dict[str, str], protocol: Artifact, artifacts: list[Artifact], page: str, site_url: str) -> str:
+    support = experiment_support(config, protocol, artifacts, limit=8)
+    support_html = "".join(
+        f'''<a href="{html.escape(page_href(page, artifact.url), quote=True)}"><span>{html.escape(artifact.note_type)}</span><strong>{html.escape(artifact.title)}</strong><small>{html.escape(article_excerpt(artifact, 150))}</small></a>'''
+        for artifact in support
+    ) or '<p class="muted">No directly authored supporting records are available in this build.</p>'
+    phase = str(protocol.metadata.get("phase", config["phase"])).replace("-", " ")
+    owner = str(protocol.metadata.get("owner", "unassigned")).replace("-", " ")
+    outcome = str(protocol.metadata.get("primary_outcome", "not frozen")).replace("-", " ")
+    protocol_href = page_href(page, protocol.url)
+    graph_href = page_href(page, f"graph/index.html?focus={quote(protocol.source)}&mode=local&depth=1")
+    overview_href = page_href(page, f"experiments/index.html#{config['slug']}")
+    current_index = next(index for index, item in enumerate(EXPERIMENT_PROGRAM) if item["id"] == config["id"])
+    previous_config = EXPERIMENT_PROGRAM[current_index - 1] if current_index > 0 else None
+    next_config = EXPERIMENT_PROGRAM[current_index + 1] if current_index < len(EXPERIMENT_PROGRAM) - 1 else None
+    sequence: list[str] = []
+    if previous_config:
+        previous_href = page_href(page, "experiments/{}/index.html".format(previous_config["slug"]))
+        sequence.append(f'<a href="{html.escape(previous_href, quote=True)}"><span>Previous</span><strong>{previous_config["id"]} / {html.escape(previous_config["title"])}</strong></a>')
+    if next_config:
+        next_href = page_href(page, "experiments/{}/index.html".format(next_config["slug"]))
+        sequence.append(f'<a href="{html.escape(next_href, quote=True)}"><span>Next</span><strong>{next_config["id"]} / {html.escape(next_config["title"])}</strong></a>')
+    sequence_links = "".join(sequence)
+    main = f'''<article class="experiment-publication experiment-{config['slug']}">
+<header class="experiment-page-hero"><div class="experiment-page-code"><span>{config['id']}</span><small>{html.escape(config['role'])}</small></div><div><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{html.escape(page_href(page, 'experiments/index.html'), quote=True)}">Experiments</a><span>/</span><span>{config['id']}</span></nav><p class="eyebrow">{html.escape(config['phase'])} / Build-start-ready</p><h1>{html.escape(config['title'])}</h1><p class="experiment-page-question">{html.escape(config['question'])}</p><div class="experiment-actions"><a class="button" href="{html.escape(protocol_href, quote=True)}">Read the protocol</a><a class="button button-quiet" href="{html.escape(graph_href, quote=True)}">Trace the evidence</a><a class="button button-quiet" href="{html.escape(overview_href, quote=True)}">Programme overview</a></div></div></header>
+<section class="experiment-page-section experiment-explainer"><div><p class="eyebrow">Why this experiment exists</p><h2>{html.escape(config['problem'])}</h2></div><div><p class="eyebrow">Working hypothesis</p><p>{html.escape(config['hypothesis'])}</p><p class="experiment-state-note"><strong>Current state:</strong> the protocol is ready for implementation work, but no scientific run or finding exists.</p></div></section>
+<section class="experiment-page-section"><div class="section-heading"><p class="eyebrow">Study design</p><h2>What goes in, what is compared, and what is measured</h2></div><div class="experiment-design-grid"><div><span>01</span><h3>Inputs and evidence</h3><p>{html.escape(config['inputs'])}</p></div><div><span>02</span><h3>Comparison</h3><p>{html.escape(config['comparison'])}</p></div><div><span>03</span><h3>Measures</h3><p>{html.escape(config['measures'])}</p></div></div></section>
+<section class="experiment-page-section experiment-execution"><div><p class="eyebrow">Execution path</p><h2>Build first. Lock decisions before the real run.</h2></div><ol><li><span>1</span><div><strong>Freeze scope and semantics</strong><p>{html.escape(config['depends'])}</p></div></li><li><span>2</span><div><strong>Implement the first build slice</strong><p>{html.escape(config['build'])}</p></div></li><li><span>3</span><div><strong>Pass fixture and conformance checks</strong><p>Run deterministic smoke cases, negative tests, leakage checks, and packet validation without opening protected or held-out data.</p></div></li><li><span>4</span><div><strong>Close the real-run gate</strong><p>{html.escape(config['gate'])}</p></div></li><li><span>5</span><div><strong>Run once and report at the earned level</strong><p>Package pinned inputs, code, configuration, outputs, failures, deviations, and limits in an immutable run record.</p></div></li></ol></section>
+<section class="experiment-page-section experiment-contract"><div><p class="eyebrow">Programme interface</p><h2>What this experiment contributes</h2><p>{html.escape(config['produces'])}</p></div><dl><div><dt>Status</dt><dd>{html.escape(protocol.status)}</dd></div><div><dt>Phase</dt><dd>{html.escape(phase)}</dd></div><div><dt>Owner</dt><dd>{html.escape(owner)}</dd></div><div><dt>Primary outcome</dt><dd>{html.escape(outcome)}</dd></div></dl></section>
+<section class="experiment-claim-boundary"><div><p class="eyebrow">Claim boundary</p><h2>A positive result would still stop here.</h2><p>{html.escape(config['boundary'])}</p></div></section>
+<section class="experiment-page-section experiment-records"><div class="section-heading"><p class="eyebrow">Source layer</p><h2>Protocol and directly linked records</h2><p>These are the authored records that define or support this experiment. Their status, confidence, source class, and limitations remain controlling.</p></div><div class="experiment-record-grid"><a href="{html.escape(protocol_href, quote=True)}"><span>Protocol</span><strong>{html.escape(protocol.title)}</strong><small>{html.escape(article_excerpt(protocol, 150))}</small></a>{support_html}</div></section>
+<nav class="experiment-sequence" aria-label="Other experiments">{sequence_links}</nav>
+</article>'''
+    return shell_html(f"{config['id']} / {config['title']}", f"{config['id']} experiment brief: {config['question']}", page, site_url, main, "experiments")
 
 
 def experiments_page(page: str, artifacts: list[Artifact], site_url: str) -> str:
@@ -1244,6 +1320,15 @@ def build(root: pathlib.Path = DEFAULT_ROOT, manifest_path: pathlib.Path | None 
         target = staging / route
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(page_html, encoding="utf-8")
+    protocols = experiment_protocols(artifacts)
+    for config in EXPERIMENT_PROGRAM:
+        protocol = protocols.get(config["id"])
+        if protocol is None:
+            continue
+        route = f"experiments/{config['slug']}/index.html"
+        target = staging / route
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(experiment_page(config, protocol, artifacts, route, site_url), encoding="utf-8")
     for artifact in artifacts:
         target = staging / artifact.page
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -1275,7 +1360,8 @@ def build(root: pathlib.Path = DEFAULT_ROOT, manifest_path: pathlib.Path | None 
         **git_state(root),
     }
     write_json(staging / "release.json", release)
-    all_human_routes = ["", "experiments/", "knowledge/", "explore/", "graph/", "collections/", "about/"] + [f"collections/{collection_slug(section)}/" for section in sorted({artifact.section for artifact in artifacts})] + [artifact.url for artifact in artifacts]
+    experiment_routes = [f"experiments/{config['slug']}/" for config in EXPERIMENT_PROGRAM if config["id"] in protocols]
+    all_human_routes = ["", "experiments/", "knowledge/", "explore/", "graph/", "collections/", "about/"] + experiment_routes + [f"collections/{collection_slug(section)}/" for section in sorted({artifact.section for artifact in artifacts})] + [artifact.url for artifact in artifacts]
     sitemap = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" + "\n".join(f"  <url><loc>{html.escape(canonical_url(site_url, route))}</loc></url>" for route in all_human_routes) + "\n</urlset>\n"
     (staging / "sitemap.xml").write_text(sitemap, encoding="utf-8")
     (staging / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {canonical_url(site_url, 'sitemap.xml')}\n", encoding="utf-8")

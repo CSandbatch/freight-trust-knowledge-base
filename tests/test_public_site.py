@@ -208,6 +208,16 @@ Fixture thesis for E{index}.
             self.assertIn("owner e1", programme)
             self.assertIn("outcome e5", programme)
             self.assertIn("Build-start-ready", programme)
+            for index in range(1, 6):
+                experiment = (out / "experiments" / f"e{index}" / "index.html").read_text(encoding="utf-8")
+                self.assertIn(f"E{index} fixture protocol", experiment)
+                self.assertIn("Why this experiment exists", experiment)
+                self.assertIn("Working hypothesis", experiment)
+                self.assertIn("Inputs and evidence", experiment)
+                self.assertIn("Execution path", experiment)
+                self.assertIn("Claim boundary", experiment)
+                self.assertIn("Current state:", experiment)
+                self.assertIn(f'experiments/e{index}/', (out / "sitemap.xml").read_text(encoding="utf-8"))
             protocol = (out / "notes" / "03-research-evidence" / "experiment-e1-fixture" / "index.html").read_text(encoding="utf-8")
             self.assertEqual(protocol.count("E1 fixture protocol</h1>"), 1)
 

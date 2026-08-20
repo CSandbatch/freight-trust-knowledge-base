@@ -14,6 +14,19 @@ tags:
 
 # Changelog
 
+## Individual experiment publications - 2026-08-20
+
+- Added permanent, independently readable pages at `/experiments/e1/` through
+  `/experiments/e5/`; the programme overview now links to these pages rather than relying only on
+  in-page anchors and raw protocol readers.
+- Expanded every experiment with a plain-language problem, working hypothesis, inputs,
+  comparison, measures, dependencies, output contract, five-step execution path, current state,
+  and explicit claim boundary.
+- Kept the detailed protocol and directly authored supporting records as the controlling source
+  layer beneath each explanatory experiment brief.
+- Added previous/next experiment navigation, responsive publication layouts, sitemap inclusion,
+  generated-output validation, and regression checks for all five routes.
+
 ## White-paper and second-brain separation - 2026-08-20
 
 - Separated the public information architecture into a front-facing White Paper, the E1-E5

@@ -108,6 +108,13 @@ def expected_output_files(release: dict[str, object], catalog: list[dict[str, ob
     for section in {str(item.get("section", "")) for item in catalog if isinstance(item, dict)}:
         if section:
             expected.add(f"collections/{collection_slug(section)}/index.html")
+    for item in catalog:
+        if not isinstance(item, dict) or item.get("type") != "experiment":
+            continue
+        source_name = pathlib.PurePosixPath(str(item.get("source", ""))).name.lower()
+        for experiment_id in ("e1", "e2", "e3", "e4", "e5"):
+            if source_name.startswith(f"experiment-{experiment_id}-"):
+                expected.add(f"experiments/{experiment_id}/index.html")
     expected.discard("")
     return expected
 
