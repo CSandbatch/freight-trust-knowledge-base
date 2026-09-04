@@ -874,6 +874,10 @@ body.home-page { overflow:hidden; background:#011627; }
 .harness-topline h1 { margin:.35rem 0 0; color:#f6f7f8; font-size:clamp(2.5rem,6vw,4.8rem); font-weight:500; letter-spacing:-.055em; line-height:.92; }
 .session-indicator { display:flex; align-items:center; gap:.45rem; flex-wrap:wrap; justify-content:end; color:#d0dfdf; font:.63rem var(--mono); }
 .session-indicator code { width:100%; color:#8fa7aa; font:.55rem var(--mono); text-align:right; }
+.session-login { margin-left:.35rem; padding:.46rem .72rem; border:1px solid #2ec4b6; border-radius:3px; background:rgba(46,196,182,.08); color:#f6f7f8; font:600 .6rem var(--mono); letter-spacing:.04em; text-transform:uppercase; cursor:pointer; }
+.session-login:hover { background:#2ec4b6; color:#011627; }
+.session-login:focus-visible { outline:2px solid #ff3366; outline-offset:3px; }
+.session-login[hidden] { display:none; }
 .harness-hero .status-dot { width:6px; height:6px; margin:0; }
 .harness-hero .agent-chat { min-height:min(620px,67dvh); max-height:690px; border:1px solid rgba(246,247,248,.34); border-radius:6px; background:rgba(1,22,39,.84); box-shadow:0 24px 70px rgba(1,10,19,.34); backdrop-filter:blur(16px); }
 .harness-hero .chat-transcript { min-height:330px; padding:clamp(1rem,3vw,2rem); }

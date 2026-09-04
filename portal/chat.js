@@ -14,6 +14,13 @@
   let imageData = null;
   let controller = null;
   let authenticated = false;
+  const loginTriggers = document.querySelectorAll("[data-login-trigger]");
+
+  function updateLoginTriggers() {
+    loginTriggers.forEach((button) => {
+      button.hidden = authenticated;
+    });
+  }
 
   function showLogin() {
     root.classList.add("is-locked");
@@ -47,6 +54,7 @@
           const payload = await response.json().catch(() => ({}));
           if (!response.ok) throw new Error(payload.error || "Login failed");
           authenticated = true;
+          updateLoginTriggers();
           root.classList.remove("is-locked");
           gate.remove();
           status.textContent = "Full agent enabled: Obsidian vault, research skills, citations, and tools are available.";
@@ -64,10 +72,19 @@
     .then((response) => response.json())
     .then((session) => {
       authenticated = Boolean(session.authenticated);
-      if (!authenticated) showLogin();
-      else status.textContent = "Full agent enabled: Obsidian vault, research skills, citations, and tools are available.";
+      updateLoginTriggers();
+      if (authenticated) {
+        status.textContent = "Full agent enabled: Obsidian vault, research skills, citations, and tools are available.";
+      } else {
+        status.textContent = "Log in to enable the private Obsidian and research agent.";
+      }
     })
-    .catch(showLogin);
+    .catch(() => {
+      authenticated = false;
+      updateLoginTriggers();
+    });
+
+  loginTriggers.forEach((button) => button.addEventListener("click", showLogin));
 
   function append(role, text, sources = []) {
     const message = document.createElement("article");
