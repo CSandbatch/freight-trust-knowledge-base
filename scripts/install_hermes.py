@@ -40,7 +40,11 @@ def main() -> int:
     home = pathlib.Path(os.environ.get("BELLHILL_HERMES_HOME") or str(ROOT / ".hermes-runtime")).resolve()
     source = pathlib.Path(os.environ.get("HERMES_INSTALL_DIR", str(home / "hermes-agent"))).resolve()
     if source.exists() and not (source / ".git").is_dir():
-        raise RuntimeError(f"Refusing to replace non-Git path: {source}")
+        if os.environ.get("HERMES_INSTALL_DIR"):
+            raise RuntimeError(f"Refusing to replace non-Git path: {source}")
+        # Replit deployment contexts can retain ignored generated directories
+        # while stripping nested Git metadata. Recreate only our default cache.
+        shutil.rmtree(source)
     if not source.exists():
         source.parent.mkdir(parents=True, exist_ok=True)
         run("git", "clone", "-c", "core.longpaths=true", "--filter=blob:none", "--no-checkout", REPOSITORY, str(source))
