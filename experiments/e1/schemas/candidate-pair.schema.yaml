@@ -1,0 +1,25 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://freight-trust.example/schemas/e1/candidate-pair-0.1.0.json
+title: E1 CandidatePair
+type: object
+additionalProperties: false
+required: [record_a, record_b, blocking_rules_triggered, field_similarities, temporal_distance_days]
+properties:
+  record_a: {type: string, minLength: 1}
+  record_b: {type: string, minLength: 1}
+  blocking_rules_triggered:
+    type: array
+    minItems: 1
+    uniqueItems: true
+    items:
+      enum: [same_normalized_phone, same_normalized_physical_address, same_zip_name_prefix, same_unusual_name_token]
+  field_similarities:
+    type: object
+    additionalProperties: false
+    required: [legal_name_sequence_ratio, same_normalized_address, same_normalized_phone, same_normalized_postal_code]
+    properties:
+      legal_name_sequence_ratio: {type: number, minimum: 0, maximum: 1}
+      same_normalized_address: {type: boolean}
+      same_normalized_phone: {type: boolean}
+      same_normalized_postal_code: {type: boolean}
+  temporal_distance_days: {type: integer, minimum: 0}

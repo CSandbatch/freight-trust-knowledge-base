@@ -1,0 +1,49 @@
+# Locked public runtime for the BellHill Knowledge Agent.
+# The browser-facing server supplies retrieval context; Hermes receives no public tools.
+model:
+  default: z-ai/glm-5.3-flash
+  provider: openrouter
+  fallback_providers: []
+
+agent:
+  disabled_toolsets:
+    - browser
+    - clarify
+    - code_execution
+    - cronjob
+    - debugging
+    - delegation
+    - discord
+    - discord_admin
+    - feishu_doc
+    - feishu_drive
+    - file
+    - homeassistant
+    - image_gen
+    - kanban
+    - memory
+    - messaging
+    - moa
+    - project
+    - rl
+    - safe
+    - search
+    - session_search
+    - skills
+    - spotify
+    - terminal
+    - todo
+    - tts
+    - video
+    - video_gen
+    - vision
+    - web
+    - yuanbao
+
+gateway:
+  api_server:
+    enabled: true
+    host: 127.0.0.1
+    port: 8642
+    model_name: hermes-agent
+    max_concurrent_runs: 4

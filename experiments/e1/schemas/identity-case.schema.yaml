@@ -1,0 +1,38 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://freight-trust.example/schemas/e1/identity-case-0.1.0.json
+title: E1 IdentityCase
+type: object
+additionalProperties: false
+required:
+  - case_id
+  - record_a
+  - record_b
+  - task_a_label
+  - relevant_date
+  - evidence_packet
+  - reviews
+properties:
+  case_id: {type: string, minLength: 1}
+  record_a: {type: string, minLength: 1}
+  record_b: {type: string, minLength: 1}
+  task_a_label:
+    enum: [SAME_LEGAL_PERSON, DISTINCT_LEGAL_PERSON, UNRESOLVED, OUT_OF_SCOPE]
+  task_b_labels:
+    type: array
+    items:
+      enum: [ASSIGNMENT_CONFIRMED, ASSIGNMENT_CONTRADICTED, REGISTRANT_CONTINUITY_SAME, REGISTRANT_CONTINUITY_DISTINCT, UNRESOLVED]
+  relationships:
+    type: array
+    items: {type: object}
+  relevant_date: {type: string, format: date}
+  evidence_packet: {type: array, items: {type: object}, minItems: 1}
+  reviews:
+    type: object
+    additionalProperties: false
+    required: [reviewer_1, reviewer_2, adjudicator, rationale, confidence]
+    properties:
+      reviewer_1: {type: [string, 'null']}
+      reviewer_2: {type: [string, 'null']}
+      adjudicator: {type: [string, 'null']}
+      rationale: {type: [string, 'null']}
+      confidence: {enum: [high, medium, low, unresolved, null]}

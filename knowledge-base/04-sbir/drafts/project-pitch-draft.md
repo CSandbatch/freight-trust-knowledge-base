@@ -32,7 +32,7 @@ This project will research and prototype a federated, provenance-preserving evid
 
 The innovation is this evaluated decision substrate, not first-of-kind carrier screening, a dashboard, or another data-integration layer. It builds on FMCSA/GAO screening prior art, current Motus/SCAC identity assurance, GLEIF’s separation of entity identity from ownership relationships, record-linkage methods, supply-chain knowledge graphs, and NIST traceability/access-control work. Phase I asks whether these ingredients can be integrated into a coherent freight evidence system whose identity layer remains accurate under degraded identifiers, whose relational graph does not falsely merge distinct companies, and whose uncertainty, provenance, access, and redress behavior can be measured against explicit failure conditions.
 
-*Character count: 2,899 / 3,500 (82.8% of limit; 17.2% headroom).*
+*Character count: 2,903 / 3,500 (82.9% of limit; 17.1% headroom).*
 
 ---
 
@@ -52,7 +52,7 @@ Fourth, can a challenged record be corrected or annotated with that correction v
 
 A method fails if it cannot beat the relevant baseline at matched error cost, if calibration/abstention is unusable, if graph context creates related-entity false merges, if policy tests leak disallowed evidence, or if subgroup harms remain material and unexplained.
 
-*Character count: 2,491 / 3,500 (71.2% of limit; 28.8% headroom).*
+*Character count: 2,925 / 3,500 (83.6% of limit; 16.4% headroom).*
 
 ---
 
@@ -60,13 +60,15 @@ A method fails if it cannot beat the relevant baseline at matched error cost, if
 
 *(limit 1,750 characters)*
 
-The Phase I beachhead is carrier onboarding and identity verification — a working default pending client confirmation, best supported by current fraud evidence (TIA's 2025 fraud survey; 2025 CargoNet theft data) and aligned with Aim 1. The initial buyer hypothesis is [buyer segment — e.g., freight brokers and/or carrier-onboarding teams; confirm via discovery] who bear direct cost and legal exposure from unreliable counterparty verification, sharpened by a 2026 U.S. Supreme Court ruling holding that state-law negligent-selection claims against brokers are not preempted by federal law, while leaving no defined evidentiary standard for reasonable carrier-selection care. Disputed facility-event evidence remains Aim 2's research context in Phase I, not a second commercial beachhead.
+The Phase I beachhead is carrier onboarding and identity verification — a working default pending client confirmation, best supported by current fraud evidence (TIA's 2025 fraud survey; 2025 CargoNet theft data) and aligned with Aim 1. The initial buyer hypothesis is [buyer segment — e.g., freight brokers and/or carrier-onboarding teams; confirm via discovery] who bear direct cost from unreliable counterparty verification, sharpened by a 2026 U.S. Supreme Court ruling holding that state-law negligent-selection claims against brokers are not preempted by federal law, while leaving no defined evidentiary standard for reasonable carrier-selection care. Disputed facility-event evidence remains Aim 2's research context in Phase I, not a second commercial beachhead.
 
 Current alternatives are manual reference checks, proprietary risk-scoring products, and vendor-authored vetting frameworks, none built on attributable, cross-party evidence with correction and appeal designed in; no publicly disclosed competitor claims an entity-resolution or evidence-graph architecture comparable to the one proposed here. The commercial thesis is that reducing avoidable verification labor and costly misclassification, while producing evidence defensible in a dispute, creates value a closed score cannot.
 
 Before submission this beachhead will be validated with [N — target five to ten] structured discovery interviews across brokers, carriers, and facility contacts, and [M] written, nonbinding pilot-interest statements from named organizations. [Insert current interview/pilot-letter status and count.]
 
-*Character count: 1,619 / 1,750 (92.5% of limit; 7.5% headroom).*
+Arkansas's documented research network supplies discovery routes, not evidence of demand, access, endorsement, or partnership.
+
+*Character count: 1,731 / 1,750 (98.9% of limit; 1.1% headroom).*
 
 ---
 
@@ -74,9 +76,9 @@ Before submission this beachhead will be validated with [N — target five to te
 
 *(limit 1,750 characters)*
 
-Common Action is the confirmed applicant for this Project Pitch; its exact registered legal form and SBIR/STTR eligibility still require documentary confirmation before submission. Ellie Young will serve as Principal Investigator, subject to confirmation of the applicable NSF employment and effort requirements at award. Russell Berry, Research & Knowledge Architecture Lead, leads the programme's evidence and ontology architecture, provenance/source governance, benchmark and experiment specification support, and technical/proposal synthesis. [OPEN: name/role for data, security, and entity-resolution engineering — owner: Ellie Young/Common Action.] [OPEN: product/commercial lead, if distinct — owner: Ellie Young/Common Action.] [Optional named partner] contributes [defined capability — domain expertise, data access, or an evaluation environment] under [SBIR consultant or subcontract] terms; no partnership is represented here beyond what is committed in writing. The team's access to lawful evaluation data — [describe the specific dataset, partner, or permission that will support Phase I benchmarking] — will be confirmed and documented before submission. This Phase I award will fund the R&D needed to establish technical feasibility and the commercial evidence required to pursue a Phase II-scale product and pilot expansion.
+BellHill is the intended applicant for this Project Pitch; its exact registered name, legal form, ownership, affiliate status and SBIR/STTR eligibility require documentary confirmation before submission. Russell Berry is the working Principal Investigator and Research & Knowledge Architecture Lead, responsible for technical direction, evidence and ontology architecture, provenance/source governance, benchmark specification support, and technical/proposal synthesis. His résumé, majority-employment compliance, project effort, work authorization, compensation and research-security evidence remain open. [OPEN: name/role for data, security, and entity-resolution engineering where duties do not duplicate the PI's scope — owner: BellHill/PI.] [OPEN: product/commercial lead, if distinct — owner: BellHill/PI.] [Optional named partner] contributes [defined capability] only under documented terms; no partnership is represented here beyond a written commitment. Access to [specific lawful evaluation data or environment] must likewise be documented before submission.
 
-*Character count: 1,340 / 1,750 (76.6% of limit; 23.4% headroom).*
+*Character count: 1,069 / 1,750 (61.1% of limit; 38.9% headroom).*
 
 ---
 
@@ -86,10 +88,9 @@ Every bracket above must be resolved with a real, verifiable fact — never fill
 
 | Placeholder | Field | What is needed | Who must supply it |
 |---|---|---|---|
-| Registered legal name / legal form | Company and Team | Applicant is confirmed as Common Action; verify exact registered name/legal form and eligibility in SAM.gov/Research.gov | Common Action / counsel |
-| PI title/background and employment/effort eligibility | Company and Team | Ellie Young is confirmed as PI; supply formal title, verifiable background, and applicable NSF employment/effort evidence | Common Action + Ellie Young |
-| Russell Berry role classification and effort | Company and Team | Working title is Research & Knowledge Architecture Lead; confirm employee/consultant/key-personnel classification, actual effort, and rate | Common Action + PI |
-| Data/security/entity-resolution lead (name/role) | Company and Team | Named person, real role, real qualifications; may be separate from Russell Berry's research/knowledge-architecture function | Common Action / PI |
+| Registered legal name / legal form | Company and Team | BellHill is the intended applicant; verify exact registered name, entity type, ownership/affiliates and eligibility in SAM.gov/Research.gov | BellHill / counsel |
+| PI title/background and employment/effort eligibility | Company and Team | Russell Berry is the working PI and architecture lead; supply résumé, ≥51% employment evidence, compliant project effort, work authorization, compensation and research-security review | BellHill + Russell Berry |
+| Data/security/entity-resolution lead (name/role) | Company and Team | Named person, real role and qualifications; include only if duties do not duplicate Russell Berry's PI/architecture scope | BellHill / PI |
 | Freight-domain/commercial lead (name/role) | Company and Team | Named person, real role, real qualifications | CEO / PI |
 | Named partner and defined capability | Company and Team | Only include if a partner has actually committed in writing (consultant or subcontract terms); omit entirely if not yet real | PI + partner lead / counsel |
 | Specific dataset/partner/permission for Phase I benchmarking | Company and Team | Description of lawfully obtainable evaluation data and who authorized its use | Product/data lead + counsel |

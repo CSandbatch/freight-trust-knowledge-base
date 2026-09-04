@@ -3,7 +3,7 @@ type: log
 status: active
 owner: orchestrator
 schema_version: 1.0.0
-updated: '2026-08-18'
+updated: '2026-09-03'
 tags:
 - type/log
 - domain/freight
@@ -13,6 +13,19 @@ tags:
 ---
 
 # Changelog
+
+## BellHill migration and Arkansas AI–logistics evidence - 2026-09-03
+
+- Recorded BellHill as the intended applicant and Russell Berry as working PI and Research &
+  Knowledge Architecture Lead while leaving legal identity, ownership, eligibility, employment,
+  effort and compensation unresolved.
+- Added official source cards, a proposition ledger, a bounded 2024–2026 conference scan, a
+  scored partnership strategy, and a 24-person public professional outreach map.
+- Preserved the `$7M/$8M` AR-STRIDES conflict and the unresolved seed-grant amount; regional
+  organizations remain discovery routes, not asserted partners, endorsers, data providers or
+  evidence of demand.
+- Propagated the accepted regional context into the SBIR drafts without changing the E1 ontology
+  or authorizing outreach, travel, submission, commitment, or deployment.
 
 ## Full experiment white papers - 2026-08-20
 
@@ -199,7 +212,7 @@ tags:
 - Froze a named internal team release.
 - Removed unrelated M.S. Rau application material from the vault.
 - Removed `.obsidian/workspace.json` personal workspace state from the distribution copy.
-- Confirmed **Common Action** as applicant and **Ellie Young** as PI in the working programme records.
+- Recorded applicant and PI designations for the working programme; those identities were superseded and anonymized by `DEC-014` on 2026-09-03 while the dated chronology remains in Git history.
 - Added **Russell Berry — Research & Knowledge Architecture Lead** as a working programme role without inventing effort, rate, or employment classification.
 - Propagated the August 2026 **NMFTA SCAC Verified** finding into the master brief and SBIR innovation/competition narrative.
 - Added a root README, team action board, source MOC, complete vault inventory, and release audit.

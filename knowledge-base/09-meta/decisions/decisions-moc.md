@@ -17,3 +17,6 @@ migrated and linked here; no historic content is duplicated or renumbered.
 
 - [[dec-013-llm-e1-challenger]] — adds a constrained, preregistered LLM resolver challenger
   without changing E1 gold semantics or the one-shot confirmatory gate.
+- [[dec-014-bellhill-applicant-and-pi]] — establishes BellHill as the intended applicant and
+  Russell Berry as working PI plus Research & Knowledge Architecture Lead, while retaining
+  legal-form and eligibility gates.

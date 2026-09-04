@@ -1,0 +1,8 @@
+entrypoint = "scripts/replit_server.py"
+run = "python scripts/install_hermes.py && python scripts/replit_server.py --build --start-hermes"
+modules = ["python-3.11"]
+
+[deployment]
+build = ["python", "scripts/install_hermes.py"]
+run = ["python", "scripts/replit_server.py", "--build", "--start-hermes"]
+deploymentTarget = "cloudrun"

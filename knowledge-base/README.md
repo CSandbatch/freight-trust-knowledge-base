@@ -2,7 +2,7 @@
 type: home
 status: active
 schema_version: 1.0.0
-updated: '2026-08-08'
+updated: '2026-09-03'
 release: 0.9.2
 tags:
 - type/home
@@ -14,9 +14,10 @@ tags:
 
 # Freight Trust Knowledge Base — Team Release 0.9.2
 
-Internal working research asset for the Common Action Freight Trust / NSF SBIR programme.
-This release freezes the knowledge base as of **2026-08-08** so the team can review a
-stable package rather than a nameless mutable working ZIP.
+Internal working research asset for the BellHill Freight Trust / NSF SBIR programme.
+This document began as the **2026-08-08** team-release record and was updated on
+**2026-09-03** for the BellHill identity migration. It remains a working package rather
+than a submission-ready proposal.
 
 ## Start here
 
@@ -30,11 +31,10 @@ stable package rather than a nameless mutable working ZIP.
 
 ## Confirmed team facts in this release
 
-- **Applicant:** Common Action (confirmed by the commissioning team; exact legal form/registered-name evidence remains to be verified).
-- **Principal Investigator:** **Ellie Young** (confirmed by the commissioning team on 2026-08-08).
-- **Research & Knowledge Architecture Lead:** **Russell Berry** — working programme role covering evidence/ontology architecture, provenance and source governance, benchmark/experiment specification support, and technical/proposal synthesis. Employment/consultant classification, effort percentage, and rate remain to be supplied by Common Action.
+- **Intended applicant:** BellHill (confirmed by the commissioning user; exact registered name, legal form, ownership and eligibility remain to be verified).
+- **Working Principal Investigator and Research & Knowledge Architecture Lead:** **Russell Berry** — one person holding concurrent working roles across technical direction, evidence/ontology architecture, provenance and source governance, benchmark/experiment specification support, and technical/proposal synthesis. Employment, effort, work-authorization, compensation and eligibility evidence remain open.
 
-Common Action's public site describes focus areas in Climate, Energy, Agriculture, and Supply Chain, and capabilities including knowledge engineering, business intelligence, graph databases, semantic web, data science, spatiotemporal analysis, physical modeling, GIS, and NLP: <https://www.common-action.org/>.
+No public BellHill capability or legal-entity source was supplied for this migration. See [[09-meta/client-bellhill]] and [[09-meta/decisions/dec-014-bellhill-applicant-and-pi]] for the current evidence boundary.
 
 
 ## 0.9.1 E1 definition hardening

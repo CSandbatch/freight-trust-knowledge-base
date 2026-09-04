@@ -28,20 +28,19 @@ decision, gap, or drift records.
 
 | Person | Working role | Confirmed scope | Still to resolve |
 |---|---|---|---|
-| **Ellie Young** | **Principal Investigator** | PI identity confirmed by the commissioning team on 2026-08-08; overall technical direction and PI-of-record responsibility in the working SBIR package | Formal title/background text, effort %, compensation, and confirmation of applicable NSF employment/effort eligibility |
-| **Russell Berry** | **Research & Knowledge Architecture Lead** | Evidence/ontology architecture; provenance and source governance; benchmark and experiment specification support; research synthesis; technical/proposal architecture | Employee/consultant/senior-key-personnel classification, effort %, compensation/rate, and exact budget placement |
+| **Russell Berry** | **Working Principal Investigator and Research & Knowledge Architecture Lead** | Overall technical direction plus evidence/ontology architecture, provenance/source governance, benchmark and experiment specification support, and technical/proposal synthesis | Résumé/background evidence, PI employment path and majority-employment compliance, effort %, compensation/rate, work authorization and research-security review |
 
-The role assignments above are recorded in [[09-meta/decision-log#DEC-010 — Team-release personnel roles]]. They are programme facts supplied/approved for this release, not inferred from Common Action's public website.
+The current role assignment is recorded in [[09-meta/decisions/dec-014-bellhill-applicant-and-pi]]. It is a programme fact supplied by the commissioning user, not evidence of employment or NSF eligibility.
 
 ## Immediate team action board
 
 | Item | State | Owner | Why it matters / next action |
 |---|---|---|---|
-| Common Action legal form and exact registered applicant name | **Blocked on human/document** | Common Action + counsel | Needed to establish SBIR/STTR eligibility and registrations; applicant identity itself is resolved |
-| SBIR vs. STTR lane | **Open decision** | Ellie Young + Common Action + counsel | Changes eligibility, partner structure, and R&D allocation rules |
-| Ellie Young PI employment/effort eligibility | **Open fact** | Ellie Young + Common Action | PI identity is resolved; eligibility documentation is not |
-| Russell Berry classification, effort, and rate | **Open fact** | Ellie Young + Common Action | Needed to turn the working Research & Knowledge Architecture Lead role into a real budget/personnel line |
-| E1 identity/adjudication standard | **RC1 complete; human freeze pending** | Ellie Young + E1 protocol owner + domain reviewer/counsel | Source-grounded standard, ontology, decision tree, 64-claim ledger, 70-case suite, hostile review, adjudicator-governance/COI protocol, automated conformance report, and Louisiana/Texas state-source pilot exist. Freeze still requires PI/domain/counsel sign-off plus actual reviewer training and pilot double-labeling/case-level retrieval |
+| BellHill legal form and exact registered applicant name | **Blocked on human/document** | BellHill + counsel | Needed to establish SBIR/STTR eligibility and registrations; the public programme name alone is insufficient |
+| SBIR vs. STTR lane | **Open decision** | Russell Berry + BellHill + counsel | Changes eligibility, partner structure, and R&D allocation rules |
+| Russell Berry PI employment/effort eligibility | **Open fact** | Russell Berry + BellHill | Working PI identity is resolved; employment, effort and eligibility documentation are not |
+| Russell Berry PI compensation and evidence | **Open fact** | Russell Berry + BellHill | Needed to convert the dual working role into one compliant senior-personnel line without duplicate effort |
+| E1 identity/adjudication standard | **RC1 complete; human freeze pending** | Russell Berry + E1 protocol owner + domain reviewer/counsel | Source-grounded standard, ontology, decision tree, 64-claim ledger, 70-case suite, hostile review, adjudicator-governance/COI protocol, automated conformance report, and Louisiana/Texas state-source pilot exist. Freeze still requires PI/domain/counsel sign-off plus actual reviewer training and pilot double-labeling/case-level retrieval |
 | E1 benchmark corpus | **To build** | Technical/data team | Highest-value next experimental artifact; needed before numeric targets can be responsibly frozen |
 | E1 operating point and implementations | **Build-start-ready; values/code open** | E1 technical lead + methods reviewer | Build schemas/adapters, deterministic C1 and Fellegi-Sunter C2 on development fixtures under [[03-research-evidence/e1-e5-build-readiness-and-run-contract]]. Pilot closure/interval behavior precedes numeric freeze and holdout construction. |
 | E1 LLM challenger | **Specified; implementation and development gates open** | E1 technical lead + data governance | [[method-llm-assisted-entity-resolution]] and current source cards exist; close [[09-meta/gaps/gap-018-e1-llm-readiness]] before C6 can compete for `C*`. Do not use `openrouter/auto` or restricted packets in hosted inference. |
@@ -50,10 +49,11 @@ The role assignments above are recorded in [[09-meta/decision-log#DEC-010 — Te
 | E5 orchestration | **Synthetic smoke build-ready; execution conditional** | Operations-research lead | Build a solver-validated CPU smoke test with a declared HOS scope and one frozen primary outcome. Operational, fairness and deployment claims remain prohibited. |
 | Pilot-interest participants | **Open external dependency** | Commercial/product lead | Needed for Commercial Potential and bounded-pilot credibility |
 | Discovery interviews, including small carriers | **Open external dependency** | Commercial/product lead | Buyer pain, willingness-to-pay, participation burden, and interview counts remain unverified |
+| Arkansas research and discovery outreach | **Mapped; no outreach sent** | Commercial/product lead | Use [[01-client-briefs/bellhill-arkansas-ai-logistics-outreach-brief]] through public organization routes; reverify roles, log outcomes, and never infer partnership, access or demand |
 | Permissioned facility-event data | **Open external dependency** | Data/product lead + counsel | E2 can proceed synthetically, but real-data validation depends on authorization |
-| Antitrust analysis of shared competitor information | **Counsel required** | Common Action + counsel | [[09-meta/gap-register]]; technical privacy controls do not answer Sherman Act information-sharing questions |
+| Antitrust analysis of shared competitor information | **Counsel required** | BellHill + counsel | [[09-meta/gap-register]]; technical privacy controls do not answer Sherman Act information-sharing questions |
 | SCAC Verified response | **Research complete; narrative propagated** | Proposal/research leads | Treat NMFTA's 2026 programme as incumbent prior art; novelty is continuous, provenance-bearing, contestable evidence across identity + events |
-| Numeric E1–E3 targets | **Intentionally deferred** | Ellie Young + technical leads | Set against actual baseline/benchmark behavior, not invented pre-experiment |
+| Numeric E1–E3 targets | **Intentionally deferred** | Russell Berry + technical leads | Set against actual baseline/benchmark behavior, not invented pre-experiment |
 
 ## Distribution state
 

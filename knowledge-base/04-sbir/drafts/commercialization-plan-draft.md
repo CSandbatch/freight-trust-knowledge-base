@@ -5,7 +5,7 @@ owner: commercial lead
 authority: NSF 26-510
 schema_version: 1.0.0
 deliverable: Commercialization Plan
-updated: 2026-08-08
+updated: 2026-09-03
 tags:
 - type/draft
 - domain/freight
@@ -73,6 +73,7 @@ Programme positioning is an explainable, cross-party evidence and provenance lay
 | Stage | Approach |
 |---|---|
 | Beachhead validation | Structured discovery interviews and pilot-interest conversations with [TARGET COUNT PLACEHOLDER — guide suggests 5–10 interviews and 2 written pilot-interest statements, per [[nsf-sbir-sttr-process-and-readiness-guide#3. Project Pitch: the required first submission]]] broker/carrier/facility contacts. |
+| Arkansas discovery channel | Use the documented AR-STRIDES, SCMRC, transportation, port and manufacturing network to request research routing and structured interviews, following [[02-programme-strategy/arkansas-ai-logistics-partnership-strategy]]. This is evidence of a relevant regional discovery ecosystem, not market demand, access, endorsement, partnership or a customer pipeline. |
 | Bounded pilot | One carrier cohort, one broker/shipper cohort, one or two facilities, per the pilot roadmap in [[01-client-briefs/freight-trust-client-master-brief#Recommended pilot]] — measuring evidence quality and participant outcomes before any expansion. |
 | Expansion gate | Pilot must pass predeclared thresholds (evidence quality, participation, equity) before expanding toward coordination/load-matching use cases ([[01-client-briefs/freight-trust-client-master-brief#Recommended pilot]]); load matching/market data is explicitly a later application, not a Phase I claim ([[01-client-briefs/freight-trust-client-master-brief#Competitive and technical position]]). |
 | Channel | [CHANNEL PLACEHOLDER — direct sales to brokers/carriers, partnership with existing platform, association/standards-body introduction (e.g., via ASTM F49/NMFTA alignment)]. |
@@ -102,6 +103,7 @@ Programme positioning is an explainable, cross-party evidence and provenance lay
 - [ ] Named-competitor / adjacent-platform competitive analysis, if not already produced under the market/standards workstream (G4–G6) referenced in [[01-client-briefs/freight-trust-client-master-brief#Dataset and experiment backbone]].
 - [ ] Client confirmation of the first beachhead workflow — Section 1 currently sets carrier onboarding/identity verification as a **working default** chosen by internal review, not yet confirmed directly with the client.
 - [ ] Any channel-partner or association conversations (e.g., ASTM F49/NMFTA engagement) actually underway, if to be cited.
+- [ ] Record any Arkansas outreach outcome as dated discovery evidence; do not promote a roster entry, event listing, attendance, silence or introductory conversation into demand or partnership evidence.
 
 ## Related notes
 
@@ -110,4 +112,6 @@ Programme positioning is an explainable, cross-party evidence and provenance lay
 - [[phase-1-budget-and-justification-draft]]
 - [[data-management-plan-draft]]
 - [[technical-risk-register]]
+- [[03-research-evidence/arkansas-ai-logistics-ecosystem-evidence]]
+- [[02-programme-strategy/arkansas-ai-logistics-partnership-strategy]]
 - [[04-sbir/sbir-moc]]

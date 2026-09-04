@@ -1,0 +1,108 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://freight-trust.example/schemas/e1/carrier-record-0.1.0.json
+title: E1 CarrierRecord
+type: object
+additionalProperties: false
+required:
+  - record_id
+  - source_id
+  - observed_at
+  - identifier
+  - names
+  - addresses
+  - phone
+  - attributes
+  - claims
+  - relationship_edges
+  - quality
+  - provenance
+properties:
+  record_id: {type: string, minLength: 1}
+  source_id: {const: az4n-8mr2}
+  observed_at: {type: string, format: date-time}
+  valid_from: {type: [string, 'null'], format: date-time}
+  valid_to: {type: [string, 'null'], format: date-time}
+  identifier:
+    type: object
+    additionalProperties: false
+    required: [namespace, raw, normalized]
+    properties:
+      namespace: {const: USDOT}
+      raw: {type: string}
+      normalized: {type: string, pattern: '^[0-9]+$'}
+  names:
+    type: object
+    additionalProperties: false
+    required: [legal, dba]
+    properties:
+      legal: {$ref: '#/$defs/normalizedValue'}
+      dba: {$ref: '#/$defs/normalizedValue'}
+  addresses:
+    type: object
+    additionalProperties: false
+    required: [physical, mailing]
+    properties:
+      physical: {$ref: '#/$defs/address'}
+      mailing: {$ref: '#/$defs/address'}
+  phone: {$ref: '#/$defs/normalizedValue'}
+  attributes:
+    type: object
+    additionalProperties: false
+    required: [status, entity_type, fleet_size, power_units, drivers]
+    properties:
+      status: {type: [string, 'null']}
+      entity_type: {type: [string, 'null']}
+      fleet_size: {type: [string, integer, 'null']}
+      power_units: {type: [integer, 'null']}
+      drivers: {type: [integer, 'null']}
+  claims:
+    type: object
+    additionalProperties: false
+    required: [insurance, safety]
+    properties:
+      insurance: {type: array, items: {type: object}}
+      safety: {type: array, items: {type: object}}
+  relationship_edges: {type: array, items: {type: object}}
+  quality:
+    type: object
+    additionalProperties: false
+    required: [source_freshness, source_quality, missingness_flags, conflict_flags]
+    properties:
+      source_freshness: {type: string, format: date-time}
+      source_quality: {type: string}
+      missingness_flags: {type: array, items: {type: string}}
+      conflict_flags: {type: array, items: {type: string}}
+  provenance:
+    type: object
+    additionalProperties: false
+    required: [dataset_id, source_row, normalization_version, operations]
+    properties:
+      dataset_id: {const: az4n-8mr2}
+      source_row: {type: integer, minimum: 2}
+      normalization_version: {type: string}
+      operations: {type: object}
+$defs:
+  normalizedValue:
+    type: object
+    additionalProperties: false
+    required: [raw, normalized, operations]
+    properties:
+      raw: {type: [string, 'null']}
+      normalized: {type: [string, 'null']}
+      operations: {type: array, items: {type: string}}
+  address:
+    allOf:
+      - {$ref: '#/$defs/normalizedValue'}
+      - type: object
+        required: [components]
+        properties:
+          components:
+            type: object
+            additionalProperties: false
+            required: [street, city, state, postal_code, country]
+            properties:
+              street: {type: [string, 'null']}
+              city: {type: [string, 'null']}
+              state: {type: [string, 'null']}
+              postal_code: {type: [string, 'null']}
+              country: {type: [string, 'null']}

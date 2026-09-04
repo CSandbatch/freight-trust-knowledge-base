@@ -44,13 +44,12 @@ All rates and dollar amounts below are placeholders pending company financial da
 
 | Line item                                                                                           | Illustrative basis                                                                                                                               | Illustrative amount                           | Rate/assumption placeholder                                                             |
 | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------- | --------------------------------------------------------------------------------------- |
-| A. Senior personnel — PI (Ellie Young)                                                             | [EFFORT % PLACEHOLDER] × 12 months × annual salary                                                                                            | [$ AMOUNT PLACEHOLDER]                        | Salary: [SALARY RATE PLACEHOLDER]; effort: [EFFORT % PLACEHOLDER]                       |
-| A. Senior personnel — Russell Berry, Research & Knowledge Architecture Lead                          | [EFFORT % PLACEHOLDER] × 12 months                                                                                                          | [$ AMOUNT PLACEHOLDER]                        | Salary/rate: [RATE PLACEHOLDER]; classification and effort must be confirmed                                        |
+| A. Senior personnel — Russell Berry, Working PI and Research & Knowledge Architecture Lead          | [COMPLIANT PI EFFORT PLACEHOLDER] × 12 months × annual salary                                                                                | [$ AMOUNT PLACEHOLDER]                        | One personnel line; salary/rate, ≥51% employment and minimum project effort must be confirmed                       |
 | B. Other personnel — research engineer(s)/data scientist(s)                                         | [HEADCOUNT PLACEHOLDER] FTE(s) for benchmark construction, model/prototype build, evaluation harness                                             | [$ AMOUNT PLACEHOLDER]                        | Salary: [SALARY RATE PLACEHOLDER] per role                                              |
 | C. Fringe benefits                                                                                  | Applied to A + B salary base                                                                                                                     | [$ AMOUNT PLACEHOLDER]                        | Fringe rate: [FRINGE RATE PLACEHOLDER — company-specific or negotiated]                 |
 | D. Equipment                                                                                        | [ITEM PLACEHOLDER, if any single item exceeds capitalization threshold]                                                                          | [$ AMOUNT PLACEHOLDER, likely $0]             | Capitalization threshold: [THRESHOLD PLACEHOLDER]                                       |
 | E. Travel — customer discovery                                                                      | [NUMBER PLACEHOLDER] trips to broker/carrier/facility partner sites for structured discovery interviews and pilot-interest conversations         | [$ AMOUNT PLACEHOLDER]                        | Per-trip cost: [TRAVEL COST PLACEHOLDER]                                                |
-| E. Travel — conference/PI travel (if applicable)                                                    | [PLACEHOLDER — e.g., NSF grantee conference, domain conference]                                                                                  | [$ AMOUNT PLACEHOLDER]                        | [POLICY PLACEHOLDER]                                                                    |
+| E. Travel — conference/PI travel (if applicable)                                                    | [PLACEHOLDER — name, purpose and dates; Arkansas events are discovery candidates only, not approved travel]                                      | [$ AMOUNT PLACEHOLDER]                        | [OWNER/POLICY PLACEHOLDER]                                                              |
 | G. Other direct costs — cloud/compute for entity-resolution benchmarking and federation prototyping | Storage, compute, and services for Aim 1 (entity resolution) and Aim 3 (federation) test environments                                            | [$ AMOUNT PLACEHOLDER]                        | Provider/rate: [CLOUD COST PLACEHOLDER]                                                 |
 | G. Other direct costs — benchmark data acquisition/licensing and labeling                           | Ground-truth/label acquisition for the identity-resolution and event-provenance benchmark (see [[technical-risk-register]] on data sparsity)     | [$ AMOUNT PLACEHOLDER]                        | Source and cost: [DATA COST PLACEHOLDER]                                                |
 | G. Other direct costs — consultants/subaward                                                        | [CONSULTANT/PARTNER ROLE PLACEHOLDER — e.g., domain expert, security/privacy reviewer, or STTR research-institution subaward if STTR is elected] | [$ AMOUNT PLACEHOLDER]                        | Rate/scope: [CONSULTANT RATE PLACEHOLDER]                                               |
@@ -60,35 +59,18 @@ All rates and dollar amounts below are placeholders pending company financial da
 | H. Indirect costs                                                                                   | Applied to [BASE PLACEHOLDER — e.g., modified total direct costs]                                                                                | [$ AMOUNT PLACEHOLDER]                        | Indirect rate: [INDIRECT RATE PLACEHOLDER — negotiated federal rate or de minimis rate] |
 | **Total requested**                                                                                 | —                                                                                                                                                | **[$ AMOUNT PLACEHOLDER, target ≤ $305,000]** | —                                                                                       |
 
-## Back-of-envelope plausibility check (illustrative, not company-confirmed)
+## Plausibility check deferred until company facts exist
 
-Recommended by proposal review as a pre-submission sanity check, not a final budget: this rough sum uses illustrative market-rate salary assumptions (**not** the company's actual rates) to confirm the role structure implied by [[phase-1-project-description-draft#8. Team and resources]] (PI + 2 senior/technical roles + engineer(s) + domain consultant + legal advisor + cloud/data costs) is achievable within $305,000 over 12 months — catching an infeasible scope now is cheaper than catching it after milestones and team roles are locked into the Project Description.
-
-| Line | Illustrative assumption | Illustrative subtotal |
-|---|---|---|
-| A. PI | 15% effort × $180,000/yr | $27,000 |
-| A. Technical lead (data/provenance/security) | 40% effort × $150,000/yr | $60,000 |
-| A. Product/commercial lead | 15% effort × $140,000/yr | $21,000 |
-| B. Research engineer(s) | 0.5 FTE × $130,000/yr | $65,000 |
-| C. Fringe (illustrative 25% rate on A+B) | — | ~$43,250 |
-| E. Travel — customer discovery | ~10 trips, illustrative | $10,000 |
-| G. Cloud/compute | — | $15,000 |
-| G. Benchmark data acquisition/labeling | — | $10,000 |
-| G. Domain SME consultant | — | $15,000 |
-| G. Legal/privacy advisor | — | $8,000 |
-| G. TABA | up to $6,500 ceiling | $6,500 |
-| G. Materials/misc | — | $5,000 |
-| **Subtotal direct** | — | **~$285,750** |
-| H. Indirect (illustrative ~10% de minimis on a partial MTDC base) | — | ~$19,250 |
-| **Illustrative total** | — | **~$305,000** |
-
-**Conclusion of this illustrative pass.** The role structure named in Project Description §8 appears achievable within the $305,000 ceiling, but only at modest effort percentages (PI and technical-lead effort well below full-time) and only if the external-role total (domain consultant + legal advisor, excluding TABA) is held near $23,000 — comfortably under the ~$100,000 planning ceiling in the two-thirds check below. This table is not a target or a commitment; it exists only to catch an infeasible scope early. Every assumption above must be replaced with the company's actual rates before submission.
+The earlier numerical illustration used a PI effort below the current NSF minimum and is
+withdrawn. Rebuild the plausibility check only after BellHill supplies actual salary/rate,
+fringe, indirect-cost and staffing facts. For a 12-month Phase I project, the working PI must
+budget at least two calendar months of project effort (one month per six months of performance)
+and must separately satisfy the majority-employment requirement at award and throughout
+performance. The rebuilt check must count Russell Berry once despite his concurrent titles.
 
 ## Line-item justification prose
 
-**A. Senior personnel — PI (Ellie Young).** Ellie Young is the confirmed PI. The PI's effort funds direct technical leadership of all three research aims: designing the entity-resolution benchmark and calibration protocol (Aim 1), specifying the event-provenance schema and tamper/contradiction test design (Aim 2), and directing the federation policy-enforcement prototype (Aim 3). This is R&D leadership time, not administrative overhead, and must be consistent with NSF's PI employment rule (≥51% employed by the small business at award and throughout performance; see [[nsf-sbir-sttr-process-and-readiness-guide#2. Eligibility gate: resolve before writing at length]]).
-
-**A. Senior personnel — other key personnel.** Russell Berry, **Research & Knowledge Architecture Lead**, is the named working-programme lead for evidence/ontology architecture, source and provenance governance, benchmark/experiment specification support, and technical/proposal synthesis. [OPEN: actual classification, effort %, and rate — Common Action + PI.] Separate security/data and product/commercial personnel remain to be named if those functions are not assigned to existing team members. Only named, real personnel should appear here at proposal time.
+**A. Senior personnel — Russell Berry, working PI and Research & Knowledge Architecture Lead.** This single line funds one person's direct technical leadership of all three aims plus evidence/ontology architecture, provenance/source governance, benchmark specification and technical synthesis. [OPEN: actual salary/rate, compliant effort and employment evidence — BellHill + Russell Berry.] The PI must satisfy both the ≥51% employment rule at award and throughout performance and the separate minimum of one calendar month of project effort per six months. Separate technical or commercial personnel may be added only for non-duplicative duties and with real names, qualifications, effort and rates.
 
 **B. Other personnel.** Research engineer/data-scientist effort funds the actual construction of the identity-resolution benchmark corpus, baseline models, calibration and segment-level error analysis (Aim 1), and the event-provenance/tamper-detection test harness (Aim 2). This is the largest technically necessary labor line because Phase I's core deliverable is a working, evaluated prototype and benchmark, not a report.
 
@@ -98,7 +80,7 @@ Recommended by proposal review as a pre-submission sanity check, not a final bud
 
 **E. Travel — customer discovery.** Travel funds in-person structured discovery interviews and pilot-interest conversations with broker/carrier network contacts, consistent with the Market Opportunity and Commercial Potential expectations in [[nsf-sbir-sttr-process-and-readiness-guide#3. Project Pitch: the required first submission]]. This directly produces the "commercial evidence still required" artifacts listed in [[commercialization-plan-draft]].
 
-**E. Travel — conference/PI travel.** [PLACEHOLDER — justify only if the company intends a specific NSF grantee conference or domain-standards engagement (e.g., ASTM F49/NMFTA) during the period of performance.]
+**E. Travel — conference/PI travel.** [PLACEHOLDER — justify only after BellHill selects a specific event, confirms its relevance and dates, names an owner, and prices the trip. The Arkansas event map in [[03-research-evidence/arkansas-ai-logistics-ecosystem-evidence]] is a discovery-planning input, not authorization or a budget commitment.]
 
 **G. Other direct costs — cloud/compute.** Funds the computing environment needed to run entity-resolution experiments against a held-out benchmark and to prototype the federated, policy-enforced data-sharing layer (Aim 3), including access-control and audit-log testing.
 
@@ -131,8 +113,7 @@ Per `sbir-evidence-refresh.md` (verified directly against the nsf.gov NSF 26-510
 
 ## Budget facts needed from company
 
-- [ ] Ellie Young PI salary/rate, confirmed effort percentage, and employment/eligibility documentation for the period of performance.
-- [ ] Russell Berry classification, salary/rate, and effort percentage as Research & Knowledge Architecture Lead.
+- [ ] Russell Berry PI salary/rate, minimum project effort, ≥51% employment evidence, résumé/background, work authorization and research-security documentation for the period of performance; count the concurrent architecture-lead role once.
 - [ ] Actual salary/rate and effort percentage for each additional named senior/key person.
 - [ ] Actual salary/rate and FTE count for research engineer(s)/data scientist(s) (Other Personnel).
 - [ ] Company's actual or federally negotiated fringe-benefit rate.

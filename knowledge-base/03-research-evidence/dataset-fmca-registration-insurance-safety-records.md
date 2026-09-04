@@ -6,7 +6,7 @@ schema_version: 1.0.0
 verification: confirmed
 access: named FMCSA and DOT Data Portal files are publicly downloadable; field/source suitability remains predicate-specific
 licence: unresolved — current DOT Data Portal metadata reports Unknown License; public access does not establish benchmark redistribution rights
-updated: 2026-08-18
+updated: 2026-08-20
 tags:
 - type/dataset
 - domain/identity

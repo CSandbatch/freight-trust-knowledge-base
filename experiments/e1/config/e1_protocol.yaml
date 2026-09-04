@@ -1,0 +1,74 @@
+protocol_id: E1-STAGE-0-4
+version: 0.1.0
+status: build-slice-frozen
+frozen_at: '2026-08-20T00:00:00Z'
+scope:
+  included_stages: [0, 1, 2, 3, 4]
+  excluded_stages: [5, 6, 7, 8, 9, 10, 11]
+  prohibited_actions:
+    - train_entity_resolution_model
+    - open_confirmatory_holdout
+    - force_unresolved_case_to_binary_label
+    - infer_identity_from_single_weak_field
+controlling_documents:
+  experiment: knowledge-base/03-research-evidence/experiment-e1-entity-resolution-and-identity-assurance.md
+  semantic_standard: knowledge-base/03-research-evidence/e1-carrier-identity-and-relationship-standard.md
+  ontology: knowledge-base/03-research-evidence/e1-identity-ontology.yaml
+semantic_gate:
+  version: 1.0.0-rc1
+  human_freeze: pending
+  consequence: engineering_dry_runs_only
+entity_definition: legally_responsible_motor_carrier_at_a_declared_point_in_time
+source:
+  publisher: Federal Motor Carrier Safety Administration
+  dataset_name: Company Census File
+  dataset_id: az4n-8mr2
+  portal_url: https://data.transportation.gov/Trucking-and-Motorcoaches/Company-Census-File/az4n-8mr2/about_data
+  metadata_url: https://data.transportation.gov/api/views/az4n-8mr2.json
+  normalized_metadata_url: https://data.transportation.gov/api/views/metadata/v1/az4n-8mr2
+  columns_url: https://data.transportation.gov/api/views/az4n-8mr2/columns.json
+  count_url: https://data.transportation.gov/resource/az4n-8mr2.json?$select=count(*)
+  export_url: https://data.transportation.gov/api/v3/views/az4n-8mr2/export.csv?accessType=DOWNLOAD
+  access_level: public
+  licence: unknown
+  rights_gate: redistribution_review_required
+canonical_schema: experiments/e1/schemas/carrier-record.schema.yaml
+identity_case_schema: experiments/e1/schemas/identity-case.schema.yaml
+candidate_pair_schema: experiments/e1/schemas/candidate-pair.schema.yaml
+normalization:
+  deterministic: true
+  preserve_raw_values: true
+  overwrite_source_evidence: false
+  modules: [identifier, name, address, phone, date, status]
+candidate_generation:
+  pair_order: lexical_record_id
+  rules:
+    - same_normalized_phone
+    - same_normalized_physical_address
+    - same_zip_name_prefix
+    - same_unusual_name_token
+  single_weak_field_entails_identity: false
+  required_report_fields:
+    - records_read
+    - records_with_candidates
+    - candidate_pairs
+    - reduction_ratio
+    - block_size_exclusions
+    - candidate_recall_status
+reproducibility:
+  raw_files_are_immutable: true
+  partial_download_suffix: .part
+  required_snapshot_files:
+    - company_census.csv
+    - source_metadata.json
+    - source_normalized_metadata.json
+    - source_columns.json
+    - sha256.txt
+    - manifest.json
+  hash_algorithm: sha256
+open_gates:
+  - PI/domain/counsel semantic approval
+  - source redistribution rights decision
+  - reviewer training and double-label pilot
+  - benchmark construction and split freeze
+  - pilot-derived numeric operating point

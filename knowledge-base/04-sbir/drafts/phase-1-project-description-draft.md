@@ -193,6 +193,8 @@ finding.
 
 **What it explicitly is not.** Not a nationwide or production deployment; not a claim that fraud, detention, or empty miles are reduced at industry scale; not a compliance or legal-standard product; and not a two-workflow pilot — disputed facility-event handling remains Aim 2's research validation context in Phase I, not a second bounded commercial workflow. Any operational-outcome claim below applies only to the bounded pilot's test cases within the carrier onboarding/identity-verification workflow.
 
+**Regional research interface.** Arkansas programmes and convenings provide candidate discovery and technical-exchange routes documented in [[03-research-evidence/arkansas-ai-logistics-ecosystem-evidence]]. BellHill's provenance and identity layer is analytically distinct from AR-STRIDES' transportation-data infrastructure. No regional organization, dataset, pilot, endorsement or access is represented as secured; each would require a named owner and written authorization.
+
 **Measurable operational outcome.** Resolution-time improvement (or a defined equivalent measure) relative to a documented manual/status-quo carrier-onboarding baseline workflow, measured on n = [PLACEHOLDER — test-case count] cases within the bounded pilot, target: [TARGET — set after baseline workflow is documented]. This outcome is reported as a bounded-pilot finding, not extrapolated to the broader market.
 
 ## 7. Work plan and milestones
@@ -230,10 +232,9 @@ Phase I is planned for a 12-month period of performance within NSF 26-510's allo
 
 | Role | Responsibility | Effort | Notes |
 |---|---|---|---|
-| **Ellie Young — Principal Investigator** | Overall technical direction; Aim 1 (entity resolution) design and evaluation; NSF PI-of-record | [OPEN — effort % and employment commitment; owner: Ellie Young/Common Action; DEC-002] | PI identity confirmed 2026-08-08; eligibility depends on the applicable NSF employment/effort rule at award and throughout performance |
+| **Russell Berry — Working Principal Investigator and Research & Knowledge Architecture Lead** | Overall technical direction; Aim 1 design and evaluation; evidence/ontology architecture; benchmark specification; provenance/source governance; technical and proposal synthesis | [OPEN — compliant PI effort, compensation and employment commitment; owner: Russell Berry/BellHill; DEC-014] | One person holding concurrent working roles; eligibility, résumé, work authorization and research-security evidence remain open |
 | [Technical lead — data/provenance/security] | Aim 2 schema, threat model, reconstruction/anomaly experiments; Aim 3 audit-log design | [PLACEHOLDER] | |
 | [Technical lead — policy/access systems] | Aim 3 policy-model prototyping and enforcement test suite | [PLACEHOLDER] | May be the same person as above depending on final team composition |
-| **Russell Berry — Research & Knowledge Architecture Lead** | Evidence/ontology architecture; benchmark and experiment specification support; provenance/source governance; technical and proposal synthesis | [OPEN — effort %, compensation, and employment/consultant classification; owner: Common Action; DEC-010] | Working programme role; not an invented corporate title or employment classification |
 | [Product/commercial lead] | Bounded-pilot workflow definition, pilot-interest partner engagement, commercialization evidence (interviews, pilot-interest statements) | [PLACEHOLDER] | |
 | [Domain/freight SME — consultant or named partner] | Benchmark adjudication support; validity review of event schema against real facility operations | [PLACEHOLDER — consultant vs. subaward terms] | Only to be named once a specific, written engagement exists |
 | [Legal/privacy advisor] | Review of privacy threat model, data-rights terms, and non-reliance/scope language | [PLACEHOLDER] | |
@@ -291,8 +292,8 @@ If Phase I's go/no-go milestones (Section 7) are met — entity resolution beati
 | Inter-adjudicator agreement target for benchmark | Section 7 milestone table | Set once adjudication protocol is final | Technical lead + data lead |
 | Integrated pilot test-case count (n) | Section 7 milestone table | Depends on benchmark and pilot-partner scope | PI + commercial lead |
 | Discovery-interview and pilot-interest-statement counts | Section 7 milestone table | Complete structured customer discovery | Commercial lead |
-| PI effort %, employment commitment | Section 8 | Ellie Young is confirmed as PI; confirm the applicable NSF employment/effort eligibility facts | Common Action + Ellie Young |
-| Russell Berry effort %, compensation, classification | Section 8 | Confirm working-project role as senior/key personnel, employee, consultant, or other permissible category and enter actual effort/rate | Common Action + PI |
+| Arkansas organization, dataset, pilot, letter, or travel commitment | Sections 6–8 | Record only after the responsible organization and authorized BellHill owner document scope, permission, cost and status | Commercial lead + counsel |
+| PI effort, employment, compensation and eligibility evidence | Section 8 | Russell Berry is the working PI and architecture lead; confirm ≥51% employment at award/performance, minimum project effort, résumé, work authorization, research-security review and actual rate | BellHill + Russell Berry + counsel |
 | Technical leads (provenance/security; policy/access) — names and effort | Section 8 | Team confirmed | CEO |
 | Product/commercial lead — name and effort | Section 8 | Team confirmed | CEO |
 | Domain SME / consultant or subaward partner | Section 8 | Written engagement terms (consultant vs. subaward) | PI + counsel |

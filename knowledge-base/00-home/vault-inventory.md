@@ -32,6 +32,7 @@ Complete distribution inventory. This is a mechanical navigation layer, not a st
 
 ## `01-client-briefs`
 
+- [[01-client-briefs/bellhill-arkansas-ai-logistics-outreach-brief|BellHill Arkansas AI–logistics outreach brief]]
 - [[01-client-briefs/client-briefs-moc|Client Briefs]]
 - [[01-client-briefs/client-facing-freight-trust-programme|Freight Trust Infrastructure]]
 - [[01-client-briefs/client-landscape-and-sbir-readiness-brief|Freight Trust Infrastructure]]
@@ -39,11 +40,28 @@ Complete distribution inventory. This is a mechanical navigation layer, not a st
 
 ## `02-programme-strategy`
 
+- [[02-programme-strategy/arkansas-ai-logistics-partnership-strategy|Arkansas AI–logistics partnership strategy]]
 - [[02-programme-strategy/programme-strategy-moc|Programme & Strategy]]
 - [[02-programme-strategy/research-programme|Freight Trust Infrastructure — Research Programme]]
 
 ## `03-research-evidence`
 
+- [[03-research-evidence/arkansas-ai-logistics-ecosystem-evidence|Arkansas AI–logistics ecosystem evidence]]
+- [[03-research-evidence/arkansas-ai-logistics-professional-roster-evidence|Arkansas AI–logistics professional roster evidence]]
+- [[03-research-evidence/source-ai-intherock-2026|AI InTheRock 2026]]
+- [[03-research-evidence/source-arkansas-manufacturing-showcase-2025-announcement|Arkansas Manufacturing Showcase 2025 announcement]]
+- [[03-research-evidence/source-arkansas-manufacturing-showcase-2025-report|Arkansas Manufacturing Showcase 2025 report]]
+- [[03-research-evidence/source-arkansas-manufacturing-showcase-2026|Arkansas Manufacturing Showcase 2026]]
+- [[03-research-evidence/source-ieee-arkansas-2024-conway|IEEE Arkansas 2024 Conway near-match]]
+- [[03-research-evidence/source-nsf-ar-strides-award-2445877|NSF AR-STRIDES award 2445877]]
+- [[03-research-evidence/source-nsf-erise-2025-ar-strides|NSF ERISE 2025 AR-STRIDES announcement]]
+- [[03-research-evidence/source-sahpmm-2026-ai-supply-chain|SAHPMM 2026 AI supply-chain session]]
+- [[03-research-evidence/source-uark-ar-strides-programme|U. Arkansas AR-STRIDES programme]]
+- [[03-research-evidence/source-uark-ar-strides-roundtable-2026|U. Arkansas AR-STRIDES roundtable 2026]]
+- [[03-research-evidence/source-uark-supply-chain-trends-expo-2024|Supply Chain Trends & Expo 2024]]
+- [[03-research-evidence/source-uark-supply-chain-trends-expo-2026|Supply Chain Trends & Expo 2026]]
+- [[03-research-evidence/source-uca-clear-center|UCA CLEAR Center]]
+- [[03-research-evidence/source-walton-ar-strides-industry-impact|Walton AR-STRIDES industry-impact report]]
 - [[03-research-evidence/e1-experiment-brief-and-readiness-map|E1 Experiment Brief and Readiness Map]]
 - [[03-research-evidence/integrated-e1-e5-research-programme|Integrated E1-E5 Research Programme]]
 - [[03-research-evidence/source-atri-fmcsa-driver-detention|ATRI and FMCSA Driver-Detention Evidence]]
@@ -243,7 +261,8 @@ Complete distribution inventory. This is a mechanical navigation layer, not a st
 ## `09-meta`
 
 - [[09-meta/agents-and-loops|Agents and Loops]]
-- [[09-meta/client-common-action|Client — Common Action]]
+- [[09-meta/client-bellhill|Client — BellHill]]
+- [[09-meta/decisions/dec-014-bellhill-applicant-and-pi|DEC-014 — BellHill applicant and working PI designation]]
 - [[09-meta/dataset-index|Dataset Index]]
 - [[09-meta/decision-log|Decision Log]]
 - [[09-meta/decisions/decisions-moc|Atomic Decisions MOC]]

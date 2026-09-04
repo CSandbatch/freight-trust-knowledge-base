@@ -13,6 +13,8 @@ tags:
 ## Dataset and experiment backbone
 
 - [[03-research-evidence/datasets-and-experiments-moc]] - canonical dataset, benchmark, and experiment plan supporting the Phase I case.
+- [[03-research-evidence/arkansas-ai-logistics-ecosystem-evidence]] - regional research and discovery ecosystem evidence; not demand, access, endorsement, or partnership evidence.
+- [[02-programme-strategy/arkansas-ai-logistics-partnership-strategy]] - bounded discovery sequence and candidate research interfaces.
 
 - [[nsf-sbir-sttr-process-and-readiness-guide]] — current process, eligibility gate, Project Pitch scaffold, proposal plan, and official sources.
 - [[01-client-briefs/freight-trust-client-master-brief#NSF SBIR/STTR framing]] — funding case within the wider programme.

@@ -4,8 +4,8 @@ status: active
 schema_version: 1.0.0
 source_class: primary
 verification: confirmed
-accessed: 2026-08-07
-updated: 2026-08-07
+accessed: 2026-08-20
+updated: 2026-08-20
 review_by: 2027-02-07
 tags:
 - type/source
@@ -124,3 +124,12 @@ absorbed one URL structure. It will move again.
 [[dataset-fmca-company-census-file]].
 [[dataset-fmca-registration-insurance-safety-records]].
 [[experiment-e1-entity-resolution-and-identity-assurance]].
+
+## 2026-08-20 recheck
+
+The successor page remained directly retrievable. The Company Census asset was also retrieved
+through its machine APIs and bulk export: 4,487,571 rows at the pre-download count, 147 columns,
+data timestamp 2026-08-18T14:01:28Z, declared `R/P1D` cadence, public access, and the exact
+unknown-license URL in metadata. The official Rev08 data-dictionary attachment was retrieved.
+These facts close `DRIFT-038`; they do not establish redistribution rights or validate every
+separate crash/inspection dataset.

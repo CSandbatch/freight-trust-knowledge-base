@@ -21,6 +21,11 @@ It complements durable evidence in `03-research-evidence/`, procedures in
 
 ## Memory objects
 
+- [[run-20260820-002-e1-stage-0-4]] - complete Stage 0-4 engineering run: current FMCSA
+  source verification, immutable Census snapshot, full profile/normalization, bounded candidate
+  pilot, failures/repairs, hashes and claim limits.
+- [[task-20260820-e1-stage-0-4]] - dependency graph, authorization boundary and acceptance gates
+  for the E1 Stage 0-4 implementation.
 - [[run-20260820-001-e1-e5-build-readiness-publication]] - publication run for the
   build-start contracts, MCP/tooling recommendation, repository gates, and live site.
 - [[task-20260820-e1-e5-build-readiness-publication]] - bounded task packet for bringing

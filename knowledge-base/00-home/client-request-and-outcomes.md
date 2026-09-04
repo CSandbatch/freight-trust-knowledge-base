@@ -31,8 +31,8 @@ The request is to establish a clear-eyed freight-trust landscape, identify stake
 
 ## Decision backlog
 
-- [x] Identify the applying entity and proposed PI: **Common Action; Ellie Young** (confirmed 2026-08-08).
-- [ ] Confirm Common Action's legal form, SBIR/STTR route, and Ellie Young's required employment/effort eligibility.
+- [x] Identify the intended applicant and working PI: **BellHill; Russell Berry** (confirmed 2026-09-03; [[09-meta/decisions/dec-014-bellhill-applicant-and-pi]]).
+- [ ] Confirm BellHill's exact registered name, legal form, ownership/affiliate status, SBIR/STTR route, and Russell Berry's required employment/effort eligibility.
 - [ ] Choose a bounded first commercial/R&D workflow.
 - [ ] Decide SBIR versus STTR after confirming whether a research institution is essential.
 - [ ] Secure data permissions and pilot-interest evidence.

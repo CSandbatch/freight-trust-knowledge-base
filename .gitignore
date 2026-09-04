@@ -11,6 +11,7 @@ Freight Trust Knowledge Base/.obsidian/workspace.json.bak
 COMP/
 .kb-stage-*/
 .codex/screenshots/
+.hermes-runtime/
 knowledge-base.rollback-*/
 freight-trust-kb_team-v*.zip
 _site/
@@ -20,6 +21,11 @@ env/
 knowledge-base/.obsidian/workspace.json
 knowledge-base/.obsidian/workspace-mobile.json
 knowledge-base/.obsidian/workspace.json.bak
+
+# E1 operational data and run products (manifests are copied into the public KB only after review)
+data/raw/
+data/derived/
+data/runs/
 
 # OS cruft
 .DS_Store

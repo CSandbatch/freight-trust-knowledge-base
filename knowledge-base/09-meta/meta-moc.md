@@ -16,7 +16,7 @@ tags:
 this folder is the machinery that keeps the content structured, sourced, linked, current,
 and honest. It is deliberately separable from freight: the content serves the Freight
 Trust programme, the machinery is reusable across any domain
-([[client-common-action]] explains why the split was drawn).
+([[client-bellhill]] records the current programme owner and evidence boundary).
 
 ## The control layer
 
@@ -34,7 +34,7 @@ Trust programme, the machinery is reusable across any domain
 | [[drift/drift-moc]] | New atomic drift records; historic register migration path |
 | [[glossary]] | Controlled vocabulary, with each term sourced |
 | [[dataset-index]] | Every external dataset, with access, licence, and verification status |
-| [[client-common-action]] | Who the work is for, and what about them is still unknown |
+| [[client-bellhill]] | BellHill working applicant/PI state and unresolved eligibility evidence |
 | [[06-team-memory/memory-moc]] | Operational and episodic team memory, handoffs, tasks, and agent runs |
 
 ## How the pieces fit

@@ -16,6 +16,9 @@ tags:
 
 ## Evidence backbone
 
+- [[arkansas-ai-logistics-ecosystem-evidence]] - proposition ledger and bounded 2024-01-01 through 2026-09-03 conference scan.
+- [[arkansas-ai-logistics-professional-roster-evidence]] - official-source roster supporting the public outreach map.
+
 - [[sources-moc]] — per-source cards grouped for verification and reuse.
 
 - [[evidence]] — source records, claims, confidence, and limitations.

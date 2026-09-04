@@ -848,6 +848,7 @@ def shell_html(title: str, description: str, page: str, site_url: str, main: str
     css_href = page_href(page, "assets/atlas.css")
     favicon_href = page_href(page, "assets/favicon.svg")
     js_href = page_href(page, "assets/atlas.js")
+    chat_js_href = page_href(page, "assets/chat.js")
     data_root = page_href(page, "index.html")
     command = f'''<dialog class="command-dialog" data-command-dialog aria-label="Search the knowledge atlas">
       <form method="dialog" class="dialog-top"><button class="icon-button" aria-label="Close search">×</button><label><span class="sr-only">Search the knowledge atlas</span><input data-command-input type="search" autocomplete="off" placeholder="Search titles, evidence, tags, source paths…"></label><kbd>Esc</kbd></form>
@@ -867,7 +868,7 @@ def shell_html(title: str, description: str, page: str, site_url: str, main: str
   <link rel="icon" href="{html.escape(favicon_href, quote=True)}" type="image/svg+xml">
   <link rel="stylesheet" href="{html.escape(css_href, quote=True)}">
 </head>
-<body data-root="{html.escape(data_root, quote=True)}" data-search="{html.escape(page_href(page, 'data/search.json'), quote=True)}" data-catalog="{html.escape(page_href(page, 'data/catalog.json'), quote=True)}">
+<body data-root="{html.escape(data_root, quote=True)}" data-search="{html.escape(page_href(page, 'data/search.json'), quote=True)}" data-catalog="{html.escape(page_href(page, 'data/catalog.json'), quote=True)}" data-chat-endpoint="/api/chat">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header"><div class="site-header-inner">
     <a class="wordmark" href="{html.escape(root_href, quote=True)}"><span class="wordmark-mark" aria-hidden="true">FT</span><span><strong>Freight Trust</strong><small>Research Platform</small></span></a>
@@ -878,6 +879,7 @@ def shell_html(title: str, description: str, page: str, site_url: str, main: str
   <footer class="site-footer"><div><strong>Freight Trust Research Platform</strong><p>A front-facing working white paper over a source-traceable second brain. Status labels describe the source; they are not approval marks.</p></div><div><a href="{html.escape(page_href(page, 'knowledge/index.html'), quote=True)}">Knowledge base</a><a href="{html.escape(page_href(page, 'about/index.html'), quote=True)}">About</a><a href="{html.escape(page_href(page, 'data/artifact-registry.json'), quote=True)}">File registry</a><a href="{html.escape(page_href(page, 'release.json'), quote=True)}">Build record</a></div></footer>
   {command}
   <script defer src="{html.escape(js_href, quote=True)}"></script>
+  <script defer src="{html.escape(chat_js_href, quote=True)}"></script>
 </body></html>'''
 
 
@@ -936,8 +938,9 @@ def home_page(page: str, artifacts: list[Artifact], links: list[Link], site_url:
     method_href = document_href("09-meta/methodology.md", "explore/index.html")
     evidence_href = document_href("03-research-evidence/evidence.md", "explore/index.html")
     sbir_href = document_href("04-sbir/nsf-sbir-sttr-process-and-readiness-guide.md", "explore/index.html")
-    main = f'''<section class="project-hero">
-  <div class="project-hero-inner"><p class="eyebrow">Public working white paper / research platform</p><h1>Freight Trust Infrastructure</h1><p class="project-thesis">A federated evidence layer for resolving who freight actors are, what happened, who may use the record, and when shared evidence improves a decision.</p><div class="hero-actions"><a class="button" href="{html.escape(brief_href, quote=True)}">Read the white paper</a><a class="button button-on-dark" href="{html.escape(page_href(page, 'experiments/index.html'), quote=True)}">Explore the experiments</a></div><p class="project-boundary">Research thesis, not a deployment claim. All five experiments remain unrun.</p></div>
+    main = f'''<section class="project-hero" data-agent-hero>
+  <div class="project-hero-inner agent-hero-inner"><div class="agent-hero-copy"><p class="eyebrow">BellHill knowledge agent / public research platform</p><h1>Talk to the Freight Trust knowledge base.</h1><p class="project-thesis">Ask about the research programme, evidence, sources, open decisions, and claim boundaries. Answers are grounded in the published working record.</p><div class="hero-mode-switch" role="group" aria-label="Choose how to explore"><button class="button" type="button" data-show-chat aria-pressed="true">Ask the knowledge agent</button><a class="button button-on-dark" data-show-browser href="{html.escape(page_href(page, 'knowledge/index.html'), quote=True)}">Browse manually</a></div><p class="project-boundary">Powered exclusively by GLM-5.3 Flash through NousResearch Hermes Agent. Working research—not legal, regulatory, or operational advice.</p></div>
+  <section class="agent-chat" data-agent-chat aria-label="Chat with the knowledge base"><div class="chat-transcript" data-chat-transcript aria-live="polite"><article class="chat-message is-assistant"><span>Knowledge Agent</span><p>What would you like to understand about Freight Trust?</p></article></div><form class="chat-composer" data-chat-form><label class="sr-only" for="agent-chat-input">Ask the knowledge base</label><textarea id="agent-chat-input" data-chat-input rows="2" maxlength="8000" placeholder="Ask about evidence, experiments, Arkansas research, or SBIR readiness…" required></textarea><div class="chat-composer-actions"><label class="chat-image-button" title="Attach a PNG, JPEG, or WebP image"><input data-chat-image type="file" accept="image/png,image/jpeg,image/webp"><span aria-hidden="true">＋</span><span class="sr-only">Attach image</span></label><span class="chat-attachment" data-chat-attachment></span><button class="chat-send" data-chat-send type="submit">Send</button></div></form><p class="chat-status" data-chat-status>Answers cite retrieved public notes. No private files or credentials are available to the agent.</p></section></div>
   <div class="hero-publication-bar"><span><strong>Programme</strong> E1-E5</span><span><strong>Phase</strong> Build start</span><span><strong>Record</strong> {len(notes)} notes / {len(links):,} links</span><span><strong>Release</strong> Public working set</span></div>
 </section>
 <section class="section-shell whitepaper-section problem-section"><div class="whitepaper-number">01</div><div class="whitepaper-copy"><p class="eyebrow">The problem</p><h2>Freight runs on fragmented trust.</h2><p class="section-lead">Counterparty identity, credentials, operating events, and responsibility are distributed across systems owned by actors with different incentives. The result is not simply missing data. It is evidence that cannot be reconciled, governed, or contested as one trustworthy record.</p><div class="problem-columns"><div><strong>Identity is ambiguous</strong><p>Shared names, addresses, registrations, and relationships can signal a connection without proving the same legal person.</p></div><div><strong>Events are disputed</strong><p>Appointment, gate, dock, loading, and departure records disagree across clocks, systems, and commercial narratives.</p></div><div><strong>Access is political</strong><p>Participants need purpose limits, correction rights, proportional burden, and reciprocal value before sharing sensitive evidence.</p></div></div></div></section>
@@ -1233,6 +1236,7 @@ def search_record(artifact: Artifact) -> dict[str, Any]:
         "frontmatter": searchable_metadata,
         "tags": " ".join(artifact.tags),
         "path": artifact.source,
+        "url": artifact.url,
         "type": artifact.note_type,
         "status": artifact.status,
         "section": artifact.section,
@@ -1294,7 +1298,7 @@ def git_state(root: pathlib.Path) -> dict[str, Any]:
 
 
 def copy_static_assets(staging: pathlib.Path) -> list[str]:
-    required = ["atlas.css", "atlas.js", "graph.js", "favicon.svg", "freight-terminal-hero.png"]
+    required = ["atlas.css", "atlas.js", "chat.js", "graph.js", "favicon.svg", "freight-terminal-hero.png"]
     outputs: list[str] = []
     for name in required:
         source = STATIC_ROOT / name

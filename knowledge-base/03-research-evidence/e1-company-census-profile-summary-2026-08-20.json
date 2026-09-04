@@ -1,0 +1,58 @@
+{
+  "candidate_pilot": {
+    "block_size_exclusions": {
+      "same_normalized_phone": 1,
+      "same_normalized_physical_address": 1,
+      "same_unusual_name_token": 282
+    },
+    "candidate_pairs": 250000,
+    "candidate_recall_status": "not_measurable_without_adjudicated_gold_or_continuity_fixture",
+    "max_block_size": 50,
+    "pair_cap_reached": true,
+    "possible_unordered_pairs": 31249875000,
+    "records_read": 250000,
+    "records_with_candidates": 46806,
+    "reduction_ratio": 0.9999919999679999
+  },
+  "derived_artifacts": [
+    {
+      "bytes": 124204,
+      "local_ignored_path": "data/derived/e1/2026-08-20/company-census-profile.json",
+      "sha256": "09feff4a2b44ecdf6a8e862aec414218adf0bf006d4b7516a4749c87f4fa4f52"
+    },
+    {
+      "bytes": 533131880,
+      "local_ignored_path": "data/derived/e1/2026-08-20/carrier-records.jsonl.gz",
+      "records": 4487571,
+      "sha256": "a9400343f053d06d5d99584e7e63a2f573d698c890c45d41fa5a6571800732bf"
+    },
+    {
+      "bytes": 53073046,
+      "local_ignored_path": "data/derived/e1/2026-08-20/candidate-pairs-pilot-250k.csv",
+      "sha256": "98723b1d5629300110e01a618cfc0e02f46eb8bd95b853e8ae75393f9e273e18"
+    },
+    {
+      "bytes": 969,
+      "local_ignored_path": "data/derived/e1/2026-08-20/candidate-pairs-pilot-250k-report.json",
+      "sha256": "2c6f71431b96ade11af1ca19181fb498e07596c6695750557e23cce860c012f0"
+    }
+  ],
+  "profile": {
+    "column_count": 147,
+    "input_sha256": "e7160e46cca201a68e6d7db759b2a2ccc969c6955a7e35bb28d4c06fabe67f04",
+    "profile_version": "0.1.0",
+    "rows_profiled": 4487571,
+    "selected_missingness": [
+      {"column": "dot_number", "missing": 0, "missing_rate": 0.0},
+      {"column": "legal_name", "missing": 88, "missing_rate": 0.000019609717595554475},
+      {"column": "dba_name", "missing": 3279104, "missing_rate": 0.7307079932551485},
+      {"column": "phy_street", "missing": 9, "missing_rate": 0.0000020055392995453444},
+      {"column": "phy_zip", "missing": 1515, "missing_rate": 0.00033759911542346625},
+      {"column": "phone", "missing": 148276, "missing_rate": 0.03304148279770949},
+      {"column": "business_org_desc", "missing": 3778393, "missing_rate": 0.8419684056252258},
+      {"column": "total_drivers", "missing": 412124, "missing_rate": 0.0918367642539806},
+      {"column": "status_code", "missing": 0, "missing_rate": 0.0}
+    ]
+  },
+  "release_boundary": "Aggregate row-free summary only. Raw and row-level derived artifacts remain ignored and local because redistribution rights are unresolved."
+}

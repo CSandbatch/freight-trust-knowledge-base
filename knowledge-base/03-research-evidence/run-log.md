@@ -78,14 +78,14 @@ tracked as `DRIFT-024`.
 **Control layer built.** New `09-meta/` folder: [[kb-schema]] 1.0.0, [[tag-taxonomy]]
 (seven layers), [[methodology]], [[agents-and-loops]] (five agent layers, four loops),
 [[drift-control]], [[gap-register]], [[decision-log]], [[glossary]], [[dataset-index]],
-[[client-common-action]], [[meta-moc]]. Eight executable agent definitions were written to
+the then-current client record, [[meta-moc]]. Eight executable agent definitions were written to
 `.claude/agents/` at the time. On 2026-08-18, the active Codex definitions moved to root
 `.codex/agents/` under the root `AGENTS.md` orchestrator; this paragraph remains a record
 of the original run.
 
-**Client recorded.** Common Action (common-action.org), retrieved 2026-08-06. Knowledge
-infrastructure for climate action; Supply Chain is one of four stated focus areas. Entity
-type, legal form, location, and team are **not stated** on the site, which leaves the SBIR
+**Historical client snapshot.** A prior self-published client site was retrieved on
+2026-08-06 and later superseded and anonymized under `DEC-014`. Entity type, legal form,
+location, and team were **not established**, which left the SBIR
 applicant/PI question open — `DEC-002`, `GAP-001`.
 
 **Findings.** 37 drift issues opened, 6 high-severity. 16 gaps registered, 5 high. The

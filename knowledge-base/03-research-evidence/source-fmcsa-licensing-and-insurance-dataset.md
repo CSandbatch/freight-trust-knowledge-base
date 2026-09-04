@@ -4,8 +4,8 @@ status: active
 schema_version: 1.0.0
 source_class: dataset
 verification: confirmed
-accessed: 2026-08-07
-updated: 2026-08-07
+accessed: 2026-08-20
+updated: 2026-08-20
 review_by: 2027-02-07
 tags:
 - type/source
@@ -181,3 +181,17 @@ files listed above. Whoever owns that table should repoint the row.
 [[dataset-fmca-registration-insurance-safety-records]].
 [[experiment-e1-entity-resolution-and-identity-assurance]].
 [[source-fmcsa-mcmis-catalog]].
+
+## 2026-08-20 recheck
+
+Direct metadata confirms that `n46a-mfgy` is an `href` asset rather than a table. Its columns
+endpoint returns an empty array, its data timestamp remains 2018-12-17T23:53:40Z, and its
+metadata timestamp is 2024-05-24T00:06:39Z. Its public-access and `R/P1D` fields describe the
+legacy catalog record; they do not turn it into a current daily feed. The old
+`http://li.fmcsa.dot.gov/` access point failed DNS resolution during this check.
+
+The FMCSA Open Data Program page and named Motus datasets remain the supported current route.
+Their baseline/history and daily-difference mechanisms are predicate- and file-specific; blank
+strings in difference files remain the documented deletion/drop convention. This evidence closes
+the access-posture contradiction in `DRIFT-039` while leaving redistribution rights and any
+unverified safety-family schema open.

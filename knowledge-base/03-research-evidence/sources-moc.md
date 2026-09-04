@@ -17,6 +17,23 @@ tags:
 
 The per-source layer for re-verification, reuse, and provenance. Source class and retrieval status are separate fields: a primary publisher can still be `snippet-only` or `retrieval-failed`.
 
+## Arkansas AI, transportation, and supply-chain ecosystem
+
+- [[source-nsf-ar-strides-award-2445877]] - NSF award record; `$7M` estimated total.
+- [[source-nsf-erise-2025-ar-strides]] - NSF ERISE announcement and institutional/core structure.
+- [[source-uark-ar-strides-programme]] - current programme description and seed-grant wording.
+- [[source-walton-ar-strides-industry-impact]] - Walton industry-impact account; conflicting `$8M` description.
+- [[source-uark-ar-strides-roundtable-2026]] - retrospective June 2026 transportation roundtable report.
+- [[source-uark-supply-chain-trends-expo-2024]] - prospective 2024 event announcement.
+- [[source-uark-supply-chain-trends-expo-2026]] - prospective 2026 event announcement.
+- [[source-arkansas-manufacturing-showcase-2025-announcement]] - prospective 2025 announcement.
+- [[source-arkansas-manufacturing-showcase-2025-report]] - retrospective 2025 event report.
+- [[source-arkansas-manufacturing-showcase-2026]] - prospective 2026 showcase page.
+- [[source-sahpmm-2026-ai-supply-chain]] - official 2026 healthcare supply-chain AI session.
+- [[source-ai-intherock-2026]] - official general-AI programme page.
+- [[source-ieee-arkansas-2024-conway]] - Conway near-match used in the bounded negative scan.
+- [[source-uca-clear-center]] - official Conway logistics-research center page.
+
 ## Identity, fraud, and carrier assurance
 
 - [[source-ecfr-386-73-reincarnated-carrier-standard|49 CFR §386.73 — current reincarnated/affiliated-carrier standard]] — `primary`; retrieval `confirmed`.

@@ -75,7 +75,8 @@ flowchart TD
 - [[04-sbir/nsf-sbir-sttr-process-and-readiness-guide]] — application route, draft Pitch, and checklist.
 - [[05-agent-system/framework]] — domain research workflow used by the root orchestrator and persona factory.
 - [[09-meta/meta-moc]] — the control layer: schema, taxonomy, methodology, agents, loops, and registers.
-- [[09-meta/client-common-action]] — who this work is for, and what about them is still unknown.
+- [[09-meta/client-bellhill]] — who this work is for, and what about the applicant and PI remains unverified.
+- [[03-research-evidence/arkansas-ai-logistics-ecosystem-evidence]] → [[02-programme-strategy/arkansas-ai-logistics-partnership-strategy]] → [[01-client-briefs/bellhill-arkansas-ai-logistics-outreach-brief]] — Arkansas evidence, analysis, and public outreach route.
 
 ## Status at a glance
 
@@ -87,7 +88,7 @@ flowchart TD
 | SBIR | Full draft package: Pitch, project description, budget, DMP, commercialization plan, risk register (all placeholder-gated) | Confirm legal form, SBIR/STTR route, PI effort/employment eligibility, and remaining personnel rates to resolve placeholders. |
 | Agents | Framework, roles, and skill contract documented | Use the task-packet loop for each new research pass. |
 | Vault machinery | Schema 1.0.0, seven-layer tag taxonomy, methodology, five agent layers and four loops defined | Team-release migration completed 2026-08-08; run the release audit before each subsequent distribution. |
-| Client | Common Action is the confirmed applicant; Ellie Young is the confirmed PI; legal form, route, and PI employment/effort eligibility remain unresolved | Resolve the remaining `DEC-002` eligibility facts. |
+| Client | BellHill is the intended applicant; Russell Berry is the working PI and Research & Knowledge Architecture Lead; registered name, legal form, route, ownership and PI eligibility remain unresolved | Resolve `GAP-001` under [[09-meta/decisions/dec-014-bellhill-applicant-and-pi]]. |
 
 ### E1 methods hardening
 

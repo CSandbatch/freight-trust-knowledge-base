@@ -66,7 +66,7 @@ Material changes include:
 
 The design is **academically defensible for preregistration and pilot execution**, not empirically validated. Before confirmatory evaluation:
 
-- Ellie Young/PI must approve the scientific target and harm-based safety floor;
+- the working PI must approve the scientific target and harm-based safety floor;
 - domain/regulatory review must confirm identity/relationship labels;
 - the development-only pilot must estimate cluster size, prevalence, disagreement and design effects;
 - `P*`, `Delta*`, final Cohort R sample size/strata, and review budget must then be frozen;
@@ -75,6 +75,9 @@ The design is **academically defensible for preregistration and pilot execution*
 
 ## Release disposition
 
-**Suitable for Common Action internal distribution and E1 preregistration/pilot preparation. Not evidence of E1 performance and not a deployment authorization.**
+**Historical disposition:** suitable for the then-current commissioning client’s internal
+distribution and E1 preregistration/pilot preparation. The applicant and PI designations in
+that release were superseded by [[09-meta/decisions/dec-014-bellhill-applicant-and-pi]]. This
+remains neither evidence of E1 performance nor a deployment authorization.
 
 Related: [[README]] · [[00-home/team-status-and-actions]] · [[03-research-evidence/e1-academic-design-review]] · [[03-research-evidence/e1-academic-design-conformance-report]] · [[03-research-evidence/e1-statistical-analysis-and-preregistration-plan]]

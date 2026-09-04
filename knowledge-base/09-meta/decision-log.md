@@ -25,19 +25,19 @@ Entries are `DEC-###`. A decision that an agent is not permitted to make (see
 
 ## Entries
 
-### `DEC-001` — Common Action is the client
+### `DEC-001` — Prior client designation (superseded and anonymized)
 
 **Date:** 2026-08-06 · **Status:** recorded · **Owner:** user
 
-The work is performed for Common Action (common-action.org). Their site was retrieved and
-recorded in [[client-common-action]] on the same date.
+The commissioning user supplied a prior client designation on this date. That identity and
+its former public-site snapshot were superseded and anonymized on 2026-09-03 under
+[[09-meta/decisions/dec-014-bellhill-applicant-and-pi]].
 
-*Consequences:* the vault now has a named audience. `audience/client` in
-[[tag-taxonomy]] resolves to Common Action. Their stated focus areas — Climate, Energy,
-Agriculture, Supply Chain — and stated capabilities in knowledge engineering, graph
-databases, and the semantic web are recorded as self-reported, not corroborated.
+*Historical consequence:* the vault gained a named audience and a self-reported capability
+snapshot. The current client meaning is governed by [[client-bellhill]].
 
-*Explicitly not decided:* that Common Action is the SBIR applicant entity. See `DEC-002`.
+*Explicitly not decided at that time:* whether the prior client was the SBIR applicant.
+See `DEC-002`; both identity conclusions are superseded by `DEC-014`.
 
 ---
 
@@ -45,19 +45,16 @@ databases, and the semantic web are recorded as self-reported, not corroborated.
 
 **Date raised:** 2026-08-06 · **Status:** partially resolved 2026-08-06 · **Owner:** client + counsel
 
-**Resolved:** the user has confirmed directly that **Common Action is the applicant
-entity.** This is a direct instruction from the party commissioning the work, not a
-retrieved source — recorded here as the authority for the fact, and propagated into
-[[client-common-action]] and the SBIR placeholder register as "applicant: Common Action."
+**Historical resolution, superseded:** the commissioning user directly designated the prior
+client as the intended applicant. This was an instruction, not a retrieved source. The
+identity was replaced on 2026-09-03 by `DEC-014`.
 
-**Resolved 2026-08-08:** the commissioning team named **Ellie Young** as Principal Investigator.
+**Historical resolution, superseded 2026-09-03:** a prior working PI was named on 2026-08-08.
 
-**Still open:** legal form (nonprofit, for-profit, fiscally sponsored, or other), SBIR vs.
-STTR route, and confirmation that Ellie Young will meet the applicable NSF employment/effort rule at award and throughout performance. NSF SBIR requires a qualifying small business concern and a PI
-more than 50% employed by it — Common Action's site states no entity type, so eligibility
-under that rule is not yet established even though the applicant's identity now is. Do not
-infer legal form from the confirmed name; that is a separate fact requiring its own
-source or its own direct confirmation.
+**Still open and carried into `DEC-014`:** exact registered applicant name, legal form,
+ownership and affiliate status, SBIR versus STTR route, and confirmation that the current
+working PI can meet the applicable NSF employment and effort rules at award and throughout
+performance. A working name is not evidence of eligibility.
 
 *Blocks:* the legal-form, route, and PI employment/effort portions of the remaining `[PLACEHOLDER]` entries across the SBIR package. Applicant and PI identity are now unblocked.
 
@@ -70,7 +67,7 @@ source or its own direct confirmation.
 This vault now contains two separable assets: the freight content, and the machinery that
 builds and maintains it ([[kb-schema]], [[tag-taxonomy]], [[methodology]],
 [[drift-control]], [[agents-and-loops]]). The machinery is domain-neutral and maps onto
-Common Action's stated capabilities.
+the then-current client capability hypothesis.
 
 *If confirmed:* `GAP-015` opens cross-sector transfer notes, and the sector tags already
 in the taxonomy start carrying notes.
@@ -83,9 +80,9 @@ harmless either way, which is why they were added before the decision.
 
 **Date raised:** 2026-08-06 · **Status:** open · **Owner:** client
 
-[[client-common-action]] is built entirely from common-action.org. If an internal
-capability statement, incorporation record, or prior engagement brief exists, it
-supersedes the site and the card should be rebuilt from it.
+The prior client card was built from a mutable self-published site. It was removed during
+the 2026-09-03 user-authorized identity migration. Any current capability, incorporation
+or engagement claim requires BellHill-specific evidence in [[client-bellhill]].
 
 ---
 
@@ -175,21 +172,21 @@ finding: no validator has been run yet (`GAP-011`).
 
 **Date:** 2026-08-08 · **Status:** recorded · **Owner:** commissioning team
 
-For the team-distribution release, **Ellie Young** is the named Principal Investigator.
-**Russell Berry** is named **Research & Knowledge Architecture Lead**, reflecting the work
+For the team-distribution release, a prior working PI was named. That assignment was
+superseded on 2026-09-03 by `DEC-014`. **Russell Berry** was named **Research & Knowledge Architecture Lead**, reflecting the work
 already performed across the programme: ontology/evidence architecture, source and
 provenance governance, benchmark and experiment specification support, technical synthesis,
 and SBIR narrative architecture.
 
 This is a programme-role designation for the working package. It does **not** invent a
 salary, effort percentage, employee/consultant classification, or corporate title. Those
-remain budget/eligibility facts to be supplied by Common Action before submission.
+remain budget/eligibility facts to be supplied by the intended applicant before submission.
 
 ---
 
 ### `DEC-011` — E1 identity target is layered; RC1 advances to human freeze review
 
-**Date:** 2026-08-08 · **Status:** recorded / approval pending · **Owner:** Ellie Young + E1 protocol owner
+**Date:** 2026-08-08 · **Status:** recorded / approval pending · **Owner:** working PI + E1 protocol owner
 
 A source-grounded Research Agent pass and independent hostile Eval Agent pass reject the loose
 “same carrier” binary as the scientific target. E1 now treats **legal-person identity** as Task A
@@ -237,4 +234,5 @@ project-scoped, and may not become competing orchestrators.
 
 ## Related
 
-[[meta-moc]] · [[gap-register]] · [[drift-control]] · [[client-common-action]] · [[run-log]]
+[[meta-moc]] · [[gap-register]] · [[drift-control]] · [[client-bellhill]] · [[run-log]] ·
+[[09-meta/decisions/dec-014-bellhill-applicant-and-pi]]

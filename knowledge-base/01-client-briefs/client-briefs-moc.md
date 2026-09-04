@@ -10,6 +10,10 @@ tags:
 ---
 # Client Briefs
 
+## BellHill Arkansas outreach
+
+- [[bellhill-arkansas-ai-logistics-outreach-brief]] - 24-person public professional outreach map, with source, relevance, ask, priority, and organization-level route.
+
 ## Current point of view by tier
 
 - [[freight-trust-client-master-brief]] - exhaustive brief: evidence, architecture, stakeholders, experiments, pilot, governance, and SBIR path.

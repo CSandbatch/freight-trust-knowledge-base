@@ -2,9 +2,9 @@
 type: taxonomy
 status: active
 owner: kb-schema-steward
-version: 1.1.0
+version: 1.1.1
 schema_version: 1.1.0
-updated: 2026-08-08
+updated: 2026-09-03
 tags:
 - type/taxonomy
 - domain/knowledge-engineering
@@ -49,10 +49,9 @@ permissions, retrieval posture), and `domain/procurement` (buyer/procurement con
 **Sector domains:** `domain/freight`, `domain/supply-chain`, `domain/climate`,
 `domain/energy`, `domain/agriculture`.
 
-The four sector tags beyond freight exist because [[client-common-action]] names Climate,
-Energy, Agriculture and Supply Chain as its focus areas. They are the hooks by which this
-vault's methods become reusable outside freight. Most notes will not carry them yet. That
-is expected and should not be filed as a gap.
+The four sector tags beyond freight are reserved hooks for testing whether this vault's
+methods transfer outside freight without carrying freight-specific facts along. Most notes
+will not carry them yet. That is expected and should not be filed as a gap.
 
 **Craft domains:** `domain/knowledge-engineering`, `domain/semantic-web`,
 `domain/graph-database`, `domain/data-science`, `domain/gis`, `domain/nlp`. Also from the
@@ -93,7 +92,7 @@ query instead of a grep.
 Register differs by audience and the de-slop pass treats them differently.
 
 `audience/internal` — working notes, logs, scans.
-`audience/client` — Common Action-facing narrative.
+`audience/client` — BellHill-facing narrative.
 `audience/reviewer` — NSF reviewer-facing prose; strictest evidentiary standard.
 `audience/participant` — carrier/broker-facing consent and comprehension material.
 `audience/public` — anything intended for external publication.

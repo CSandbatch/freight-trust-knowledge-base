@@ -1,0 +1,3 @@
+-r requirements.txt
+# Hermes intentionally refuses wheel/sdist builds. scripts/install_hermes.py performs
+# its supported editable install from the pinned v2026.8.31 commit.

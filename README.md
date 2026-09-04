@@ -1,6 +1,6 @@
 # Freight Trust Knowledge Base
 
-Public, read-only research knowledge base for the Common Action Freight Trust and NSF SBIR programme. It contains working material and is not a submission-ready proposal or a source of legal, regulatory, or operational advice.
+Public, read-only research knowledge base for the BellHill Freight Trust and NSF SBIR programme. It contains working material and is not a submission-ready proposal or a source of legal, regulatory, or operational advice.
 
 ## Open the vault
 
@@ -61,6 +61,37 @@ The public vault now carries the experiment implementation boundary and proposed
 and [`Experiment MCP and Tooling Setup`](knowledge-base/05-agent-system/experiment-mcp-and-tooling-setup.md).
 
 ## Public browser and agent access
+
+### Replit + Hermes chat deployment
+
+The repository now includes a Replit-ready, ChatGPT-style knowledge interface backed by
+the official NousResearch Hermes Agent framework. The model is locked to
+`z-ai/glm-5.3-flash`; the browser cannot override the model or request tools. Hermes binds
+to loopback with every toolset disabled, while `scripts/replit_server.py` retrieves bounded
+excerpts from the generated public index and exposes only `/api/chat` and `/healthz`.
+
+In Replit, import the repository and add these Secrets:
+
+- `OPENROUTER_API_KEY` — a dedicated OpenRouter key;
+- `PUBLIC_SITE_URL` — the final HTTPS deployment URL with a trailing slash;
+- optionally `API_SERVER_KEY` — an internal gateway secret (an ephemeral value is
+  generated when omitted).
+
+The checked-in `.replit` build performs Hermes' supported editable install from the pinned
+`v2026.8.31` commit, then builds the Atlas, starts Hermes privately, and serves the site on
+Replit's `PORT`. The hero opens in chat mode and its **Browse manually** button
+switches to the complete read-only knowledge interface. No provider key is sent to the
+browser. Install and run locally with the repository environment:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\install_hermes.py
+.\.venv\Scripts\python.exe scripts\replit_server.py --build --start-hermes
+```
+
+Anonymous chat memory is intentionally session-local in the browser: it is not written to
+Hermes memory or the vault, preventing one visitor's conversation from becoming another
+visitor's context. Static-only hosts such as GitHub Pages retain manual browsing but cannot
+serve `/api/chat`.
 
 Build the complete public Knowledge Atlas locally with
 `python scripts/build_site.py --site-url https://example.test/freight-trust/`, then serve the

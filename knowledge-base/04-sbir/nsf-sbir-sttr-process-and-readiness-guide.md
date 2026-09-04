@@ -4,7 +4,7 @@ status: current
 audience: internal
 authority: NSF 26-510
 schema_version: 1.0.0
-updated: 2026-08-01
+updated: 2026-09-03
 tags:
 - type/brief
 - domain/freight
@@ -14,7 +14,7 @@ tags:
 ---
 # NSF SBIR/STTR Process & Readiness Guide
 
-*Working guide for the Freight Trust programme — current as of 1 August 2026. This is a practical planning document, not legal, tax, or grant-administration advice. Confirm the solicitation, PAPPG, and Research.gov instructions in effect on the day of submission.*
+*Working guide for the Freight Trust programme — current as of 3 September 2026. This is a practical planning document, not legal, tax, or grant-administration advice. Source-specific access dates remain stated in the underlying evidence. Confirm the solicitation, PAPPG, and Research.gov instructions in effect on the day of submission.*
 
 ## Executive decision
 
@@ -62,7 +62,7 @@ Do not select STTR merely because an academic advisor, evaluator, or pilot partn
 |---|---|---|---|
 | Small business | Fewer than 500 employees, including affiliates; meets applicable U.S. small-business ownership/control requirements. | CEO + counsel | Cap table, affiliate map, incorporation records. |
 | Domestic R&D | Funded R&D occurs in the United States; funded personnel have a legal right to work in the U.S. | PI + operations | Work-location and personnel plan. |
-| PI | At award and throughout performance, the PI is at least 51% employed by the small business. NSF normally treats outside work above 19.6 hours/week as conflicting. The PI needs U.S. work authorization, but no specific degree. | Proposed PI | Employment/effort plan and résumé. |
+| PI | At award and throughout performance, the PI is at least 51% employed by the small business. NSF normally treats outside work above 19.6 hours/week as conflicting. Phase I also requires at least one calendar month of PI project effort per six months of performance. The PI needs U.S. work authorization, but no specific degree. | Proposed PI | Employment plan, project-effort commitment, compensation basis and résumé. |
 | Research security | Key personnel must satisfy current NSF research-security and certification requirements. | PI + counsel | Conflict, affiliations, appointments, and funding review. |
 | Submission capacity | Only one Phase I/Fast-Track project can be under consideration for the company at a time; there are limits on Project Pitch and proposal submissions. | Grant lead | Submission log. |
 | STTR only | Named eligible nonprofit research institution, company PI, research-institution co-PI, subaward, and required budget split. | PI + partner lead | Letter of commitment, scope, budget, IP/data terms. |
@@ -90,7 +90,7 @@ Use this as a drafting scaffold. Replace brackets and validate every claim befor
 
 **Market opportunity.** The initial customer hypothesis is [specific buyer] that currently bears cost and risk from [specific workflow, e.g., onboarding / identity verification / disputed facility events]. The initial user/beneficiary is [carrier, broker, shipper, facility, insurer]. Alternatives include manual checks, point data providers, credit/fraud tools, and internal rules engines. The product’s commercial value depends on reducing avoidable verification labor and costly bad decisions while producing defensible evidence for audit and dispute handling. Before submission, validate the beachhead with at least [five to ten] structured discovery interviews and [two] written pilot-interest statements.
 
-**Company and team.** [Company] is a U.S. small business developing [product]. Ellie Young is the confirmed PI and will lead the R&D, subject to documentary confirmation of the applicable employment/effort requirement at award. Russell Berry serves as Research & Knowledge Architecture Lead for evidence architecture, ontology/provenance governance, benchmark specification support, and research synthesis. [Name/role] leads [security/data/ML], and [name/role] leads [freight commercial/product]. [Named partner] contributes [defined capability] under [SBIR consultant/subaward or STTR partner] terms. The team has direct access to [lawfully obtainable data, pilot environment, or test infrastructure]. The Phase I work will establish the technical and market evidence required to pursue [commercial route].
+**Company and team.** BellHill is the intended applicant, with exact registered name, legal form, ownership and eligibility still subject to documentary confirmation. Russell Berry is the working PI and Research & Knowledge Architecture Lead for technical direction, evidence architecture, ontology/provenance governance, benchmark specification support, and research synthesis. His résumé, employment, effort, work-authorization and research-security evidence remain open. [Name/role] leads [security/data/ML], and [name/role] leads [freight commercial/product] only where those duties do not duplicate the PI's scope. [Named partner] contributes [defined capability] under [SBIR consultant/subaward or STTR partner] terms only after a written commitment. The team has access to [lawfully obtainable data, pilot environment, or test infrastructure].
 
 ## 4. Preparation sequence and decision timeline
 
@@ -188,11 +188,12 @@ For a full proposal, NSF identifies three core registrations: **SAM.gov with a U
 
 ## 8. What can be done now, before an invitation
 
-1. **Confirm the applicant's legal form and name the PI.** The applicant itself is named — Common Action — but NSF eligibility turns on legal form (a qualifying small business concern) and a PI more than 50% employed by it, and neither is resolved yet. This is the gating decision, not administrative cleanup.
+1. **Confirm applicant and PI eligibility.** BellHill is the intended applicant and Russell Berry is the working PI, but NSF eligibility still turns on the exact registered entity, ownership/affiliate facts, and a PI at least 51% employed by the small business at award and throughout performance. Phase I also requires at least one calendar month of PI effort per six months of performance. These are separate gates and remain unresolved.
 2. **Choose the beachhead.** Pick one initial, testable workflow—for example, onboarding verification or disputed facility-event evidence—rather than attempting all freight trust problems at once.
 3. **Secure lawful evaluation inputs.** Document what data can be used, who may authorize it, what labels/ground truth exist, what cannot leave a partner’s environment, and what must be deleted or retained.
 4. **Write the benchmark protocol.** Define baselines, sample construction, success thresholds, error slices, abstention logic, correction protocol, and reproducibility/audit artifacts.
 5. **Run structured customer discovery.** Record interviews rather than relying on anecdotal enthusiasm. Capture buyer role, current process, cost/risk, alternative, willingness to pilot, data constraints, and procurement blockers.
+   The Arkansas evidence and outreach map provide candidate public routes for this work; they do not establish demand, partnership, data access or endorsement.
 6. **Get specific pilot-interest letters.** Seek commitments to a bounded validation environment, not vague endorsements. Keep them nonbinding unless counsel approves otherwise.
 7. **Create a technical risk register.** Include data sparsity, adversarial manipulation, cross-party identity error, privacy leakage, bias/disparate impact, integration, and adoption risk—with a Phase I experiment attached to each material risk.
 8. **Submit a focused Project Pitch.** Treat feedback or a non-invitation as information: revise the R&D story and customer framing within NSF’s submission limits.
@@ -205,6 +206,7 @@ For a full proposal, NSF identifies three core registrations: **SAM.gov with a U
 | R&D hypothesis and benchmark brief | Converts the broad programme into fundable Phase I experiments. | PI + technical lead |
 | Data-rights and partner map | Prevents unsupported claims and unusable test data. | Product/data lead + counsel |
 | Customer-discovery evidence pack | Grounds commercial potential in observed demand. | Commercial lead |
+| Arkansas research/outreach log | Converts candidate regional routes into dated outcomes without treating listings as commitments. | Commercial lead |
 | Project Pitch draft | Obtains the required invitation. | PI + grant lead |
 | Phase I proposal production plan | Assigns each required document, review, and deadline. | Grant lead |
 

@@ -5,7 +5,7 @@ status: active
 owner: dataset-registrar
 version: 1.1.0
 schema_version: 1.0.0
-updated: 2026-08-07
+updated: 2026-08-20
 tags:
 - type/moc
 - domain/freight
@@ -53,7 +53,7 @@ Loop L2 in [[agents-and-loops]] runs the refresh.
 
 | Source | Publisher | Access | Licence | Verification | Supports | Used by |
 |---|---|---|---|---|---|---|
-| [FMCSA Company Census File](https://catalog.data.gov/dataset/company-census-file) · [direct CSV](https://data.transportation.gov/api/v3/views/az4n-8mr2/export.csv?accessType=DOWNLOAD) | FMCSA / data.transportation.gov | Bulk download, CSV/JSON/XML via Socrata; no login, no API key, no agreement | Metadata licence field reads **"unknown"**; presumed public domain under 17 U.S.C. §105 but **not stated** — confirm, do not assume | `confirmed` — catalog page fetched directly; "last updated" 30 July 2026 | Clean seed entities for E1: legal/DBA name, USDOT number, address, entity type, status. Carrier size fields make fleet-size disaggregation feasible | E1, [[dataset-fmca-company-census-file]] |
+| [FMCSA Company Census File](https://data.transportation.gov/Trucking-and-Motorcoaches/Company-Census-File/az4n-8mr2/about_data) · [direct CSV](https://data.transportation.gov/api/v3/views/az4n-8mr2/export.csv?accessType=DOWNLOAD) | FMCSA / data.transportation.gov | Bulk CSV plus SODA JSON/CSV; no login or API key | Exact metadata licence field is `https://project-open-data.cio.gov/unknown-license/`; public access is not a redistribution grant | `confirmed` 2026-08-20 — live metadata, 147-column schema, official dictionary, count query and complete checksummed export; data timestamp 2026-08-18T14:01:28Z | 4,487,571-row retrieval-time frame for E1; legal/DBA name, USDOT, address, contacts, operations, status and carrier-size fields | E1, [[dataset-fmca-company-census-file]] |
 | [BTS–ATRI Freight Mobility Initiative](https://data.bts.gov/Trucking-and-Motorcoaches/BTS-ATRI-Freight-Mobility-Initiative-County-to-cou/uta5-4eu5) | BTS | Free download, data.bts.gov Socrata, CSV/API | **Two layers, neither confirmed.** BTS-side: "standard public-domain federal data policy" per the scan, but the landing page did not return full metadata to automated fetch and no licence text was read. Upstream: the product is derived from ATRI's proprietary panel and **the ATRI terms are not stated on the BTS page at all** — confirm both before redistributing anything derived from it | `confirmed` for the product's existence; `snippet-only` for licence; scan class is "secondary/primary mix" | Travel-time calibration only. Derived from ~350,000 unique tractors, 2018–2024, aggregated to county pairs | E2, E5, [[dataset-bts-truck-travel-time-data]] |
 | [GS1 EPCIS / CBV 2.0](https://www.gs1.org/standards/epcis) | GS1 | Free standard | Royalty-free per GS1 | `confirmed` (scan class `primary`; see `DRIFT-041`) | The event model for Aim 2: what/when/where/why plus business step | E2, E5 |
 | [OpenEPCIS Test Data Generator](https://github.com/openepcis/epcis-testdata-generator) | OpenEPCIS | Open source, local generation | **Apache 2.0** | `confirmed` (scan class `primary`; see `DRIFT-041`) | Configurable synthetic EPCIS 2.0 / CBV 2.0 JSON-LD event sequences, today, at no cost. **The tool, not the corpus** — the generated logs are a separate to-build artifact | E2, E5, [[dataset-openepcis-generated-event-logs]] |
@@ -94,17 +94,15 @@ assumes them.
 
 ## Retrieval failures — the L2 refresh queue
 
-Every one of these is currently cited from search snippets or not at all. `GAP-002`.
+These rows remain unresolved after the 2026-08-20 FMCSA refresh. `GAP-002` is now narrowed;
+the former MCMIS/Open Data and L&I rows moved out of this queue after direct retrieval.
 
 | Source | Failure mode | Why it matters |
 |---|---|---|
-| [FMCSA MCMIS Catalog](https://www.fmcsa.dot.gov/registration/mcmis-catalog) | HTTP 403 to automated fetch | Crash and inspection files — the safety-history signal behind GAO's second chameleon prong. Access mechanism, cadence and licence are all **unconfirmed**; driver-identifying fields are said to be excluded. Backs [[dataset-fmca-registration-insurance-safety-records]] |
-| [FMCSA Licensing & Insurance](https://catalog.data.gov/dataset/licensing-and-insurance) · [portal listing](https://data.transportation.gov/Trucking-and-Motorcoaches/Licensing-and-Insurance/jeyh-5nsj) | Catalog page would not render past its JS shell | The daily-difference feed — a change log rather than a snapshot, which is what registration-churn detection actually needs. ~330,000+ authority holders per FMCSA's own description. **Fields, cadence and licence unconfirmed**; the scan declined to assume the census file's public-domain posture carries over. Backs [[dataset-fmca-registration-insurance-safety-records]], whose card asserts access terms this row does not support — see `DRIFT-039` |
 | FMCSA, *Implementation of Methodology to Identify Chameleon Carriers* (Report to Congress) | HTTP 403 | Publicly posted and unread. Cite only as "this report exists" until retrieved |
 | FMCSA Company Census File licence text | Metadata says "unknown" | Determines whether the seed corpus can be redistributed with the benchmark |
 | FCRA dispute window, 15 U.S.C. §1681i | Not fetched from statute | The 30-day figure is `unverified`; it frames E3's correction-latency target |
 | S&P Global PIERS terms | HTTP 403 | Only affects whether the source can be ruled out cleanly |
-| [FMCSA Data Dissemination / Open Data Program](https://www.fmcsa.dot.gov/registration/fmcsa-data-dissemination-program) | HTTP 403 to automated fetch, per [[dataset-scan-entity-resolution]]'s fetch log — while [[dataset-scan-event-provenance-and-federation]] lists the same page as `primary` public documentation. **The two scans disagree**; see `DRIFT-038` | The umbrella terms page for all FMCSA bulk data. Until it is read, the access and redistribution terms for the census file, L&I and MCMIS are inferred rather than known |
 
 ## Evaluated and set aside — real and accessible, wrong unit of analysis
 
@@ -164,7 +162,7 @@ so the next audit is a diff rather than a re-read.
 | Card | Card status | Represented by |
 |---|---|---|
 | [[dataset-fmca-company-census-file]] | `candidate` | Immediately usable — FMCSA Company Census File. Licence caveat also queued in Retrieval failures |
-| [[dataset-fmca-registration-insurance-safety-records]] | `candidate` | Retrieval failures — FMCSA L&I and MCMIS Catalog rows. **The card's status is more confident than the evidence**; `DRIFT-039` |
+| [[dataset-fmca-registration-insurance-safety-records]] | `candidate` | Named Motus baseline/difference files are confirmed public downloads; legacy `n46a-mfgy` is a non-tabular stub; licence, schema cutover, and unverified safety-family predicates remain bounded on the card |
 | [[dataset-e1-adjudicated-carrier-identity-cases]] | `to-build` | To build — plus the Confirmed absent row that makes it necessary |
 | [[dataset-openepcis-generated-event-logs]] | `candidate` | Immediately usable (the generator) plus To build (the corpus). Two objects, two rows, cross-referenced |
 | [[dataset-bts-truck-travel-time-data]] | `candidate` | Immediately usable — BTS-ATRI Freight Mobility Initiative |
