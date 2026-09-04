@@ -194,6 +194,8 @@ Fixture thesis for E{index}.
             self.assertTrue((out / "assets" / "chat.js").is_file())
             self.assertIn("data-agent-chat", project)
             self.assertIn("Browse the knowledge base", project)
+            self.assertIn("data-login-trigger", project)
+            self.assertIn("assets/chat.js?v=deck-harness-2", project)
             self.assertIn('data-chat-endpoint="/api/chat"', project)
             knowledge = (out / "knowledge" / "index.html").read_text(encoding="utf-8")
             self.assertIn("The project's second brain.", knowledge)

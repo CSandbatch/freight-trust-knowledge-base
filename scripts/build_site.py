@@ -845,10 +845,11 @@ def shell_html(title: str, description: str, page: str, site_url: str, main: str
         ("About", "about/index.html", "about"),
     ]
     navigation = "".join(f'<a class="nav-link {"is-active" if active == key else ""}" href="{html.escape(page_href(page, href), quote=True)}">{label}</a>' for label, href, key in nav)
-    css_href = page_href(page, "assets/atlas.css") + "?v=deck-harness-1"
+    asset_version = "?v=deck-harness-2"
+    css_href = page_href(page, "assets/atlas.css") + asset_version
     favicon_href = page_href(page, "assets/favicon.svg")
-    js_href = page_href(page, "assets/atlas.js")
-    chat_js_href = page_href(page, "assets/chat.js")
+    js_href = page_href(page, "assets/atlas.js") + asset_version
+    chat_js_href = page_href(page, "assets/chat.js") + asset_version
     data_root = page_href(page, "index.html")
     command = f'''<dialog class="command-dialog" data-command-dialog aria-label="Search the knowledge atlas">
       <form method="dialog" class="dialog-top"><button class="icon-button" aria-label="Close search">×</button><label><span class="sr-only">Search the knowledge atlas</span><input data-command-input type="search" autocomplete="off" placeholder="Search titles, evidence, tags, source paths…"></label><kbd>Esc</kbd></form>
