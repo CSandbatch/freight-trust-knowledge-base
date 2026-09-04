@@ -23,6 +23,13 @@ def run(*command: str, cwd: pathlib.Path | None = None) -> None:
     subprocess.run(list(command), cwd=cwd or ROOT, check=True)
 
 
+def pip_install(*arguments: str) -> None:
+    command = [sys.executable, "-m", "pip", "install"]
+    if os.environ.get("REPL_ID"):
+        command.append("--break-system-packages")
+    run(*command, *arguments)
+
+
 def output(*command: str, cwd: pathlib.Path | None = None) -> str:
     return subprocess.check_output(list(command), cwd=cwd or ROOT, text=True).strip()
 
@@ -41,8 +48,8 @@ def main() -> int:
         run("git", "checkout", "--detach", COMMIT, cwd=source)
     elif output("git", "rev-parse", "HEAD", cwd=source) != COMMIT:
         raise RuntimeError(f"Existing Hermes checkout is not the locked commit: {source}")
-    run(sys.executable, "-m", "pip", "install", "-r", str(ROOT / "requirements.txt"))
-    run(sys.executable, "-m", "pip", "install", "-e", str(source))
+    pip_install("-r", str(ROOT / "requirements.txt"))
+    pip_install("-e", str(source))
     print(f"Hermes Agent installed at locked commit {COMMIT}")
     return 0
 
