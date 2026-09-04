@@ -68,6 +68,8 @@ class ReplitServerTests(unittest.TestCase):
         self.assertEqual(replit["deployment"]["build"], ["python", "scripts/install_hermes.py"])
         installer = (root / "scripts" / "install_hermes.py").read_text(encoding="utf-8")
         self.assertIn("29112bef099274229cadff79cdff7bf7b99c4b77", installer)
+        server = (root / "scripts" / "replit_server.py").read_text(encoding="utf-8")
+        self.assertIn('os.environ.get("REPLIT_DOMAINS"', server)
 
 
 if __name__ == "__main__":

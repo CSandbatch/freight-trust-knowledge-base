@@ -73,9 +73,12 @@ excerpts from the generated public index and exposes only `/api/chat` and `/heal
 In Replit, import the repository and add these Secrets:
 
 - `OPENROUTER_API_KEY` — a dedicated OpenRouter key;
-- `PUBLIC_SITE_URL` — the final HTTPS deployment URL with a trailing slash;
+- optionally `PUBLIC_SITE_URL` — a custom HTTPS deployment URL with a trailing slash;
 - optionally `API_SERVER_KEY` — an internal gateway secret (an ephemeral value is
-  generated when omitted).
+generated when omitted).
+
+When `PUBLIC_SITE_URL` is absent, the server derives the canonical URL from Replit's
+`REPLIT_DOMAINS` environment variable.
 
 The checked-in `.replit` build performs Hermes' supported editable install from the pinned
 `v2026.8.31` commit, then builds the Atlas, starts Hermes privately, and serves the site on

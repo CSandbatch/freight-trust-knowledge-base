@@ -306,7 +306,14 @@ class AtlasHandler(BaseHTTPRequestHandler):
 
 
 def build_site() -> None:
-    site_url = os.environ.get("PUBLIC_SITE_URL", "https://example.invalid/")
+    site_url = os.environ.get("PUBLIC_SITE_URL", "").strip()
+    if not site_url:
+        replit_domain = os.environ.get("REPLIT_DOMAINS", "").split(",", 1)[0].strip()
+        if replit_domain:
+            site_url = f"https://{replit_domain}/"
+        else:
+            development_domain = os.environ.get("REPLIT_DEV_DOMAIN", "").strip()
+            site_url = f"https://{development_domain}/" if development_domain else "https://example.invalid/"
     if not site_url.endswith("/"):
         site_url += "/"
     subprocess.run([sys.executable, str(ROOT / "scripts" / "build_site.py"), "--site-url", site_url], cwd=ROOT, check=True)
