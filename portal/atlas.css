@@ -203,6 +203,18 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .button-on-dark:hover { border-color: #fff; background: rgba(8, 18, 16, .68); }
 .agent-chat { display: flex; flex-direction: column; min-height: 470px; max-height: 620px; overflow: hidden; border: 1px solid rgba(255, 255, 255, .34); border-radius: 16px; background: rgba(5, 12, 11, .83); box-shadow: 0 24px 80px rgba(0, 0, 0, .32); backdrop-filter: blur(18px); }
 .chat-transcript { flex: 1; min-height: 290px; overflow: auto; padding: 1rem; scrollbar-color: rgba(255,255,255,.35) transparent; }
+.agent-chat { position: relative; }
+.agent-chat.is-locked > :not(.demo-login) { visibility: hidden; }
+.demo-login { position: absolute; inset: 0; z-index: 4; display: flex; flex-direction: column; justify-content: center; gap: .75rem; padding: clamp(1.5rem, 4vw, 3rem); background: linear-gradient(145deg, rgba(10,22,21,.98), rgba(8,17,17,.96)); color: #f4f7f5; }
+.demo-login-kicker { color: #75d7c1; font: 700 .72rem/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+.demo-login h2 { margin: 0; max-width: 15ch; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.05; }
+.demo-login p { margin: 0; max-width: 48ch; color: rgba(244,247,245,.72); line-height: 1.5; }
+.demo-login label { margin-top: .4rem; font-size: .8rem; font-weight: 700; }
+.demo-login input { width: 100%; padding: .85rem 1rem; border: 1px solid rgba(255,255,255,.24); border-radius: .45rem; background: rgba(255,255,255,.08); color: #fff; font: inherit; }
+.demo-login input:focus { outline: 2px solid #75d7c1; outline-offset: 2px; }
+.demo-login button { align-self: flex-start; padding: .75rem 1.15rem; border: 0; border-radius: .4rem; background: #dff7ef; color: #09201b; font-weight: 800; cursor: pointer; }
+.demo-login button:disabled { opacity: .6; cursor: wait; }
+.demo-login-status { min-height: 1.5em; color: #ffb9ad !important; font-size: .82rem; }
 .chat-message { width: fit-content; max-width: 90%; margin: 0 0 .85rem; padding: .8rem .9rem; border: 1px solid rgba(255, 255, 255, .16); border-radius: 12px 12px 12px 3px; background: rgba(255, 255, 255, .09); color: #f4f8f6; }
 .chat-message.is-user { margin-left: auto; border-radius: 12px 12px 3px 12px; background: rgba(81, 151, 132, .3); }
 .chat-message > span { display: block; margin-bottom: .35rem; color: #b9d8d1; font: 650 .62rem var(--mono); letter-spacing: .06em; text-transform: uppercase; }

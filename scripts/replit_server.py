@@ -1,14 +1,15 @@
-"""Serve the static Atlas and a narrow, read-only Hermes chat gateway.
+"""Serve the Atlas and an authenticated, skill-enabled Hermes demo gateway.
 
-The browser never receives an OpenRouter or Hermes credential and cannot select a
-model or tools.  Knowledge retrieval happens here; the public Hermes instance has
-all toolsets disabled so an anonymous prompt cannot reach a shell or write files.
+The browser never receives an OpenRouter or Hermes credential. The Atlas remains
+browsable, while agent requests require an HMAC-signed demo session.
 """
 
 from __future__ import annotations
 
 import argparse
 import base64
+import hashlib
+import hmac
 import json
 import mimetypes
 import os
@@ -23,6 +24,7 @@ import time
 import urllib.error
 import urllib.request
 from collections import defaultdict, deque
+from http.cookies import SimpleCookie
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import unquote, urlsplit
@@ -32,7 +34,11 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 SITE = ROOT / "_site"
 SEARCH_INDEX = SITE / "data" / "search.json"
 HERMES_CONFIG = ROOT / "config" / "hermes-replit.yaml"
+HERMES_SOUL = ROOT / "config" / "hermes-soul.md"
+PROJECT_SKILL = ROOT / "knowledge-base" / "05-agent-system" / "skills" / "freight-trust-research"
 MODEL = "z-ai/glm-5.3-flash"
+SESSION_COOKIE = "bellhill_demo"
+SESSION_TTL_SECONDS = 12 * 60 * 60
 MAX_BODY = 2_000_000
 MAX_MESSAGES = 20
 MAX_MESSAGE_CHARS = 8_000
@@ -40,14 +46,39 @@ MAX_TOTAL_CHARS = 40_000
 MAX_CONTEXT_CHARS = 14_000
 RATE_WINDOW_SECONDS = 60
 RATE_LIMIT = 20
-SYSTEM_PROMPT = """You are the BellHill Freight Trust Knowledge Agent, powered only by
-z-ai/glm-5.3-flash through the NousResearch Hermes Agent framework. Answer from the
-retrieved public knowledge-base context below. Cite supporting notes using the supplied
-Markdown links. If the context does not support an answer, say so plainly. Distinguish
-verified evidence from BellHill analysis, hypotheses, drafts, and unresolved facts. Never
-claim partnership, endorsement, data access, legal eligibility, or experimental results
-unless the supplied context explicitly establishes it. The corpus is a working research
-record, not legal, regulatory, financial, or operational advice."""
+SYSTEM_PROMPT = """You are the private BellHill Freight Trust Knowledge Agent, powered by
+z-ai/glm-5.3-flash through NousResearch Hermes Agent. Start with the supplied retrieved
+context, then use the Obsidian and freight-trust-research skills when the request benefits
+from deeper vault inspection, linked-note traversal, evidence review, research, or focused
+vault changes. The vault path is available in OBSIDIAN_VAULT_PATH. Cite note paths or
+Markdown links and distinguish evidence from analysis, hypotheses, drafts, and unresolved
+facts. Never reveal secrets or credentials. The corpus is a working research record, not
+legal, regulatory, financial, or operational advice."""
+
+
+def _session_secret() -> str:
+    return os.environ.get("SESSION_SECRET", "")
+
+
+def _session_token(expires: int) -> str:
+    signature = hmac.new(
+        _session_secret().encode("utf-8"),
+        f"demo:{expires}".encode("utf-8"),
+        hashlib.sha256,
+    ).hexdigest()
+    return f"{expires}.{signature}"
+
+
+def valid_session(token: str, now: int | None = None) -> bool:
+    if not token or not _session_secret():
+        return False
+    try:
+        expires_text, signature = token.split(".", 1)
+        expires = int(expires_text)
+    except (ValueError, TypeError):
+        return False
+    current = int(time.time()) if now is None else now
+    return expires > current and hmac.compare_digest(signature, _session_token(expires).split(".", 1)[1])
 
 
 def _words(value: str) -> set[str]:
@@ -189,7 +220,14 @@ class AtlasHandler(BaseHTTPRequestHandler):
     limiter = RateLimiter()
     slots = threading.BoundedSemaphore(4)
 
-    def _headers(self, status: int, content_type: str, length: int, cache: str = "no-store") -> None:
+    def _headers(
+        self,
+        status: int,
+        content_type: str,
+        length: int,
+        cache: str = "no-store",
+        extra: dict[str, str] | None = None,
+    ) -> None:
         self.send_response(status)
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(length))
@@ -198,12 +236,34 @@ class AtlasHandler(BaseHTTPRequestHandler):
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
         self.send_header("X-Frame-Options", "DENY")
         self.send_header("Content-Security-Policy", "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'")
+        for name, value in (extra or {}).items():
+            self.send_header(name, value)
         self.end_headers()
 
-    def _json(self, status: int, value: object) -> None:
+    def _json(self, status: int, value: object, extra: dict[str, str] | None = None) -> None:
         data = json.dumps(value, ensure_ascii=False).encode("utf-8")
-        self._headers(status, "application/json; charset=utf-8", len(data))
+        self._headers(status, "application/json; charset=utf-8", len(data), extra=extra)
         self.wfile.write(data)
+
+    def _authenticated(self) -> bool:
+        cookie = SimpleCookie()
+        try:
+            cookie.load(self.headers.get("Cookie", ""))
+        except Exception:
+            return False
+        value = cookie.get(SESSION_COOKIE)
+        return bool(value and valid_session(value.value))
+
+    def _cookie_header(self, token: str, max_age: int) -> str:
+        secure = (
+            "; Secure"
+            if os.environ.get("REPL_ID") or self.headers.get("X-Forwarded-Proto", "").lower() == "https"
+            else ""
+        )
+        return (
+            f"{SESSION_COOKIE}={token}; Path=/; Max-Age={max_age}; "
+            f"HttpOnly; SameSite=Strict{secure}"
+        )
 
     def _client_key(self) -> str:
         if os.environ.get("REPL_ID"):
@@ -213,8 +273,22 @@ class AtlasHandler(BaseHTTPRequestHandler):
         return self.client_address[0]
 
     def do_POST(self) -> None:  # noqa: N802
-        if urlsplit(self.path).path != "/api/chat":
+        path = urlsplit(self.path).path
+        if path == "/api/login":
+            self._login()
+            return
+        if path == "/api/logout":
+            self._json(
+                HTTPStatus.OK,
+                {"authenticated": False},
+                {"Set-Cookie": self._cookie_header("", 0)},
+            )
+            return
+        if path != "/api/chat":
             self._json(HTTPStatus.NOT_FOUND, {"error": "not found"})
+            return
+        if not self._authenticated():
+            self._json(HTTPStatus.UNAUTHORIZED, {"error": "demo login required"})
             return
         if not self.limiter.allow(self._client_key()):
             self._json(HTTPStatus.TOO_MANY_REQUESTS, {"error": "rate limit exceeded; try again shortly"})
@@ -246,6 +320,27 @@ class AtlasHandler(BaseHTTPRequestHandler):
             return
         self._json(HTTPStatus.OK, {"message": response, "sources": sources, "model": MODEL})
 
+    def _login(self) -> None:
+        if not self.limiter.allow(self._client_key()):
+            self._json(HTTPStatus.TOO_MANY_REQUESTS, {"error": "too many login attempts"})
+            return
+        try:
+            length = int(self.headers.get("Content-Length", "0"))
+            body = json.loads(self.rfile.read(length)) if 0 < length <= 4096 else {}
+        except (ValueError, json.JSONDecodeError, UnicodeDecodeError):
+            body = {}
+        expected = os.environ.get("DEMO_ACCESS_CODE", "")
+        supplied = body.get("accessCode", "") if isinstance(body, dict) else ""
+        if not expected or not isinstance(supplied, str) or not hmac.compare_digest(supplied, expected):
+            self._json(HTTPStatus.UNAUTHORIZED, {"error": "invalid demo access code"})
+            return
+        expires = int(time.time()) + SESSION_TTL_SECONDS
+        self._json(
+            HTTPStatus.OK,
+            {"authenticated": True},
+            {"Set-Cookie": self._cookie_header(_session_token(expires), SESSION_TTL_SECONDS)},
+        )
+
     def _call_hermes(self, messages: list[dict[str, object]]) -> str | tuple[int, str]:
         base = getattr(self.server, "hermes_url", "http://127.0.0.1:8642").rstrip("/")
         key = getattr(self.server, "hermes_key", "")
@@ -270,6 +365,9 @@ class AtlasHandler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:  # noqa: N802
         path = urlsplit(self.path).path
+        if path == "/api/session":
+            self._json(HTTPStatus.OK, {"authenticated": self._authenticated()})
+            return
         if path == "/healthz":
             self._json(HTTPStatus.OK, {"status": "ok", "model": MODEL, "site": SITE.joinpath("index.html").is_file()})
             return
@@ -328,11 +426,19 @@ def start_hermes() -> tuple[subprocess.Popen[bytes], str, str]:
     home = pathlib.Path(os.environ.get("BELLHILL_HERMES_HOME") or str(ROOT / ".hermes-runtime")).resolve()
     home.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(HERMES_CONFIG, home / "config.yaml")
+    shutil.copyfile(HERMES_SOUL, home / "SOUL.md")
+    skill_target = home / "skills" / PROJECT_SKILL.name
+    shutil.copytree(PROJECT_SKILL, skill_target, dirs_exist_ok=True)
     key = os.environ.get("API_SERVER_KEY") or secrets.token_urlsafe(32)
     port = os.environ.get("HERMES_PORT", "8642")
     environment = os.environ.copy()
+    # Authentication belongs to the browser-facing proxy, not the tool-enabled
+    # Hermes child. Keep those credentials out of tool-visible process state.
+    environment.pop("DEMO_ACCESS_CODE", None)
+    environment.pop("SESSION_SECRET", None)
     environment.update({
         "HERMES_HOME": str(home), "OPENROUTER_MODEL": MODEL,
+        "OBSIDIAN_VAULT_PATH": str((ROOT / "knowledge-base").resolve()),
         "API_SERVER_ENABLED": "true", "API_SERVER_HOST": "127.0.0.1",
         "API_SERVER_PORT": port, "API_SERVER_KEY": key,
         "API_SERVER_MODEL_NAME": "hermes-agent",

@@ -13,7 +13,7 @@ import yaml
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "scripts"))
 
-from replit_server import MODEL, retrieve, sanitize_messages
+from replit_server import MODEL, _session_token, retrieve, sanitize_messages, valid_session
 
 
 class ReplitServerTests(unittest.TestCase):
@@ -63,13 +63,23 @@ class ReplitServerTests(unittest.TestCase):
             "fallback_providers": [],
         })
         self.assertEqual(config["gateway"]["api_server"]["host"], "127.0.0.1")
-        self.assertTrue({"terminal", "file", "memory", "delegation", "web"}.issubset(config["agent"]["disabled_toolsets"]))
+        self.assertEqual(config["platform_toolsets"]["api_server"], ["hermes-api-server"])
         replit = tomllib.loads((root / ".replit").read_text(encoding="utf-8"))
         self.assertEqual(replit["deployment"]["build"], ["python", "scripts/install_hermes.py"])
         installer = (root / "scripts" / "install_hermes.py").read_text(encoding="utf-8")
         self.assertIn("29112bef099274229cadff79cdff7bf7b99c4b77", installer)
         server = (root / "scripts" / "replit_server.py").read_text(encoding="utf-8")
         self.assertIn('os.environ.get("REPLIT_DOMAINS"', server)
+
+    def test_demo_sessions_are_signed_and_expire(self) -> None:
+        import os
+        from unittest.mock import patch
+
+        with patch.dict(os.environ, {"SESSION_SECRET": "test-only-secret"}):
+            token = _session_token(2_000)
+            self.assertTrue(valid_session(token, now=1_000))
+            self.assertFalse(valid_session(token, now=2_001))
+            self.assertFalse(valid_session(f"{token[:-1]}0", now=1_000))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,1 @@
+- [Private agent boundary](private-agent-boundary.md) — broad Hermes tools require the signed demo gate; shared-code auth is temporary, not production identity.

@@ -13,6 +13,61 @@
   const history = [];
   let imageData = null;
   let controller = null;
+  let authenticated = false;
+
+  function showLogin() {
+    root.classList.add("is-locked");
+    let gate = root.querySelector("[data-demo-login]");
+    if (!gate) {
+      gate = document.createElement("form");
+      gate.className = "demo-login";
+      gate.dataset.demoLogin = "";
+      gate.innerHTML = `
+        <span class="demo-login-kicker">Private agent demo</span>
+        <h2>Unlock the full research agent</h2>
+        <p>Enter the shared demo access code to enable Obsidian skills, linked-note research, and agent tools.</p>
+        <input type="text" name="username" value="demo" autocomplete="username" class="sr-only" tabindex="-1" aria-hidden="true">
+        <label for="demo-access-code">Demo access code</label>
+        <input id="demo-access-code" name="accessCode" type="password" autocomplete="current-password" required>
+        <button type="submit">Unlock agent</button>
+        <p class="demo-login-status" data-demo-login-status aria-live="polite"></p>`;
+      root.append(gate);
+      gate.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const message = gate.querySelector("[data-demo-login-status]");
+        const button = gate.querySelector("button");
+        button.disabled = true;
+        message.textContent = "Checking access…";
+        try {
+          const response = await fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ accessCode: new FormData(gate).get("accessCode") }),
+          });
+          const payload = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(payload.error || "Login failed");
+          authenticated = true;
+          root.classList.remove("is-locked");
+          gate.remove();
+          status.textContent = "Full agent enabled: Obsidian vault, research skills, citations, and tools are available.";
+          input.focus();
+        } catch (error) {
+          message.textContent = error.message;
+        } finally {
+          button.disabled = false;
+        }
+      });
+    }
+  }
+
+  fetch("/api/session")
+    .then((response) => response.json())
+    .then((session) => {
+      authenticated = Boolean(session.authenticated);
+      if (!authenticated) showLogin();
+      else status.textContent = "Full agent enabled: Obsidian vault, research skills, citations, and tools are available.";
+    })
+    .catch(showLogin);
 
   function append(role, text, sources = []) {
     const message = document.createElement("article");
@@ -60,6 +115,10 @@
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (!authenticated) {
+      showLogin();
+      return;
+    }
     const text = input.value.trim();
     if (!text || controller) return;
     const content = imageData
@@ -82,6 +141,10 @@
         signal: controller.signal,
       });
       const payload = await response.json().catch(() => ({}));
+      if (response.status === 401) {
+        authenticated = false;
+        showLogin();
+      }
       if (!response.ok) throw new Error(payload.error || `Request failed (${response.status})`);
       const answer = typeof payload.message === "string" ? payload.message : "The agent returned no answer.";
       history.push({ role: "assistant", content: answer });
