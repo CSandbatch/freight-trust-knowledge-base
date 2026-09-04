@@ -12,11 +12,13 @@ import pathlib
 import shutil
 import subprocess
 import sys
+from importlib import metadata
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 COMMIT = "29112bef099274229cadff79cdff7bf7b99c4b77"  # v2026.8.31 peeled commit
 REPOSITORY = "https://github.com/NousResearch/hermes-agent.git"
+PACKAGE_VERSION = "0.21.0"
 
 
 def run(*command: str, cwd: pathlib.Path | None = None) -> None:
@@ -32,6 +34,13 @@ def pip_install(*arguments: str) -> None:
 
 def output(*command: str, cwd: pathlib.Path | None = None) -> str:
     return subprocess.check_output(list(command), cwd=cwd or ROOT, text=True).strip()
+
+
+def hermes_is_installed() -> bool:
+    try:
+        return metadata.version("hermes-agent") == PACKAGE_VERSION and bool(shutil.which("hermes"))
+    except metadata.PackageNotFoundError:
+        return False
 
 
 def main() -> int:
@@ -53,7 +62,10 @@ def main() -> int:
     elif output("git", "rev-parse", "HEAD", cwd=source) != COMMIT:
         raise RuntimeError(f"Existing Hermes checkout is not the locked commit: {source}")
     pip_install("-r", str(ROOT / "requirements.txt"))
-    pip_install("-e", str(source))
+    if hermes_is_installed():
+        print(f"Hermes Agent {PACKAGE_VERSION} already installed; reusing pinned runtime")
+    else:
+        pip_install("-e", str(source))
     print(f"Hermes Agent installed at locked commit {COMMIT}")
     return 0
 

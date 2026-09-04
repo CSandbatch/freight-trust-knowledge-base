@@ -1,1 +1,2 @@
 - [Private agent boundary](private-agent-boundary.md) — broad Hermes tools require the signed demo gate; shared-code auth is temporary, not production identity.
+- [Hermes publish installation](hermes-publish-installation.md) — reuse the pinned editable install; rewriting its launcher during publish can race Replit layer archiving.
