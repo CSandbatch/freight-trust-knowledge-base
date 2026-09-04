@@ -394,7 +394,12 @@ class AtlasHandler(BaseHTTPRequestHandler):
             return
         data = candidate.read_bytes()
         kind = mimetypes.guess_type(candidate.name)[0] or "application/octet-stream"
-        cache = "public, max-age=31536000, immutable" if "/assets/" in candidate.as_posix() else "public, max-age=300"
+        if candidate.suffix == ".html":
+            cache = "no-cache, must-revalidate"
+        elif "/assets/" in candidate.as_posix():
+            cache = "public, max-age=31536000, immutable"
+        else:
+            cache = "public, max-age=300"
         self._headers(HTTPStatus.OK, kind, len(data), cache)
         if not head:
             self.wfile.write(data)
